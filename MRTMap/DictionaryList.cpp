@@ -24,12 +24,12 @@ int DictionaryList::hash(KeyType key)
 	{
 		hashVal += charvalue(key[i]) * 52;
 	}
-	hashVal %= MAX_SIZE; // modulo to wrap and prevent overflow
+	hashVal %= MAX_SIZE3; // modulo to wrap and prevent overflow
 	return hashVal;
 }
 
 // add a new item with the specified key to the Dictionary
-bool DictionaryList::add(KeyType newKey, ItemType2 newItem)
+bool DictionaryList::add(KeyType newKey, ItemType2 newItem, ItemType3 newItem2)
 {
 	// determine hash value for index
 	int index;
@@ -39,6 +39,7 @@ bool DictionaryList::add(KeyType newKey, ItemType2 newItem)
 	Node* newNode = new Node();
 	newNode->key = newKey;
 	newNode->item = newItem;
+	newNode->item2 = newItem2;
 	newNode->next = NULL;
 
 	if (items[index] == NULL)
@@ -112,7 +113,7 @@ bool DictionaryList::remove(KeyType key)
 }
 
 // get an item with the specified key in the Dictionary (retrieve)
-ItemType2 DictionaryList::get(KeyType key)
+ItemType2 DictionaryList::getItem(KeyType key)
 {
 	// determine hash value for index
 	int index;
@@ -135,6 +136,59 @@ ItemType2 DictionaryList::get(KeyType key)
 	// if reached this point, means that no matched keys
 	cout << "\nNo matched keys!\n";
 	return {};
+}
+
+// get an item with the specified key in the Dictionary (retrieve)
+ItemType3 DictionaryList::getItem2(KeyType key)
+{
+	// determine hash value for index
+	int index;
+	index = hash(key);
+
+	if (items[index] != NULL)
+	{
+		// go through the linked list
+		Node* current = items[index];
+		while (current != NULL)
+		{
+			// match key
+			if (current->key == key)
+			{
+				return current->item2;
+			}
+			current = current->next;
+		}
+	}
+	// if reached this point, means that no matched keys
+	cout << "\nNo matched keys!\n";
+	return {};
+}
+
+// replace an item with the specified key in the Dictionary, returns false if item not found
+bool DictionaryList::replace(KeyType key, ItemType2 newItem, ItemType3 newItem2)
+{
+	// determine hash value for index
+	int index;
+	index = hash(key);
+
+	if (items[index] != NULL)
+	{
+		// go through the linked list
+		Node* current = items[index];
+		while (current != NULL)
+		{
+			// match key
+			if (current->key == key)
+			{
+				current->item = newItem;
+				current->item2 = newItem2;
+				return true;
+			}
+			current = current->next;
+		}
+	}
+	// if reached this point, means that no matched keys
+	return false;
 }
 
 // check if the Dictionary is empty

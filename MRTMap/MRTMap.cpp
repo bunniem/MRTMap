@@ -11,33 +11,63 @@
 using namespace std;
 
 // global variables
-Dictionary codeStationDict;
+Dictionary codeNameDict;
+DictionaryList lineDict;
 List stationIndexList;
 
 void startup()
 {
     ifstream f;
-    string line, code, station;
+    string line, code, name;
+    List row, row2;
+    int iterator = 1;
 
 	// open Stations.csv file
 	f.open("Stations.csv");
 
-    // get each line of the file and split into code and station
+    // get each line of the file and split into code and name
     while (getline(f, line)) {
         istringstream ss(line);
         getline(ss, code, ',');
-        getline(ss, station, ',');
+        getline(ss, name, ',');
         /* Add station codes and names to dictionary */
-        codeStationDict.add(code, station);
+        codeNameDict.add(code, name);
 
         /* Add station to index list if station does not exist on index list */
-        if (!stationIndexList.exist(station))
+        if (!stationIndexList.exist(name))
         {
-            stationIndexList.add(station);
+            stationIndexList.add(name);
         }
     }
 
     f.close();
+
+    // open Routes.csv file
+    f.open("Routes.csv");
+
+    // get stations and its distances and add it to dictionary
+    while (getline(f, line))
+    {
+        if (iterator % 2 == 1) // station codes
+        {
+            istringstream ss(line);
+            getline(ss, name, ',');
+            while (getline(ss, code, ','))
+            {
+                row.add(code);
+            }
+        }
+        else // distances
+        {
+            istringstream ss(line);
+            while (getline(ss, code, ','))
+            {
+                row2.add(code);
+            }
+            // add line to dictionary
+            lineDict.add(name, row, row2);
+        }
+    }
 }
 
 int main()
