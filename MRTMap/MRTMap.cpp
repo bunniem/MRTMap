@@ -30,9 +30,6 @@ void startup()
         getline(ss, code, ',');
         getline(ss, station, ',');
         codeStationDict.add(code, station); // add pair to dictionary
-
-        // add station name to list
-        if()
     }
 
     f.close();
