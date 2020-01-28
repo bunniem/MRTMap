@@ -65,7 +65,6 @@ bool Dictionary::add(KeyType newKey, ItemType newItem)
 		// if reached this point, there are no duplicate keys
 		previous->next = newNode;
 	}
-	cout << "\nNew dictionary entry added\n";
 	size++;
 	return true;
 }
