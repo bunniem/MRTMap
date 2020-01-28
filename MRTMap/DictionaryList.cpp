@@ -1,9 +1,9 @@
-#include "Dictionary.h"
+#include "DictionaryList.h"
 
 // constructor
-Dictionary::Dictionary() { size = 0; }
+DictionaryList::DictionaryList() { size = 0; }
 
-int Dictionary::charvalue(char c)
+int DictionaryList::charvalue(char c)
 {
 	if (isalpha(c))
 	{
@@ -17,7 +17,7 @@ int Dictionary::charvalue(char c)
 }
 
 // hash function
-int Dictionary::hash(KeyType key)
+int DictionaryList::hash(KeyType key)
 {
 	int hashVal = 0;
 	for (size_t i = 0; i < key.length(); ++i)
@@ -29,7 +29,7 @@ int Dictionary::hash(KeyType key)
 }
 
 // add a new item with the specified key to the Dictionary
-bool Dictionary::add(KeyType newKey, ItemType newItem)
+bool DictionaryList::add(KeyType newKey, ItemType2 newItem)
 {
 	// determine hash value for index
 	int index;
@@ -69,7 +69,7 @@ bool Dictionary::add(KeyType newKey, ItemType newItem)
 }
 
 // remove an item with the specified key in the Dictionary
-bool Dictionary::remove(KeyType key)
+bool DictionaryList::remove(KeyType key)
 {
 	// determine hash value for index
 	int index;
@@ -112,7 +112,7 @@ bool Dictionary::remove(KeyType key)
 }
 
 // get an item with the specified key in the Dictionary (retrieve)
-ItemType Dictionary::get(KeyType key)
+ItemType2 DictionaryList::get(KeyType key)
 {
 	// determine hash value for index
 	int index;
@@ -134,36 +134,11 @@ ItemType Dictionary::get(KeyType key)
 	}
 	// if reached this point, means that no matched keys
 	cout << "\nNo matched keys!\n";
-	return "";
+	return {};
 }
 
 // check if the Dictionary is empty
-bool Dictionary::isEmpty() { return size == 0; }
+bool DictionaryList::isEmpty() { return size == 0; }
 
 // check the size of the Dictionary
-int Dictionary::getLength() { return size; }
-
-// display the items in the Dictionary
-void Dictionary::print()
-{
-	if (isEmpty())
-	{
-		cout << "\nList is empty!\n" << endl;
-	}
-	else
-	{
-		Node* current;
-		for (int i = 0; i < MAX_SIZE; ++i)
-		{
-			if (items[i] != NULL)
-			{
-				current = items[i];
-				while (current != NULL)
-				{
-					cout << current->key << "\t" << current->item << endl;
-					current = current->next;
-				}
-			}
-		}
-	}
-}
+int DictionaryList::getLength() { return size; }

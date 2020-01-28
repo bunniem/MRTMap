@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include "Dictionary.h"
+#include "DictionaryList.h"
 #include "List.h"
 
 using namespace std;
@@ -15,10 +16,7 @@ List stationIndexList;
 
 void startup()
 {
-    // File pointer
     ifstream f;
-
-    /* Add station codes and names to dictionary */
     string line, code, station;
 
 	// open Stations.csv file
@@ -29,9 +27,10 @@ void startup()
         istringstream ss(line);
         getline(ss, code, ',');
         getline(ss, station, ',');
-        codeStationDict.add(code, station); // add pair to dictionary
+        /* Add station codes and names to dictionary */
+        codeStationDict.add(code, station);
 
-        // add station to index list if station does not exist on index list
+        /* Add station to index list if station does not exist on index list */
         if (!stationIndexList.exist(station))
         {
             stationIndexList.add(station);
@@ -39,12 +38,9 @@ void startup()
     }
 
     f.close();
-
-    /* Add  */
 }
 
 int main()
 {
     startup();
-    stationIndexList.print();
 }
