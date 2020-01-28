@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Dictionary.cpp" />
     <ClCompile Include="MRTMap.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +155,9 @@
     <None Include="Interchanges.csv" />
     <None Include="Routes.csv" />
     <None Include="Stations.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Dictionary.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

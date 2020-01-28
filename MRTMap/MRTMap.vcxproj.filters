@@ -18,11 +18,19 @@
     <ClCompile Include="MRTMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Dictionary.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Fares.csv" />
     <None Include="Interchanges.csv" />
     <None Include="Routes.csv" />
     <None Include="Stations.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Dictionary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

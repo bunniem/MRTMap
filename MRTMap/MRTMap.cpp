@@ -3,6 +3,11 @@
 
 #include <iostream>
 
+void startup()
+{
+
+}
+
 int main()
 {
     std::cout << "Hello World!\n";
