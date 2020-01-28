@@ -54,7 +54,7 @@ ItemType ListStation::get(int index)
 	if (success)
 		return items[index];
 	else
-		return Connection();
+		return Station();
 }
 
 // check if the list is empty
