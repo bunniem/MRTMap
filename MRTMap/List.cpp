@@ -45,7 +45,6 @@ void List::remove(int index)
 			items[pos] = items[pos + 1];
 		size--;  // decrease the size by 1
 	}
-
 }
 
 // get an item at a specified position of the list (retrieve)
@@ -56,6 +55,21 @@ ItemType List::get(int index)
 		return items[index];
 	else
 		return "";
+}
+
+// finds out if an item already exists in the list
+bool List::exist(ItemType item)
+{
+	for (int i = 0; i < size; i++)
+	{
+		if (item == items[i])
+		{
+			// item exists
+			return true;
+		}
+	}
+	// if reached this point, item does not exist
+	return false;
 }
 
 // check if the list is empty

@@ -55,7 +55,6 @@ bool Dictionary::add(KeyType newKey, ItemType newItem)
 			// duplicate key
 			if (current->key == newKey)
 			{
-				cout << "\nDuplicate entry! (same key)\n";
 				delete newNode;
 				return false;
 			}

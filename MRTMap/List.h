@@ -40,6 +40,11 @@ public:
 	// post: none
 	ItemType get(int index);
 
+	// finds out if an item already exists in the list
+	// pre : none
+	// post : return true if item exists; otherwise returns false
+	bool exist(ItemType item);
+
 	// check if the list is empty
 	// pre : none
 	// post: none

@@ -15,7 +15,6 @@ List stationIndexList;
 
 void startup()
 {
-    bool stationInIndex = false;
     // File pointer
     ifstream f;
 
@@ -32,25 +31,16 @@ void startup()
         getline(ss, station, ',');
         codeStationDict.add(code, station); // add pair to dictionary
 
-        // add station to index list
-        for (int i = 0; i < stationIndexList.getLength(); ++i)
-        {
-            if (stationIndexList.get(i) == station)
-            {
-                stationInIndex = true;
-                break;
-            }
-        }
-        if (!stationInIndex)
+        // add station to index list if station does not exist on index list
+        if (!stationIndexList.exist(station))
         {
             stationIndexList.add(station);
         }
-        stationInIndex = false;
     }
 
     f.close();
 
-    /*  */
+    /* Add  */
 }
 
 int main()
