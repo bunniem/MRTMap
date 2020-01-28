@@ -147,10 +147,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ListConnection.cpp" />
     <ClCompile Include="ListString.cpp" />
     <ClCompile Include="MRTMap.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ListConnection.h" />
     <ClInclude Include="ListString.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
