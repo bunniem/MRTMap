@@ -5,10 +5,13 @@
 #include <iostream>
 #include <string>
 #include "Dictionary.h"
+#include "List.h"
+
 using namespace std;
 
 // global variables
 Dictionary codeStationDict;
+List stationIndexList;
 
 void startup()
 {
@@ -28,6 +31,8 @@ void startup()
         getline(ss, station, ',');
         codeStationDict.add(code, station); // add pair to dictionary
 
+        // add station name to list
+        if()
     }
 
     f.close();
