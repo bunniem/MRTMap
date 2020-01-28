@@ -1,6 +1,7 @@
 #include "Station.h"
 
 // constructor
+Station::Station() {};
 Station::Station(string n, string c)
 {
 	name = n;

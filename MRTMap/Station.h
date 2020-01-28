@@ -9,8 +9,8 @@ class Station
 {
 private:
 	string name;
-	ListString<string> code;
-	ListConnection<Connection> ConnList;
+	ListString code;
+	ListConnection connList;
 	bool interchange;
 
 public:

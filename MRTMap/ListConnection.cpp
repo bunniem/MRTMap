@@ -66,17 +66,5 @@ int ListConnection::getLength() { return size; }
 // display the items in the list
 void ListConnection::print()
 {
-	if (size >= 1)
-	{
-		cout << "Name\tTel No." << endl;
-		cout << "---------------" << endl;
-		for (int i = 0; i < size; i++)
-		{
-			cout << items[i].getName() << "\t" << items[i].getTelNo() << endl;
-		}
-	}
-	else
-	{
-		cout << "No contacts" << endl;
-	}
+
 }

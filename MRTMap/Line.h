@@ -1,12 +1,13 @@
 #pragma once
 #include <string>
 #include "Station.h"
+#include "ListStation.h"
 using namespace std;
 class Line
 {
 private:
 	string lineName;
-	ListStation<Station>stnList;
+	ListStation stnList;
 public:
 	Line(string n);
 
