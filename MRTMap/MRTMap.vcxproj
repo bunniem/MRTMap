@@ -147,6 +147,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ListConnection.cpp" />
+    <ClCompile Include="ListStation.cpp" />
+    <ClCompile Include="ListString.cpp" />
     <ClCompile Include="Connection.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="MRTMap.cpp" />
@@ -156,6 +159,11 @@
     <ClInclude Include="Connection.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="Station.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ListConnection.h" />
+    <ClInclude Include="ListStation.h" />
+    <ClInclude Include="ListString.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
