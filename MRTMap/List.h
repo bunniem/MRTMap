@@ -3,13 +3,13 @@
 #include <iostream>
 using namespace std;
 
-const int MAX_SIZE = 100;
+const int MAX_SIZE2 = 300;
 typedef string ItemType;
 
 class List
 {
 private:
-	ItemType items[MAX_SIZE];
+	ItemType items[MAX_SIZE2];
 	int     size;
 
 public:

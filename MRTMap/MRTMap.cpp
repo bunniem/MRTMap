@@ -44,8 +44,8 @@ void startup()
         if (!stationInIndex)
         {
             stationIndexList.add(station);
-            stationInIndex = false;
         }
+        stationInIndex = false;
     }
 
     f.close();
@@ -56,8 +56,5 @@ void startup()
 int main()
 {
     startup();
-    for (int i = 0; i < stationIndexList.getLength(); ++i)
-    {
-        cout << stationIndexList.get(i) << endl;
-    }
+    stationIndexList.print();
 }

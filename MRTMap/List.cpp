@@ -7,7 +7,7 @@ List::List() { size = 0; }
 // add an item to the back of the list (append)
 bool List::add(ItemType item)
 {
-	bool success = size < MAX_SIZE;
+	bool success = size < MAX_SIZE2;
 	if (success)
 	{
 		items[size] = item;    // add to the end of the list
@@ -19,7 +19,7 @@ bool List::add(ItemType item)
 // add an item at a specified position in the list (insert)
 bool List::add(int index, ItemType item)
 {
-	bool success = (index >= 0) && (index <= size) && (size < MAX_SIZE);
+	bool success = (index >= 0) && (index <= size) && (size < MAX_SIZE2);
 	if (success)
 	{  // make room for the item by shifting all items at
 	   // positions >= index toward the end of the
@@ -67,17 +67,8 @@ int List::getLength() { return size; }
 // display the items in the list
 void List::print()
 {
-	if (size >= 1)
+	for (int i = 0; i < size; ++i)
 	{
-		cout << "Name\tTel No." << endl;
-		cout << "---------------" << endl;
-		for (int i = 0; i < size; i++)
-		{
-			cout << items[i].getName() << "\t" << items[i].getTelNo() << endl;
-		}
-	}
-	else
-	{
-		cout << "No contacts" << endl;
+		cout << items[i] << endl;
 	}
 }
