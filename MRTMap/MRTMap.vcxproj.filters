@@ -24,12 +24,18 @@
     <ClCompile Include="ListConnection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ListStation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ListString.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ListConnection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ListStation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
