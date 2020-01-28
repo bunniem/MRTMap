@@ -15,6 +15,7 @@ List stationIndexList;
 
 void startup()
 {
+    bool stationInIndex = false;
     // File pointer
     ifstream f;
 
@@ -30,6 +31,21 @@ void startup()
         getline(ss, code, ',');
         getline(ss, station, ',');
         codeStationDict.add(code, station); // add pair to dictionary
+
+        // add station to index list
+        for (int i = 0; i < stationIndexList.getLength(); ++i)
+        {
+            if (stationIndexList.get(i) == station)
+            {
+                stationInIndex = true;
+                break;
+            }
+        }
+        if (!stationInIndex)
+        {
+            stationIndexList.add(station);
+            stationInIndex = false;
+        }
     }
 
     f.close();
@@ -40,5 +56,8 @@ void startup()
 int main()
 {
     startup();
-    
+    for (int i = 0; i < stationIndexList.getLength(); ++i)
+    {
+        cout << stationIndexList.get(i) << endl;
+    }
 }
