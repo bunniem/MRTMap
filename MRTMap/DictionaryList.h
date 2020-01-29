@@ -5,8 +5,7 @@
 using namespace std;
 
 const int MAX_SIZE3 = 101;
-typedef List ItemType2;
-typedef List ItemType3;
+typedef List ItemType4;
 typedef string KeyType;
 
 class DictionaryList
@@ -15,8 +14,7 @@ private:
 	struct Node
 	{
 		KeyType  key;   // search key
-		ItemType2 item;	// data item
-		ItemType3 item2; // data item 2
+		ItemType4 item;	// data item
 		Node* next;	// pointer pointing to next item
 	};
 
@@ -37,22 +35,21 @@ public:
 	int hash(KeyType key);
 
 	// add a new item with the specified key to the Dictionary
-	bool add(KeyType newKey, ItemType2 newItem, ItemType3 newItem2);
+	bool add(KeyType newKey, ItemType4 newItem);
 
 	// remove an item with the specified key in the Dictionary
 	bool remove(KeyType key);
 
 	// get an item with the specified key in the Dictionary (retrieve)
-	ItemType2 getItem(KeyType key);
-
-	// get an item2 with the specified key in the Dictionary (retrieve)
-	ItemType3 getItem2(KeyType key);
+	ItemType4 getItem(KeyType key);
 
 	// replace an item with the specified key in the Dictionary, returns false if item not found
-	bool replace(KeyType key, ItemType2 newItem, ItemType3 newItem2);
+	bool replace(KeyType key, ItemType4 newItem);
 
 	// check if the Dictionary is empty
 	bool isEmpty();
+
+	void print();
 
 	// check the size of the Dictionary
 	int getLength();

@@ -29,7 +29,7 @@ int DictionaryList::hash(KeyType key)
 }
 
 // add a new item with the specified key to the Dictionary
-bool DictionaryList::add(KeyType newKey, ItemType2 newItem, ItemType3 newItem2)
+bool DictionaryList::add(KeyType newKey, ItemType4 newItem)
 {
 	// determine hash value for index
 	int index;
@@ -39,7 +39,6 @@ bool DictionaryList::add(KeyType newKey, ItemType2 newItem, ItemType3 newItem2)
 	Node* newNode = new Node();
 	newNode->key = newKey;
 	newNode->item = newItem;
-	newNode->item2 = newItem2;
 	newNode->next = NULL;
 
 	if (items[index] == NULL)
@@ -113,7 +112,7 @@ bool DictionaryList::remove(KeyType key)
 }
 
 // get an item with the specified key in the Dictionary (retrieve)
-ItemType2 DictionaryList::getItem(KeyType key)
+ItemType4 DictionaryList::getItem(KeyType key)
 {
 	// determine hash value for index
 	int index;
@@ -138,34 +137,8 @@ ItemType2 DictionaryList::getItem(KeyType key)
 	return {};
 }
 
-// get an item with the specified key in the Dictionary (retrieve)
-ItemType3 DictionaryList::getItem2(KeyType key)
-{
-	// determine hash value for index
-	int index;
-	index = hash(key);
-
-	if (items[index] != NULL)
-	{
-		// go through the linked list
-		Node* current = items[index];
-		while (current != NULL)
-		{
-			// match key
-			if (current->key == key)
-			{
-				return current->item2;
-			}
-			current = current->next;
-		}
-	}
-	// if reached this point, means that no matched keys
-	cout << "\nNo matched keys!\n";
-	return {};
-}
-
 // replace an item with the specified key in the Dictionary, returns false if item not found
-bool DictionaryList::replace(KeyType key, ItemType2 newItem, ItemType3 newItem2)
+bool DictionaryList::replace(KeyType key, ItemType4 newItem)
 {
 	// determine hash value for index
 	int index;
@@ -181,7 +154,6 @@ bool DictionaryList::replace(KeyType key, ItemType2 newItem, ItemType3 newItem2)
 			if (current->key == key)
 			{
 				current->item = newItem;
-				current->item2 = newItem2;
 				return true;
 			}
 			current = current->next;
@@ -196,3 +168,29 @@ bool DictionaryList::isEmpty() { return size == 0; }
 
 // check the size of the Dictionary
 int DictionaryList::getLength() { return size; }
+
+void DictionaryList::print()
+{
+	if (isEmpty())
+	{
+		cout << "\nList is empty!\n" << endl;
+	}
+	else
+	{
+		Node* current;
+		for (int i = 0; i < MAX_SIZE3; ++i)
+		{
+			if (items[i] != NULL)
+			{
+				current = items[i];
+				while (current != NULL)
+				{
+					for (int i = 0; i < current->item.getLength(); ++i) {
+						cout << current->key << "\t" << current->item.get(i) << endl;
+					}
+					current = current->next;
+				}
+			}
+		}
+	}
+}

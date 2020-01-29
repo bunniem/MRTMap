@@ -29,7 +29,7 @@ int Dictionary::hash(KeyType key)
 }
 
 // add a new item with the specified key to the Dictionary
-bool Dictionary::add(KeyType newKey, ItemType newItem)
+bool Dictionary::add(KeyType newKey, ItemType2 newItem)
 {
 	// determine hash value for index
 	int index;
@@ -112,7 +112,7 @@ bool Dictionary::remove(KeyType key)
 }
 
 // get an item with the specified key in the Dictionary (retrieve)
-ItemType Dictionary::get(KeyType key)
+ItemType2 Dictionary::get(KeyType key)
 {
 	// determine hash value for index
 	int index;

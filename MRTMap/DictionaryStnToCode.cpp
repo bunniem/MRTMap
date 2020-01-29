@@ -1,8 +1,8 @@
 #include "DictionaryStnToCode.h"
 // constructor
-Dictionary::Dictionary() { size = 0; }
+DictionaryStnToCode::DictionaryStnToCode() { size = 0; }
 
-int Dictionary::charvalue(char c)
+int DictionaryStnToCode::charvalue(char c)
 {
 	if (isalpha(c))
 	{
@@ -16,19 +16,19 @@ int Dictionary::charvalue(char c)
 }
 
 // hash function
-int Dictionary::hash(KeyType key)
+int DictionaryStnToCode::hash(KeyType key)
 {
 	int hashVal = 0;
 	for (size_t i = 0; i < key.length(); ++i)
 	{
 		hashVal += charvalue(key[i]) * 52;
 	}
-	hashVal %= MAX_SIZE; // modulo to wrap and prevent overflow
+	hashVal %= MAX_SIZE4; // modulo to wrap and prevent overflow
 	return hashVal;
 }
 
 // add a new item with the specified key to the Dictionary
-bool Dictionary::add(KeyType newKey, ItemType newItem)
+bool DictionaryStnToCode::add(KeyType newKey, ItemType newItem)
 {
 	// determine hash value for index
 	int index;
@@ -37,7 +37,7 @@ bool Dictionary::add(KeyType newKey, ItemType newItem)
 	// create newNode
 	Node* newNode = new Node();
 	newNode->key = newKey;
-	newNode->item = newItem;
+	newNode->itemCode = newItem;
 	newNode->next = NULL;
 
 	if (items[index] == NULL)
@@ -68,7 +68,7 @@ bool Dictionary::add(KeyType newKey, ItemType newItem)
 }
 
 // remove an item with the specified key in the Dictionary
-bool Dictionary::remove(KeyType key)
+bool DictionaryStnToCode::remove(KeyType key)
 {
 	// determine hash value for index
 	int index;
@@ -111,7 +111,7 @@ bool Dictionary::remove(KeyType key)
 }
 
 // get an item with the specified key in the Dictionary (retrieve)
-ItemType Dictionary::get(KeyType key)
+ItemType DictionaryStnToCode::get(KeyType key)
 {
 	// determine hash value for index
 	int index;
@@ -126,7 +126,7 @@ ItemType Dictionary::get(KeyType key)
 			// match key
 			if (current->key == key)
 			{
-				return current->item;
+				return current->itemCode;
 			}
 			current = current->next;
 		}
@@ -137,13 +137,38 @@ ItemType Dictionary::get(KeyType key)
 }
 
 // check if the Dictionary is empty
-bool Dictionary::isEmpty() { return size == 0; }
+bool DictionaryStnToCode::isEmpty() { return size == 0; }
 
 // check the size of the Dictionary
-int Dictionary::getLength() { return size; }
+int DictionaryStnToCode::getLength() { return size; }
+
+bool DictionaryStnToCode::replace(KeyType key, ItemType newItem)
+{
+	// determine hash value for index
+	int index;
+	index = hash(key);
+
+	if (items[index] != NULL)
+	{
+		// go through the linked list
+		Node* current = items[index];
+		while (current != NULL)
+		{
+			// match key
+			if (current->key == key)
+			{
+				current->itemCode = newItem;
+				return true;
+			}
+			current = current->next;
+		}
+	}
+	// if reached this point, means that no matched keys
+	return false;
+}
 
 // display the items in the Dictionary
-void Dictionary::print()
+void DictionaryStnToCode::print()
 {
 	if (isEmpty())
 	{
@@ -152,14 +177,14 @@ void Dictionary::print()
 	else
 	{
 		Node* current;
-		for (int i = 0; i < MAX_SIZE; ++i)
+		for (int i = 0; i < MAX_SIZE4; ++i)
 		{
 			if (items[i] != NULL)
 			{
 				current = items[i];
 				while (current != NULL)
 				{
-					cout << current->key << "\t" << current->item << endl;
+					cout << current->key << "\t" << current->itemCode << endl;
 					current = current->next;
 				}
 			}

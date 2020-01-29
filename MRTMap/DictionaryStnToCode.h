@@ -3,26 +3,28 @@
 #include<iostream>
 using namespace std;
 
-const int MAX_SIZE = 101;
+const int MAX_SIZE4 = 101;
 typedef string ItemType;
 typedef string KeyType;
+typedef bool ItemType5;
 
-class Dictionary
+class DictionaryStnToCode
 {
 private:
 	struct Node
 	{
 		KeyType  key;   // search key (Station Name)
-		ItemType item;	// data item  (Code)
+		ItemType itemCode;	// data item  (Code)
+		ItemType5 interchange;	//bool for interchange
 		Node* next;	// pointer pointing to next item
 	};
 
-	Node* items[MAX_SIZE] = { NULL };
+	Node* items[MAX_SIZE4] = { NULL };
 	int  size;			// number of items in the Dictionary
 
 public:
 	// constructor
-	Dictionary();
+	DictionaryStnToCode();
 
 	// destructor
 	//~Dictionary();
@@ -47,6 +49,8 @@ public:
 
 	// check the size of the Dictionary
 	int getLength();
+
+	bool replace(KeyType key, ItemType newItem);
 
 	//------------------- Other useful functions -----------------
 	// display the items in the Dictionary

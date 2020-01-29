@@ -4,7 +4,7 @@
 using namespace std;
 
 const int MAX_SIZE = 101;
-typedef string ItemType;
+typedef string ItemType2;
 typedef string KeyType;
 
 class Dictionary
@@ -13,7 +13,7 @@ private:
 	struct Node
 	{
 		KeyType  key;   // search key
-		ItemType item;	// data item
+		ItemType2 item;	// data item
 		Node* next;	// pointer pointing to next item
 	};
 
@@ -34,13 +34,13 @@ public:
 	int hash(KeyType key);
 
 	// add a new item with the specified key to the Dictionary
-	bool add(KeyType newKey, ItemType newItem);
+	bool add(KeyType newKey, ItemType2 newItem);
 
 	// remove an item with the specified key in the Dictionary
 	bool remove(KeyType key);
 
 	// get an item with the specified key in the Dictionary (retrieve)
-	ItemType get(KeyType key);
+	ItemType2 get(KeyType key);
 
 	// check if the Dictionary is empty
 	bool isEmpty();
