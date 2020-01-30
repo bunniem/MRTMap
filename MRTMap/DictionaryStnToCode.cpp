@@ -111,7 +111,7 @@ bool DictionaryStnToCode::remove(KeyType key)
 }
 
 // get an item with the specified key in the Dictionary (retrieve)
-ItemType DictionaryStnToCode::get(KeyType key)
+ItemType DictionaryStnToCode::getcode(KeyType key)
 {
 	// determine hash value for index
 	int index;
@@ -142,7 +142,7 @@ bool DictionaryStnToCode::isEmpty() { return size == 0; }
 // check the size of the Dictionary
 int DictionaryStnToCode::getLength() { return size; }
 
-bool DictionaryStnToCode::replace(KeyType key, ItemType newItem)
+bool DictionaryStnToCode::replacecode(KeyType key, ItemType newItem)
 {
 	// determine hash value for index
 	int index;
@@ -166,6 +166,57 @@ bool DictionaryStnToCode::replace(KeyType key, ItemType newItem)
 	// if reached this point, means that no matched keys
 	return false;
 }
+
+bool DictionaryStnToCode::replaceinterchange(KeyType key, ItemType5 newItem)
+{
+	// determine hash value for index
+	int index;
+	index = hash(key);
+
+	if (items[index] != NULL)
+	{
+		// go through the linked list
+		Node* current = items[index];
+		while (current != NULL)
+		{
+			// match key
+			if (current->key == key)
+			{
+				current->interchange = newItem;
+				return true;
+			}
+			current = current->next;
+		}
+	}
+	// if reached this point, means that no matched keys
+	return false;
+}
+
+ItemType5 DictionaryStnToCode::getinterchange(KeyType key) {
+	// determine hash value for index
+	int index;
+	index = hash(key);
+
+	if (items[index] != NULL)
+	{
+		// go through the linked list
+		Node* current = items[index];
+		while (current != NULL)
+		{
+			// match key
+			if (current->key == key)
+			{
+				return current->interchange;
+			}
+			current = current->next;
+		}
+	}
+	// if reached this point, means that no matched keys
+	cout << "\nNo matched keys!\n";
+	return false;
+}
+
+
 
 // display the items in the Dictionary
 void DictionaryStnToCode::print()

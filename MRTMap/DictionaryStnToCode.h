@@ -42,7 +42,7 @@ public:
 	bool remove(KeyType key);
 
 	// get an item with the specified key in the Dictionary (retrieve)
-	ItemType get(KeyType key);
+	ItemType getcode(KeyType key);
 
 	// check if the Dictionary is empty
 	bool isEmpty();
@@ -50,7 +50,12 @@ public:
 	// check the size of the Dictionary
 	int getLength();
 
-	bool replace(KeyType key, ItemType newItem);
+	bool replacecode(KeyType key, ItemType newItem);
+	
+	ItemType5 getinterchange(KeyType key);
+
+	bool replaceinterchange(KeyType key, ItemType5 newItem);
+
 
 	//------------------- Other useful functions -----------------
 	// display the items in the Dictionary
