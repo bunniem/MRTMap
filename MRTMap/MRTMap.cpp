@@ -8,6 +8,7 @@
 #include "DictionaryList.h"
 #include "DictionaryStnToCode.h"
 #include "List.h"
+#include "Graph.h"
 
 using namespace std;
 
@@ -153,13 +154,30 @@ int main()
 		}
 	}
 
-	//can delete ltr
-	//for (int i = 0; i < stationIndexList.getLength(); i++) {
-	//    if (stationIndexList.get(i) == "Jurong East") {
-	//        cout << i;
-	//    }
-	//}
+    // array of graph edges as per above diagram.
+    Edge edges[] =
+    {
+        // (x, y, w) -> edge from x to y having weight w
+        { 0, 1, 6 }, { 1, 2, 7 }, { 2, 0, 5 },
+        { 3, 2, 10 }, { 5, 4, 3 }
+    };
 
+    // Number of vertices in the graph
+    int N = 6;
 
-		
+    // calculate number of edges
+    int n = sizeof(edges) / sizeof(edges[0]);
+
+    // construct graph
+    Graph graph(edges, n, N);
+
+    graph.printList();
+
+    return 0;
+    //can delete ltr
+    //for (int i = 0; 1 < stationIndexList.getLength(); i++) {
+    //    if (stationIndexList.get(i) == "Jurong East") {
+    //        cout << i;
+    //    }
+    //}
 }
