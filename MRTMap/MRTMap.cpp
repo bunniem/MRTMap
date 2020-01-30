@@ -20,7 +20,7 @@ List stationIndexList;
 
 void startup()
 {
-	ifstream f;
+	fstream f;
 	string line, code, name, stationLineName;
 	List oldList;
 	List row, row2;
@@ -72,6 +72,7 @@ void startup()
 			while (getline(ss, code, ','))
 			{
 				row.add(code);
+				break;
 			}
 		}
 		else // distances
@@ -104,12 +105,20 @@ void startup()
 
 }
 
+//
+//bool addStationCodeToRoute(string code) {
+//	ofstream f;
+//	f.open("Routes.csv");
+//}
+
+
 int main()
 {
 	startup();
-	string station;
-	string line;
-	List lineList;
+	fstream f;
+	string line, code, stnCode, name, stationLineName, line1, stationline, frontcode, backcode, frontdist, backdist, station;
+	List row, row2, lineList;
+	int iterator = 1;
 
 	int option;
 
@@ -142,12 +151,114 @@ int main()
 		case 2:
 			cout << "Enter a station: ";
 			getline(cin, station);
-			cout << "Code: " << nameCodeDict.getcode(station) << endl;
+			cout << "Station Code: " << nameCodeDict.getcode(station) << endl;
 			cout << "Station Name: " << station << endl;
 			cout << "Interchange: " << boolalpha << nameCodeDict.getinterchange(station);
 			break;
 		case 3:
-			cout << "Enter a station:";
+			cout << "\nStation Details\n---------------------------\nEnter a Station Line: ";
+			getline(cin, stationline);
+			cout << "Enter a Station Name: ";
+			cin >> station;
+			cout << "Enter a Station Code: ";
+			cin >> stnCode;
+			cout << "\nLocation to add station\n---------------------------\nEnter the Front Station Code: "; //if front station empty only prompt for the back distance
+			cin >> frontcode;			
+			cout << "Enter the Back Station Code: "; //if back station empty only prompt for the front distance
+			cin >> backcode;
+
+			cout << "Enter the distance from " << frontcode << " to " << code << ": ";
+			cin >> frontdist;
+
+			cout << "Enter the distance from " << code << " to " << backcode << ": ";
+			cin >> backdist;
+
+			// open Routes.csv file
+			f.open("Routes.csv");
+
+			// get stations and its distances and add it to dictionary
+			while (getline(f, line))
+			{
+				if (iterator % 2 == 1) // station codes
+				{
+					istringstream ss(line);
+					getline(ss, stationLineName, ',');
+					if (stationLineName == stationline) { //So that we know which line to add the station to
+						cout << stationLineName << endl; //print out the different lines
+						if (frontcode == "") { //means adding to the front
+							row.add(stnCode); //add newly created code 
+							while (getline(ss, code, ','))
+							{
+								row.add(code);
+							}
+						}
+						else if (backcode == "") { //means adding to the back
+							while (getline(ss, code, ','))
+							{
+								row.add(code); 
+							}
+							row.add(stnCode); //add newly created code 
+						}
+						else { //add in the middle
+							while (getline(ss, code, ','))
+							{
+								if (code == backcode) {
+									row.add(stnCode); //add newly created code 
+								}
+								row.add(code);
+							}
+						}
+						while (getline(ss, code, ','))
+						{
+							row.add(code);
+						}
+		
+					}
+					//try to delete the line and add the new row to that line or we can create a new excel to repopulate that excel with data
+					//from the old excel and add the new row in it.
+
+				}
+				else // distances
+				{
+					istringstream ss(line);
+					while (getline(ss, code, ','))
+					{
+						row2.add(code);
+					}
+					// add line to dictionary
+				}
+				iterator++;
+
+				//if (line[0] == stationline) {
+
+				//}
+
+			}
+			//try to delete the line and add the new row to that line or we can create a new excel to repopulate that excel with data
+			//from the old excel and add the new row in it.
+
+
+			//fstream f;
+			//int iterator = 1;
+			//string stationLine;
+			//f.open("Routes.csv");
+
+			//while (getline(f, line1)) {
+			//	if (iterator % 2 == 1) // station codes
+			//	{
+			//		stringstream ss(line);
+			//		getline(ss, stationLine, ',');
+			//		cout << stationLine << endl;
+			//	}
+			//	iterator++;
+			//}
+
+
+			if (frontcode == "") { //first station
+
+			}
+
+
 		//case 4:
 		//case 5:
 
