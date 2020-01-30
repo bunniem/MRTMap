@@ -121,11 +121,11 @@ int main()
     }
 
     // array of graph edges as per above diagram.
-    Graph::Edge edges[] =
+    Edge edges[] =
     {
         // (x, y, w) -> edge from x to y having weight w
-        { 0, 1, 6 }, { 1, 2, 7 }, { 2, 0, 5 }, { 2, 1, 4 },
-        { 3, 2, 10 }, { 4, 5, 1 }, { 5, 4, 3 }
+        { 0, 1, 6 }, { 1, 2, 7 }, { 2, 0, 5 },
+        { 3, 2, 10 }, { 5, 4, 3 }
     };
 
     // Number of vertices in the graph

@@ -11,35 +11,30 @@ Graph::Graph(Edge edges[], int n, int N)
 		head[i] = nullptr;
 
 	// add edges to the graph
-	for (unsigned i = 0; i < n; i++)
+	for (int i = 0; i < n; ++i)
 	{
 		int src = edges[i].src;
 		int dest = edges[i].dest;
 		int weight = edges[i].weight;
 
-		// insert in the beginning
-		Node* newNode = getAdjListNode(dest, weight, head[src]);
-
-		// point head pointer to new node
-		head[src] = newNode;
-
-		newNode = getAdjListNode(src, weight, head[dest]);
-
-		// change head pointer to point to the new node
-		head[dest] = newNode;
+		// allocate new node
+		getAdjListNode(src, dest, weight);
+		getAdjListNode(dest, src, weight);
 	}
 }
 
 // prints the adjacency list
 void Graph::printList()
 {
+	Node* current;
 	for (int i = 0; i < N; ++i)
 	{
-		if (head[i] != nullptr)
+		current = head[i];
+		while (current != nullptr)
 		{
-			cout << "(" << i << ", " << head[i]->val
-				<< ", " << head[i]->cost << ") ";
-			head[i] = head[i]->next;
+			cout << "(" << i << ", " << current->val
+				<< ", " << current->cost << ") ";
+			current = current->next;
 		}
 		cout << endl;
 	}
