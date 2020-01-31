@@ -15,6 +15,7 @@
 #include "Line.h"
 #include "Dictionary_Station.h"
 #include "Dictionary_Line.h"
+#include "Connection.h"
 
 using namespace std;
 
@@ -111,7 +112,14 @@ void startup2()
 		}
 		else // distance between stations line
 		{
-			
+			// split into different distances
+			istringstream s(line);
+
+			// add distances to connection and add connection to line
+			while (getline(s, dist, ','))
+			{
+				Connection test(, 2000);
+			}
 		}
 		lineNum++;
 	}
