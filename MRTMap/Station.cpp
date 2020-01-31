@@ -8,6 +8,12 @@ Station::Station(string n, string c)
 	code.add(c);
 }
 
+// station name
+string Station::Name()
+{
+	return name;
+}
+
 // add station code
 bool Station::addCode(string c)
 {
@@ -23,10 +29,11 @@ bool Station::addCode(string c)
 	return false;
 }
 
-// station name
-string Station::Name()
+// add connection
+bool Station::addConnection(Connection* c)
 {
-	return name;
+	connection.add(c);
+	return true;
 }
 
 // check if station is interchange
