@@ -28,11 +28,13 @@ DictionaryStnToCode nameCodeDict;
 DictionaryList lineDict;
 List stationIndexList;
 
+// new startup structure
 void startup2()
 {
-	fstream f;
+	ifstream f;
 	string stnCode, stnName, stnNameLowercase, stnLineName, dist, line;
 	List row;
+	int lineNum = 1;
 
 	/* We use the data in stations.csv to convert station codes to names,
 	as well as converting station names to station objects. We will also
@@ -70,6 +72,30 @@ void startup2()
 
 	}
 
+	f.close();
+
+	/* We will use Routes.csv to associate station codes to specific lines,
+	and to add the connections of each station */
+	// open Routes.csv
+	f.open("Routes.csv");
+
+	while (getline(f, line))
+	{
+		if (lineNum % 2 == 1) // line name and station codes line
+		{
+			// split into line name and station code
+			istringstream s(line);
+			getline(s, stnLineName, ',');
+
+			// check if line in directory
+
+			while (getline(s, stnCode, ','))
+			{
+				row.add(code);
+				//break;
+			}
+		}
+	}
 
 }
 

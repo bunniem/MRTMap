@@ -1,6 +1,6 @@
 // Dictionary_Station.h - - Specification of Dictionary ADT
-#include<string>
-#include<iostream>
+#include <string>
+#include <iostream>
 #include "Station.h"
 using namespace std;
 

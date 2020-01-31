@@ -150,6 +150,7 @@
     <ClCompile Include="Dictionary.cpp" />
     <ClCompile Include="DictionaryList.cpp" />
     <ClCompile Include="DictionaryStnToCode.cpp" />
+    <ClCompile Include="Dictionary_Line.cpp" />
     <ClCompile Include="Dictionary_Station.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="Line.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="Dictionary.h" />
     <ClInclude Include="DictionaryList.h" />
     <ClInclude Include="DictionaryStnToCode.h" />
+    <ClInclude Include="Dictionary_Line.h" />
     <ClInclude Include="Dictionary_Station.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Line.h" />
