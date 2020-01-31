@@ -3,6 +3,7 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <stdio.h>
 #include <string>
 #include "Dictionary.h"
 #include "DictionaryList.h"
@@ -21,7 +22,7 @@ List stationIndexList;
 void startup()
 {
 	fstream f;
-	string line, code, name, stationLineName;
+	string line, code, name, stationLineName, dist;
 	List oldList;
 	List row, row2;
 	int iterator = 1;
@@ -67,20 +68,21 @@ void startup()
 		{
 			istringstream ss(line);
 			getline(ss, stationLineName, ',');
-			cout << stationLineName << endl; //print out the different lines
+			//cout << stationLineName << endl; //print out the different lines
 
 			while (getline(ss, code, ','))
 			{
 				row.add(code);
-				break;
+				//break;
 			}
 		}
 		else // distances
 		{
 			istringstream ss(line);
-			while (getline(ss, code, ','))
+			while (getline(ss, dist, ','))
 			{
-				row2.add(code);
+				row2.add(dist);
+				cout << dist << endl;
 			}
 			// add line to dictionary
 		}
@@ -111,14 +113,52 @@ void startup()
 //	f.open("Routes.csv");
 //}
 
+void addToCSV()
+{
+	string line, code, stnCode, name, stationLineName, line1, stationline, frontcode, backcode, frontdist, backdist, station, dist;
+	List row, row2, lineList;
+	int iterator = 1;
+
+	ifstream originalCSV;
+	ofstream replacementCSV;
+	originalCSV.open("Routes.csv");
+	replacementCSV.open("temp.csv", ios::in);
+
+	while (getline(originalCSV, line))
+	{
+		if (iterator % 2 == 1) // station codes
+		{
+			istringstream ss(line);
+			getline(ss, stationLineName, ',');
+			if (stationLineName == stationline) { //So that we know which line to add the station to
+				cout << stationLineName << endl;
+
+				//for (int i = 0; i < )
+			}
+		}
+		else // distances
+		{
+			istringstream ss(line);
+			while (getline(ss, dist, ','))
+			{
+				row2.add(dist);
+			}
+			// add line to dictionary
+		}
+
+	}
+}
+
+
 
 int main()
 {
 	startup();
 	fstream f;
-	string line, code, stnCode, name, stationLineName, line1, stationline, frontcode, backcode, frontdist, backdist, station;
-	List row, row2, lineList;
-	int iterator = 1;
+	string line, code, dist, stnCode, name, stationLineName, line1, stationline, frontcode, backcode, frontdist, backdist, station;
+	List row, row2, lineList, rowAddDist;
+	int iterator = 1, counter = 0, codeCounter = 0;
+	bool stnReached = false, case1 = false, case2 = false, case3 = false;
 
 	int option;
 
@@ -163,56 +203,81 @@ int main()
 			cout << "Enter a Station Code: ";
 			cin >> stnCode;
 			cout << "\nLocation to add station\n---------------------------\nEnter the Front Station Code: "; //if front station empty only prompt for the back distance
-			cin >> frontcode;			
+			cin >> frontcode;
 			cout << "Enter the Back Station Code: "; //if back station empty only prompt for the front distance
 			cin >> backcode;
 
-			cout << "Enter the distance from " << frontcode << " to " << code << ": ";
-			cin >> frontdist;
+			if (backcode == "NIL") {
+				cout << "Enter the distance from " << frontcode << " to " << stnCode << ": ";
+				cin >> frontdist;
+			}
+			else if (frontcode == "NIL") {
+				cout << "Enter the distance from " << stnCode << " to " << backcode << ": ";
+				cin >> backdist;
+			}
+			else {
+				cout << "Enter the distance from " << frontcode << " to " << stnCode << ": ";
+				cin >> frontdist;
 
-			cout << "Enter the distance from " << code << " to " << backcode << ": ";
-			cin >> backdist;
+				cout << "Enter the distance from " << stnCode << " to " << backcode << ": ";
+				cin >> backdist;
+			}
+
 
 			// open Routes.csv file
-			f.open("Routes.csv");
+			ifstream originalCSV;
+			fstream replacementCSV;
+			char replacement[100] = "C:/Users/User/source/repos/MRTMap/MRTMap/temp.csv";
+			char constantcsv[100] = "C:/Users/User/source/repos/MRTMap/MRTMap/Routes.csv";
+			originalCSV.open("Routes.csv");
+			replacementCSV.open(replacement, ios::out);
+			int addedNewLine = 0;
 
 			// get stations and its distances and add it to dictionary
-			while (getline(f, line))
+			while (getline(originalCSV, line))
 			{
 				if (iterator % 2 == 1) // station codes
 				{
 					istringstream ss(line);
 					getline(ss, stationLineName, ',');
 					if (stationLineName == stationline) { //So that we know which line to add the station to
-						cout << stationLineName << endl; //print out the different lines
-						if (frontcode == "") { //means adding to the front
+						//cout << stationLineName << endl; //print out the different lines
+						if (frontcode == "NIL") { //means adding to the front
 							row.add(stnCode); //add newly created code 
 							while (getline(ss, code, ','))
 							{
 								row.add(code);
 							}
+							case1 = true;
 						}
-						else if (backcode == "") { //means adding to the back
+						else if (backcode == "NIL") { //means adding to the back
 							while (getline(ss, code, ','))
 							{
-								row.add(code); 
+								row.add(code);
 							}
 							row.add(stnCode); //add newly created code 
+							case2 = true;
 						}
 						else { //add in the middle
 							while (getline(ss, code, ','))
 							{
-								if (code == backcode) {
+								if (code == backcode) { //doesnt add the stncode
 									row.add(stnCode); //add newly created code 
+									stnReached = true;
 								}
+								cout << code;
 								row.add(code);
+								if (!stnReached) {
+									counter++;
+								}
 							}
+							case3 = true;
 						}
-						while (getline(ss, code, ','))
-						{
-							row.add(code);
-						}
-		
+						//while (getline(ss, code, ','))
+						//{
+						//	row.add(code);
+						//}
+						addedNewLine = 1;
 					}
 					//try to delete the line and add the new row to that line or we can create a new excel to repopulate that excel with data
 					//from the old excel and add the new row in it.
@@ -220,20 +285,78 @@ int main()
 				}
 				else // distances
 				{
+
+
 					istringstream ss(line);
-					while (getline(ss, code, ','))
+					if (case1) { //add dist at the front
+						cout << "heyyy" << endl;
+						rowAddDist.add(backdist);
+						cout << backdist << endl;
+						while (getline(ss, dist, ','))
+						{
+							rowAddDist.add(dist);
+							cout << dist << endl;
+						}
+						case1 = false;
+					}
+					else if (case2) { //add dist at the back
+						while (getline(ss, dist, ','))
+						{
+							rowAddDist.add(dist);
+						}
+						rowAddDist.add(frontdist);
+						case2 = false;
+					}
+					else if (case3) {
+
+						case3 = false;
+					}
+
+					while (getline(ss, code, ',')) //for adding all the code
 					{
 						row2.add(code);
 					}
+
+
 					// add line to dictionary
 				}
+				for (int i = 0; i < rowAddDist.getLength(); i++) {
+					cout << rowAddDist.get(i) << endl;
+				}
 				iterator++;
+				if (addedNewLine == 0) {
+					replacementCSV << line << endl; //adding the line to the new csv
+				}
+				else if (addedNewLine == 1) {
 
+					//adding the row into the specific line in the new csv
+					replacementCSV << stationline;
+					for (int i = 0; i < row.getLength(); i++) {
+						replacementCSV << "," << row.get(i);
+					}
+					replacementCSV << endl;
+					addedNewLine = 0;
+				}
+				else if (case1 || case2) {
+					for (int i = 0; i < rowAddDist.getLength(); i++) {
+						replacementCSV << "," << rowAddDist.get(i);
+					}
+				}
+				else if (case3) {
+
+				}
+				rename(replacement, constantcsv);
 				//if (line[0] == stationline) {
 
 				//}
 
 			}
+			cout << "hello" << endl;
+			for (int i = 0; i < rowAddDist.getLength(); i++) {
+				cout << row2.get(i) << endl;
+			}
+			originalCSV.close();
+			replacementCSV.close();
 			//try to delete the line and add the new row to that line or we can create a new excel to repopulate that excel with data
 			//from the old excel and add the new row in it.
 
@@ -254,9 +377,6 @@ int main()
 			//}
 
 
-			if (frontcode == "") { //first station
-
-			}
 
 
 		//case 4:
@@ -265,30 +385,46 @@ int main()
 		}
 	}
 
-    // array of graph edges as per above diagram.
-    Edge edges[] =
-    {
-        // (x, y, w) -> edge from x to y having weight w
-        { 0, 1, 6 }, { 1, 2, 7 }, { 2, 0, 5 },
-        { 3, 2, 10 }, { 5, 4, 3 }
-    };
 
-    // Number of vertices in the graph
-    int N = 6;
 
-    // calculate number of edges
-    int n = sizeof(edges) / sizeof(edges[0]);
 
-    // construct graph
-    Graph graph(edges, n, N);
 
-    graph.printList();
 
-    return 0;
-    //can delete ltr
-    //for (int i = 0; 1 < stationIndexList.getLength(); i++) {
-    //    if (stationIndexList.get(i) == "Jurong East") {
-    //        cout << i;
-    //    }
-    //}
+
+
+
+
+
+
+
+
+
+
+
+	// array of graph edges as per above diagram.
+	Edge edges[] =
+	{
+		// (x, y, w) -> edge from x to y having weight w
+		{ 0, 1, 6 }, { 1, 2, 7 }, { 2, 0, 5 },
+		{ 3, 2, 10 }, { 5, 4, 3 }
+	};
+
+	// Number of vertices in the graph
+	int N = 6;
+
+	// calculate number of edges
+	int n = sizeof(edges) / sizeof(edges[0]);
+
+	// construct graph
+	Graph graph(edges, n, N);
+
+	graph.printList();
+
+	return 0;
+	//can delete ltr
+	//for (int i = 0; 1 < stationIndexList.getLength(); i++) {
+	//    if (stationIndexList.get(i) == "Jurong East") {
+	//        cout << i;
+	//    }
+	//}
 }
