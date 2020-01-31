@@ -12,11 +12,13 @@
 #include "Graph.h"
 #include "Station.h"
 #include "Line.h"
+#include "Dictionary_Station.h"
 
 using namespace std;
 
-// new global
-List_Station allStationList;
+// new global variables
+List_Station stationList;
+Dictionary_Station nameToStationDict;
 
 // global variables
 Dictionary codeNameDict;
