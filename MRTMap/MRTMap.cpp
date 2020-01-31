@@ -18,7 +18,7 @@
 using namespace std;
 
 // new global variables
-List_Station stationList(1000);
+List_Station stationList;
 Dictionary_Station stnNameToStationDict;
 Dictionary stnCodeToStnNameDict;
 
