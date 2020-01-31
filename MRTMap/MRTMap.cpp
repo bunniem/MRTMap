@@ -20,7 +20,7 @@
 using namespace std;
 
 // new global variables
-List_Station stationList;
+List_Station stnList;
 Dictionary_Station stnNameToStationDict;
 Dictionary_Line stnLineToLineDict;
 Dictionary stnCodeToStnNameDict;
@@ -36,8 +36,8 @@ void startup2()
 {
 	ifstream f;
 	string stnCode, stnName, stnNameLowercase, stnLineName, stnLineNameLowercase, dist, line;
-	List row;
-	List_Station stnList;
+	List_Station stnLineList;
+	List distList;
 	int lineNum = 1;
 
 	/* We use the data in stations.csv to convert station codes to names,
@@ -66,7 +66,7 @@ void startup2()
 		{
 			Station newStn(stnName, stnCode);	// create new station
 			stnNameToStationDict.add(stnNameLowercase, &newStn);	// add station to dictionary
-			stationList.add(&newStn);	// add station to station list
+			stnList.add(&newStn);	// add station to station list
 		}
 		else // found
 		{
@@ -79,7 +79,8 @@ void startup2()
 	f.close();
 
 	/* We will use Routes.csv to associate stations to specific lines,
-	and to add the connections of each station */
+	and to add the connections (distances) to the stations */
+
 	// open Routes.csv
 	f.open("Routes.csv");
 
@@ -106,7 +107,7 @@ void startup2()
 				stnName = stnCodeToStnNameDict.get(stnCode); // get station name using station code
 				transform(stnName.begin(), stnName.end(), stnNameLowercase.begin(), ::tolower);	// convert to lowercase
 				Station* stn = stnNameToStationDict.get(stnNameLowercase);
-				stnList.add(stn);
+				stnLineList.add(stn);
 				stnLine->add(stn); // add station to station line
 			}
 		}
@@ -115,11 +116,14 @@ void startup2()
 			// split into different distances
 			istringstream s(line);
 
-			// add distances to connection and add connection to line
+			// add dist to distList for manipulation later
 			while (getline(s, dist, ','))
 			{
-				Connection test(, 2000);
+				distList.add(dist);
 			}
+
+			// add distances to connection and add connection to line
+			stnLineList.get(0);
 		}
 		lineNum++;
 	}

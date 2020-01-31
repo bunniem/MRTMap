@@ -3,12 +3,12 @@
 #include <iostream>
 using namespace std;
 
-const int MAX_SIZE10 = 10;
+const int MAX_SIZE100 = 100;
 
 class List
 {
 private:
-	string items[MAX_SIZE10];
+	string items[MAX_SIZE100];
 	int     size;
 
 public:

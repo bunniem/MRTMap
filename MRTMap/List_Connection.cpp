@@ -1,13 +1,13 @@
-// List_Station.cpp - Implementation of List ADT using Array
-#include "List_Station.h"  // header file
+// List_Connection.cpp - Implementation of List ADT using Array
+#include "List_Connection.h"  // header file
 
 // constructor
-List_Station::List_Station() { size = 0; }
+List_Connection::List_Connection() { size = 0; }
 
 // add an item to the back of the list (append)
-bool List_Station::add(Station* item)
+bool List_Connection::add(Connection* item)
 {
-	bool success = size < MAX_SIZE500;
+	bool success = size < MAX_SIZE10;
 	if (success)
 	{
 		items[size] = item;    // add to the end of the list
@@ -17,9 +17,9 @@ bool List_Station::add(Station* item)
 }
 
 // add an item at a specified position in the list (insert)
-bool List_Station::add(int index, Station* item)
+bool List_Connection::add(int index, Connection* item)
 {
-	bool success = (index >= 0) && (index <= size) && (size < MAX_SIZE500);
+	bool success = (index >= 0) && (index <= size) && (size < MAX_SIZE10);
 	if (success)
 	{  // make room for the item by shifting all items at
 	   // positions >= index toward the end of the
@@ -34,7 +34,7 @@ bool List_Station::add(int index, Station* item)
 }
 
 // remove an item at a specified position in the list
-void List_Station::remove(int index)
+void List_Connection::remove(int index)
 {
 	bool success = (index >= 0) && (index < size);
 	if (success)
@@ -48,7 +48,7 @@ void List_Station::remove(int index)
 }
 
 // get an item at a specified position of the list (retrieve)
-Station* List_Station::get(int index)
+Connection* List_Connection::get(int index)
 {
 	bool success = (index >= 0) && (index < size);
 	if (success)
@@ -58,16 +58,16 @@ Station* List_Station::get(int index)
 }
 
 // check if the list is empty
-bool List_Station::isEmpty() { return size == 0; }
+bool List_Connection::isEmpty() { return size == 0; }
 
 // check the size of the list
-int List_Station::getLength() { return size; }
+int List_Connection::getLength() { return size; }
 
 // display the items in the list
-void List_Station::print()
+void List_Connection::print()
 {
 	for (int i = 0; i < size; ++i)
 	{
-		cout << items[i]->Name() << endl;
+		cout << items[i] << endl;
 	}
 }

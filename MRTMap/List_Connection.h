@@ -1,33 +1,34 @@
-// List_Station.h - - Specification of List ADT for Station objects
+// List_Connection.h - - Specification of List ADT for Station objects
 #pragma once
 #include "Station.h"
+#include "Connection.h"
 #include <iostream>
 using namespace std;
 
-const int MAX_SIZE500 = 500;
+const int MAX_SIZE10 = 10;
 
-class List_Station
+class List_Connection
 {
 private:
-	Station* items[MAX_SIZE500];
+	Connection* items[MAX_SIZE10];
 	int     size;
 
 public:
 
 	// constructor
-	List_Station();
+	List_Connection();
 
 	// add an item to the back of the list (append)
 	// pre : size < MAX_SIZE
 	// post: item is added to the back of the list
 	//       size of list is increased by 1
-	bool add(Station* item);
+	bool add(Connection* item);
 
 	// add an item at a specified position in the list (insert)
 	// pre : 0 <= index <= size && size < MAX_SIZE
 	// post: item is added to the specified position in the list
 	//       size of list is increased by 1
-	bool add(int index, Station* item);
+	bool add(int index, Connection* item);
 
 	// remove an item at a specified position in the list
 	// pre : 0 <= index < size
@@ -38,7 +39,7 @@ public:
 	// get an item at a specified position of the list (retrieve)
 	// pre : 0 <= index < size
 	// post: none
-	Station* get(int index);
+	Connection* get(int index);
 
 	// check if the list is empty
 	// pre : none
