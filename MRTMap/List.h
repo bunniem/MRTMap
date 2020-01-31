@@ -3,8 +3,6 @@
 #include <iostream>
 using namespace std;
 
-const int MAX_SIZE2 = 300;
-
 class List
 {
 private:

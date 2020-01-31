@@ -18,7 +18,7 @@
 using namespace std;
 
 // new global variables
-List_Station stationList;
+List_Station stationList(1000);
 Dictionary_Station stnNameToStationDict;
 Dictionary stnCodeToStnNameDict;
 
@@ -35,7 +35,8 @@ void startup2()
 	List row;
 
 	/* We use the data in stations.csv to convert station codes to names,
-	as well as converting station names to station objects*/
+	as well as converting station names to station objects. We will also
+	add station objects to a list with all stations of the network */
 
 	// open Stations.csv file
 	f.open("Stations.csv");
@@ -57,8 +58,9 @@ void startup2()
 		// check if station in dictionary
 		if (stnNameToStationDict.get(stnNameLowercase) == nullptr) // not found
 		{
-			Station* newStn = new Station(stnName, stnCode);	// create new station
-			stnNameToStationDict.add(stnNameLowercase, newStn);	// add station to dictionary
+			Station newStn(stnName, stnCode);	// create new station
+			stnNameToStationDict.add(stnNameLowercase, &newStn);	// add station to dictionary
+			stationList.add(&newStn);	// add station to station list
 		}
 		else // found
 		{
