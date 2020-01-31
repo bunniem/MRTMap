@@ -151,8 +151,10 @@
     <ClCompile Include="DictionaryList.cpp" />
     <ClCompile Include="DictionaryStnToCode.cpp" />
     <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="Line.cpp" />
     <ClCompile Include="List.cpp" />
     <ClCompile Include="MRTMap.cpp" />
+    <ClCompile Include="Station.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Fares.csv" />
@@ -165,7 +167,9 @@
     <ClInclude Include="DictionaryList.h" />
     <ClInclude Include="DictionaryStnToCode.h" />
     <ClInclude Include="Graph.h" />
+    <ClInclude Include="Line.h" />
     <ClInclude Include="List.h" />
+    <ClInclude Include="Station.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
