@@ -23,6 +23,12 @@ bool Station::addCode(string c)
 	return false;
 }
 
+// station name
+string Station::Name()
+{
+	return name;
+}
+
 // check if station is interchange
 bool Station::isInterchange()
 {

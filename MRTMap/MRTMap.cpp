@@ -11,8 +11,12 @@
 #include "List.h"
 #include "Graph.h"
 #include "Station.h"
+#include "Line.h"
 
 using namespace std;
+
+// new global
+List_Station allStationList;
 
 // global variables
 Dictionary codeNameDict;
@@ -154,10 +158,14 @@ void addToCSV()
 
 int main()
 {
-	Station test("wow", "WOW1");
-	cout << test.isInterchange() << endl;
-	test.addCode("WOW2");
-	cout << test.isInterchange() << endl;
+	Station newStn("wow", "WOW1");
+	Station newStn2("wow", "WOW3");
+	newStn.addCode("WOW2");
+	Line newLine("wowLine");
+	cout << newLine.add(&newStn) << endl;
+	cout << newLine.Name() << endl;
+
+
 	//startup();
 	//fstream f;
 	//string line, code, stnCode, name, stationLineName, line1, stationline, frontcode, backcode, frontdist, backdist, station;

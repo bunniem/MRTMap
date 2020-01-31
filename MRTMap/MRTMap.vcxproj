@@ -153,6 +153,7 @@
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="List.cpp" />
+    <ClCompile Include="List_Station.cpp" />
     <ClCompile Include="MRTMap.cpp" />
     <ClCompile Include="Station.cpp" />
   </ItemGroup>
@@ -169,6 +170,7 @@
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="List.h" />
+    <ClInclude Include="List_Station.h" />
     <ClInclude Include="Station.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

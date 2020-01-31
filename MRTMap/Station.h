@@ -16,6 +16,9 @@ public:
 	// add station code
 	bool addCode(string c);
 
+	// station name
+	string Name();
+
 	// check if is interchange
 	bool isInterchange();
 };
