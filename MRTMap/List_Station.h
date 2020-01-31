@@ -4,18 +4,17 @@
 #include <iostream>
 using namespace std;
 
-const int MAX_SIZE100 = 100;
-
 class List_Station
 {
 private:
-	Station* items[MAX_SIZE100];
+	Station** items;
+	int		MAX_SIZE;
 	int     size;
 
 public:
 
 	// constructor
-	List_Station();
+	List_Station(int N);
 
 	// add an item to the back of the list (append)
 	// pre : size < MAX_SIZE

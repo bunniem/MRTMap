@@ -2,12 +2,12 @@
 #include "List_Station.h"  // header file
 
 // constructor
-List_Station::List_Station() { size = 0; }
+List_Station::List_Station(int N) { size = 0; MAX_SIZE = N; items = new Station * [N]; }
 
 // add an item to the back of the list (append)
 bool List_Station::add(Station* item)
 {
-	bool success = size < MAX_SIZE2;
+	bool success = size < MAX_SIZE;
 	if (success)
 	{
 		items[size] = item;    // add to the end of the list
@@ -19,7 +19,7 @@ bool List_Station::add(Station* item)
 // add an item at a specified position in the list (insert)
 bool List_Station::add(int index, Station* item)
 {
-	bool success = (index >= 0) && (index <= size) && (size < MAX_SIZE2);
+	bool success = (index >= 0) && (index <= size) && (size < MAX_SIZE);
 	if (success)
 	{  // make room for the item by shifting all items at
 	   // positions >= index toward the end of the

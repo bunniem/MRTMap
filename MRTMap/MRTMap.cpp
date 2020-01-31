@@ -36,6 +36,7 @@ void startup2()
 
 	/* We use the data in stations.csv to convert station codes to names,
 	as well as converting station names to station objects*/
+
 	// open Stations.csv file
 	f.open("Stations.csv");
 
@@ -66,6 +67,8 @@ void startup2()
 		}
 
 	}
+
+
 }
 
 void startup()

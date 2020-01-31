@@ -5,7 +5,7 @@
 List::List() { size = 0; }
 
 // add an item to the back of the list (append)
-bool List::add(ItemType item)
+bool List::add(string item)
 {
 	bool success = size < MAX_SIZE2;
 	if (success)
@@ -17,7 +17,7 @@ bool List::add(ItemType item)
 }
 
 // add an item at a specified position in the list (insert)
-bool List::add(int index, ItemType item)
+bool List::add(int index, string item)
 {
 	bool success = (index >= 0) && (index <= size) && (size < MAX_SIZE2);
 	if (success)
@@ -48,7 +48,7 @@ void List::remove(int index)
 }
 
 // get an item at a specified position of the list (retrieve)
-ItemType List::get(int index)
+string List::get(int index)
 {
 	bool success = (index >= 0) && (index < size);
 	if (success)
@@ -58,7 +58,7 @@ ItemType List::get(int index)
 }
 
 // finds out if an item already exists in the list
-bool List::exist(ItemType item)
+bool List::exist(string item)
 {
 	for (int i = 0; i < size; i++)
 	{
