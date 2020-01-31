@@ -3,21 +3,19 @@
 #include<iostream>
 using namespace std;
 
-const int MAX_SIZE = 101;
-typedef string ItemType2;
-typedef string KeyType;
+const int MAX_SIZE201 = 201;
 
 class Dictionary
 {
 private:
 	struct Node
 	{
-		KeyType  key;   // search key
-		ItemType2 item;	// data item
+		string key;   // search key
+		string item;	// data item
 		Node* next;	// pointer pointing to next item
 	};
 
-	Node* items[MAX_SIZE] = { NULL };
+	Node* items[MAX_SIZE201] = { NULL };
 	int  size;			// number of items in the Dictionary
 
 public:
@@ -31,16 +29,16 @@ public:
 	int charvalue(char c);
 
 	// hash function
-	int hash(KeyType key);
+	int hash(string key);
 
 	// add a new item with the specified key to the Dictionary
-	bool add(KeyType newKey, ItemType2 newItem);
+	bool add(string newKey, string newItem);
 
 	// remove an item with the specified key in the Dictionary
-	bool remove(KeyType key);
+	bool remove(string key);
 
 	// get an item with the specified key in the Dictionary (retrieve)
-	ItemType2 get(KeyType key);
+	string get(string key);
 
 	// check if the Dictionary is empty
 	bool isEmpty();

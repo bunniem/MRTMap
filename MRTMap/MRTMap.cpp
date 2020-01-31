@@ -20,11 +20,33 @@ using namespace std;
 List_Station stationList;
 Dictionary_Station nameToStationDict;
 
+
 // global variables
 Dictionary codeNameDict;
 DictionaryStnToCode nameCodeDict;
 DictionaryList lineDict;
 List stationIndexList;
+
+void startup2()
+{
+	fstream f;
+	string stnCode, stnName, stnLineName, dist, line;
+	List row;
+
+	// open Stations.csv file
+	f.open("Stations.csv");
+
+	// get each line of file and split into station code and station name
+	while (getline(f, line))
+	{
+		istringstream s(line);
+		getline(s, stnCode, ',');
+		getline(s, stnName, ',');
+
+		// add stnCode (as key) and stnName (as item) to dictionary
+
+	}
+}
 
 void startup()
 {

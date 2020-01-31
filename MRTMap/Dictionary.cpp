@@ -17,19 +17,19 @@ int Dictionary::charvalue(char c)
 }
 
 // hash function
-int Dictionary::hash(KeyType key)
+int Dictionary::hash(string key)
 {
 	int hashVal = 0;
 	for (size_t i = 0; i < key.length(); ++i)
 	{
 		hashVal += charvalue(key[i]) * 52;
 	}
-	hashVal %= MAX_SIZE; // modulo to wrap and prevent overflow
+	hashVal %= MAX_SIZE201; // modulo to wrap and prevent overflow
 	return hashVal;
 }
 
 // add a new item with the specified key to the Dictionary
-bool Dictionary::add(KeyType newKey, ItemType2 newItem)
+bool Dictionary::add(string newKey, string newItem)
 {
 	// determine hash value for index
 	int index;
@@ -69,7 +69,7 @@ bool Dictionary::add(KeyType newKey, ItemType2 newItem)
 }
 
 // remove an item with the specified key in the Dictionary
-bool Dictionary::remove(KeyType key)
+bool Dictionary::remove(string key)
 {
 	// determine hash value for index
 	int index;
@@ -99,7 +99,6 @@ bool Dictionary::remove(KeyType key)
 				}
 				delete current;
 				size--;
-				cout << "\nRemoved : " << key << endl;
 				return true;
 			}
 			previous = current;
@@ -107,12 +106,11 @@ bool Dictionary::remove(KeyType key)
 		}
 	}
 	// if reached this point, there are no matched keys
-	cout << "\nNo matched keys!\n";
 	return false;
 }
 
 // get an item with the specified key in the Dictionary (retrieve)
-ItemType2 Dictionary::get(KeyType key)
+string Dictionary::get(string key)
 {
 	// determine hash value for index
 	int index;
@@ -133,7 +131,6 @@ ItemType2 Dictionary::get(KeyType key)
 		}
 	}
 	// if reached this point, means that no matched keys
-	cout << "\nNo matched keys!\n";
 	return "";
 }
 
@@ -153,7 +150,7 @@ void Dictionary::print()
 	else
 	{
 		Node* current;
-		for (int i = 0; i < MAX_SIZE; ++i)
+		for (int i = 0; i < MAX_SIZE201; ++i)
 		{
 			if (items[i] != NULL)
 			{
