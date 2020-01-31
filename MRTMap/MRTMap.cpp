@@ -1,5 +1,6 @@
 // MRTMap.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
+#include <algorithm>    // ONLY used for std::transform (to convert upper/lower case)
 #include <sstream>
 #include <fstream>
 #include <iostream>
@@ -18,8 +19,8 @@ using namespace std;
 
 // new global variables
 List_Station stationList;
-Dictionary_Station nameToStationDict;
-
+Dictionary_Station stnNameToStationDict;
+Dictionary stnCodeToStnNameDict;
 
 // global variables
 Dictionary codeNameDict;
@@ -30,20 +31,39 @@ List stationIndexList;
 void startup2()
 {
 	fstream f;
-	string stnCode, stnName, stnLineName, dist, line;
+	string stnCode, stnName, stnNameLowercase, stnLineName, dist, line;
 	List row;
 
+	/* We use the data in stations.csv to convert station codes to names,
+	as well as converting station names to station objects*/
 	// open Stations.csv file
 	f.open("Stations.csv");
 
-	// get each line of file and split into station code and station name
+	// get each line of file
 	while (getline(f, line))
 	{
+		// split into station code and station name
 		istringstream s(line);
 		getline(s, stnCode, ',');
 		getline(s, stnName, ',');
 
 		// add stnCode (as key) and stnName (as item) to dictionary
+		stnCodeToStnNameDict.add(stnCode, stnName);
+
+		// add stnNameLowercase (as key) and Station (as item) to dictionary
+		transform(stnName.begin(), stnName.end(), stnNameLowercase.begin(), ::tolower);	// convert to lowercase
+
+		// check if station in dictionary
+		if (stnNameToStationDict.get(stnNameLowercase) == nullptr) // not found
+		{
+			Station* newStn = new Station(stnName, stnCode);	// create new station
+			stnNameToStationDict.add(stnNameLowercase, newStn);	// add station to dictionary
+		}
+		else // found
+		{
+			Station* stn = stnNameToStationDict.get(stnNameLowercase); // get existing station
+			stn->addCode(stnCode); // add in new station code
+		}
 
 	}
 }
