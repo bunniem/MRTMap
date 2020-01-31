@@ -12,7 +12,7 @@ private:
 	struct Node
 	{
 		string key;   // search key
-		Line item;	// data item
+		Line* item;	// data item
 		Node* next;	// pointer pointing to next item
 	};
 
@@ -33,13 +33,13 @@ public:
 	int hash(string key);
 
 	// add a new item with the specified key to the Dictionary
-	bool add(string newKey, Line newItem);
+	bool add(string newKey, Line* newItem);
 
 	// remove an item with the specified key in the Dictionary
 	bool remove(string key);
 
 	// get an item with the specified key in the Dictionary (retrieve)
-	Line get(string key);
+	Line* get(string key);
 
 	// check if the Dictionary is empty
 	bool isEmpty();

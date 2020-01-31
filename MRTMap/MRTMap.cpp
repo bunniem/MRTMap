@@ -14,12 +14,14 @@
 #include "Station.h"
 #include "Line.h"
 #include "Dictionary_Station.h"
+#include "Dictionary_Line.h"
 
 using namespace std;
 
 // new global variables
 List_Station stationList;
 Dictionary_Station stnNameToStationDict;
+Dictionary_Line stnLineToLineDict;
 Dictionary stnCodeToStnNameDict;
 
 // global variables
@@ -32,7 +34,7 @@ List stationIndexList;
 void startup2()
 {
 	ifstream f;
-	string stnCode, stnName, stnNameLowercase, stnLineName, dist, line;
+	string stnCode, stnName, stnNameLowercase, stnLineName, stnLineNameLowercase, dist, line;
 	List row;
 	int lineNum = 1;
 
@@ -88,10 +90,11 @@ void startup2()
 			getline(s, stnLineName, ',');
 
 			// check if line in directory
-
+			transform(stnLineName.begin(), stnLineName.end(), stnLineNameLowercase.begin(), ::tolower);	// convert to lowercase
+			if(stnLineToLineDict.get(stnLineNameLowercase).)
 			while (getline(s, stnCode, ','))
 			{
-				row.add(code);
+				
 				//break;
 			}
 		}

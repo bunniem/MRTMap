@@ -29,7 +29,7 @@ int Dictionary_Line::hash(string key)
 }
 
 // add a new item with the specified key to the Dictionary
-bool Dictionary_Line::add(string newKey, Line newItem)
+bool Dictionary_Line::add(string newKey, Line* newItem)
 {
 	// determine hash value for index
 	int index;
@@ -97,6 +97,7 @@ bool Dictionary_Line::remove(string key)
 						items[index] = current->next;
 					}
 				}
+				delete current->item;
 				delete current;
 				size--;
 				return true;
@@ -110,7 +111,7 @@ bool Dictionary_Line::remove(string key)
 }
 
 // get an item with the specified key in the Dictionary (retrieve)
-Line Dictionary_Line::get(string key)
+Line* Dictionary_Line::get(string key)
 {
 	// determine hash value for index
 	int index;
@@ -131,7 +132,7 @@ Line Dictionary_Line::get(string key)
 		}
 	}
 	// if reached this point, means that no matched keys
-	return Line();
+	return nullptr;
 }
 
 // check if the Dictionary is empty
