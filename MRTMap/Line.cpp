@@ -13,7 +13,7 @@ bool Line::add(Station* s)
 	// check for duplicates
 	for (int i = 0; i < stations.getLength(); ++i)
 	{
-		if (stations.get(i)->Name() == s->Name())
+		if (stations.get(i) == s)
 		{
 			// duplicate stations
 			return false;

@@ -36,6 +36,7 @@ void startup2()
 	ifstream f;
 	string stnCode, stnName, stnNameLowercase, stnLineName, stnLineNameLowercase, dist, line;
 	List row;
+	List_Station stnList;
 	int lineNum = 1;
 
 	/* We use the data in stations.csv to convert station codes to names,
@@ -68,36 +69,51 @@ void startup2()
 		}
 		else // found
 		{
-			Station* stn = stnNameToStationDict.get(stnNameLowercase); // get existing station
-			stn->addCode(stnCode); // add in new station code
+			Station* existingStn = stnNameToStationDict.get(stnNameLowercase); // get existing station
+			existingStn->addCode(stnCode); // add in new station code
 		}
 
 	}
 
 	f.close();
 
-	/* We will use Routes.csv to associate station codes to specific lines,
+	/* We will use Routes.csv to associate stations to specific lines,
 	and to add the connections of each station */
 	// open Routes.csv
 	f.open("Routes.csv");
 
 	while (getline(f, line))
 	{
-		if (lineNum % 2 == 1) // line name and station codes line
+		if (lineNum % 2 == 1) // station line name and station codes line
 		{
-			// split into line name and station code
+			// split into station line name and station code
 			istringstream s(line);
 			getline(s, stnLineName, ',');
 
-			// check if line in directory
+			// check if station line in directory
 			transform(stnLineName.begin(), stnLineName.end(), stnLineNameLowercase.begin(), ::tolower);	// convert to lowercase
-			if(stnLineToLineDict.get(stnLineNameLowercase).)
+			if (stnLineToLineDict.get(stnLineNameLowercase) == nullptr) // not found
+			{
+				Line newStnLine(stnLineName); // create new station line
+				stnLineToLineDict.add(stnLineNameLowercase, &newStnLine); // add station line to dictionary
+			}
+			Line* stnLine = stnLineToLineDict.get(stnLineNameLowercase); // get existing station line
+
+			// add stations to a line
 			while (getline(s, stnCode, ','))
 			{
-				
-				//break;
+				stnName = stnCodeToStnNameDict.get(stnCode); // get station name using station code
+				transform(stnName.begin(), stnName.end(), stnNameLowercase.begin(), ::tolower);	// convert to lowercase
+				Station* stn = stnNameToStationDict.get(stnNameLowercase);
+				stnList.add(stn);
+				stnLine->add(stn); // add station to station line
 			}
 		}
+		else // distance between stations line
+		{
+			
+		}
+		lineNum++;
 	}
 
 }
