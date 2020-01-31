@@ -57,6 +57,4 @@ public:
 	int getLength();
 
 	void print();
-
-	void replace(int index, string item);
 };
