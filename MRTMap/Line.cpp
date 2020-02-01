@@ -40,6 +40,6 @@ void Line::print()
 {
 	cout << endl << "Station Line : " << name << endl << endl;
 	cout << "Stations on the line" << endl;
-	cout << "------------------------" << endl;
+	cout << "--------------------" << endl;
 	stations.print();
 }

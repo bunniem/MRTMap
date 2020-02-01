@@ -1,9 +1,8 @@
-// MRTMap.cpp : This file contains the 'main' function. Program execution begins and ends there.
+// MRTMap.cpp
 //
 #include <algorithm>    // ONLY used for converting upper/lowercase string
-#include <sstream>
-#include <fstream>
-#include <iostream>
+#include <sstream>		// string stream
+#include <fstream>		// file io
 #include <stdio.h>
 #include <string>
 #include "Dictionary.h"
@@ -19,7 +18,7 @@
 
 using namespace std;
 
-// new global variables
+// global variables
 List_Station stnList;
 Dictionary_Station stnNameToStationDict;
 Dictionary_Line stnLineToLineDict;
@@ -40,8 +39,8 @@ string toLowercase(string s)
 	return s;
 }
 
-// new startup structure
-void startup2()
+// startup procedure
+void startup()
 {
 	string stnCode, stnName, stnLineName, dist, line;
 	List_Station stnLineList;
@@ -154,100 +153,6 @@ void startup2()
 
 }
 
-void startup()
-{
-	fstream f;
-	string line, code, name, stationLineName, dist;
-	List oldList;
-	List row, row2;
-	int iterator = 1;
-
-	// open Stations.csv file
-	f.open("Stations.csv");
-
-	// get each line of the file and split into code and name
-	while (getline(f, line)) {
-		istringstream ss(line);
-		getline(ss, code, ',');
-		getline(ss, name, ',');
-		/* Add station codes and names to dictionary */
-		// cout << code << endl;
-		//cout << name << endl;
-		codeNameDict.add(code, name);   //Dictionary.h
-		if (!nameCodeDict.add(name, code)) {
-			nameCodeDict.replacecode(name, nameCodeDict.getcode(name) + "/" + code);
-			nameCodeDict.replaceinterchange(name, true);
-			//add into interchange csv
-		}
-		else
-		{
-			nameCodeDict.add(name, code);   //DictionaryStnToCode.h
-		}
-
-		/* Add station to index list if station does not exist on index list */
-		if (!stationIndexList.exist(name))
-		{
-			stationIndexList.add(name); //adding all the station name into stationIndexList
-		}
-	}
-
-	f.close();
-
-	// open Routes.csv file
-	f.open("Routes.csv");
-
-	// get stations and its distances and add it to dictionary
-	while (getline(f, line))
-	{
-		if (iterator % 2 == 1) // station codes
-		{
-			istringstream ss(line);
-			getline(ss, stationLineName, ',');
-			//cout << stationLineName << endl; //print out the different lines
-
-			while (getline(ss, code, ','))
-			{
-				row.add(code);
-				//break;
-			}
-		}
-		else // distances
-		{
-			istringstream ss(line);
-			while (getline(ss, dist, ','))
-			{
-				row2.add(dist);
-				cout << dist << endl;
-			}
-			// add line to dictionary
-		}
-		iterator++;
-		if (!lineDict.add(stationLineName, row)) {  //this check is used for the two EWL and CCL
-			oldList = lineDict.getItem(stationLineName);
-			for (int i = 0; i < row.getLength(); ++i)
-			{
-				oldList.add(row.get(i));
-			}
-			lineDict.replace(stationLineName, oldList);
-		}
-		for (int i = row.getLength(); i > 0; --i)
-		{
-			row.remove(i);
-		}
-
-	}
-	for (int i = 0; i < row2.getLength(); i++) {
-		cout << row2.get(i) << endl;
-	}
-
-}
-
-//
-//bool addStationCodeToRoute(string code) {
-//	ofstream f;
-//	f.open("Routes.csv");
-//}
-
 void addToCSV()
 {
 	string line, code, stnCode, name, stationLineName, line1, stationline, frontcode, backcode, frontdist, backdist, station, dist;
@@ -288,15 +193,19 @@ void addToCSV()
 
 int main()
 {
+	// startup procedure to load csv files to respective data structures
+	startup();
+
 	int option, optionTwo;
 	string stnName;
+	Line* stnLine;
+	Station* stn;
 	List stnLineNames;
-
-	// startup procedure to load csv files to respective data structures
-	startup2();
 	
+	// main program
 	while (true)
 	{
+		system("cls"); // clear console
 		// MAIN MENU
 		cout << "\nMRTMap MENU\n---------------------------\n";
 		cout << "[1] Display all stations in a given line\n[2] Display station information\n[3] Add a new station on a given line\n";
@@ -320,20 +229,36 @@ int main()
 			}
 			cout << endl << "Enter a number : ";
 			cin >> optionTwo;
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			if (optionTwo > stnLineNames.getLength() || optionTwo < 1)
 			{
-				cout << "Invalid number!" << endl;
+				cout << endl << "Invalid number" << endl;
+				system("pause");
 				break;
 			}
 			// print out the station line and its stations
 			stnLineToLineDict.get(toLowercase(stnLineNames.get(optionTwo - 1)))->print();
+			system("pause");
 			break;
 		case 2:
 			cout << "Enter a station name : ";
 			getline(cin, stnName);
 			// print out the station details
-			stnNameToStationDict.get(toLowercase(stnName))->print();
+			stn = stnNameToStationDict.get(toLowercase(stnName));
+			if (stn == nullptr)
+			{
+				cout << endl << "Station not found" << endl;
+				system("pause");
+				break;
+			}
+			stn->print();
+			system("pause");
 			break;
+		case 3:
+
+		default:
+			cout << endl << "Invalid option" << endl;
+			system("pause");
 		}
 	}
 

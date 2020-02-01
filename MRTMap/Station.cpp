@@ -58,9 +58,10 @@ void Station::print()
 		cout << code.get(i) << "/";
 	}
 	cout << code.get(code.getLength() - 1) << ")" << endl;
-	cout << "Interchange: " << boolalpha << interchange << endl;
+	cout << "Interchange: " << boolalpha << interchange << endl << endl;
 
-	cout << "Connection(s) to other station(s): " << endl;
+	cout << "Connection(s) to other station(s) :" << endl;
+	cout << "----------------------------------" << endl;
 	for (int i = 0; i < connections.getLength(); ++i)
 	{
 		Station* otherStn = connections.get(i)->StationObj();
