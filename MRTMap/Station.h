@@ -18,6 +18,9 @@ public:
 	// station name
 	string Name();
 
+	// station code list
+	List Code();
+
 	// add station code
 	bool addCode(string c);
 
@@ -26,5 +29,8 @@ public:
 
 	// check if is interchange
 	bool isInterchange();
+
+	// print out details
+	void print();
 };
 

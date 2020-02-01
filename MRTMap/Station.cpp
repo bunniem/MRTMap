@@ -14,6 +14,12 @@ string Station::Name()
 	return name;
 }
 
+// station code list
+List Station::Code()
+{
+	return code;
+}
+
 // add station code
 bool Station::addCode(string c)
 {
@@ -40,4 +46,28 @@ bool Station::addConnection(Connection* conn)
 bool Station::isInterchange()
 {
 	return interchange;
+}
+
+// print out details
+void Station::print()
+{
+	cout << "Station : " << name << " (";
+
+	for (int i = 0; i < code.getLength()-1; ++i)
+	{
+		cout << code.get(i) << "/";
+	}
+	cout << code.get(code.getLength() - 1) << ")" << endl;
+
+	cout << "Connection(s) to other station(s): " << endl;
+	for (int i = 0; i < connections.getLength(); ++i)
+	{
+		Station* otherStn = connections.get(i)->StationObj();
+		cout << connections.get(i)->Distance() << " Metres	-----	" << otherStn->Name() << " (";
+		for (int j = 0; j < otherStn->Code().getLength() - 1; ++j)
+		{
+			cout << otherStn->Code().get(j) << "/";
+		}
+		cout << otherStn->Code().get(otherStn->Code().getLength() - 1) << ")" << endl;
+	}
 }

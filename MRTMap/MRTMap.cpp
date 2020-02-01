@@ -142,6 +142,12 @@ void startup2()
 			Station* lastStn = stnLineList.get(stnLineList.getLength() - 1); // get last stations
 			Connection* lastConn = new Connection(stnLineList.get(stnLineList.getLength()-2), stoi(dist));
 			lastStn->addConnection(lastConn);
+
+			// clear stnLineList for next station
+			for (int i = stnLineList.getLength(); i > 0; --i)
+			{
+				stnLineList.remove(i-1);
+			}
 		}
 		lineNum++;
 	}
@@ -283,8 +289,7 @@ void addToCSV()
 int main()
 {
 	startup2();
-	cout << stnList.get(0)->Name() << endl;
-
+	stnList.get(0)->print();
 
 
 

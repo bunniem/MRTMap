@@ -3,7 +3,6 @@
 #include "Connection.h"
 #include <iostream>
 using namespace std;
-class Connection;
 
 const int MAX_SIZE10 = 10;
 
