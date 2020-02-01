@@ -51,13 +51,14 @@ bool Station::isInterchange()
 // print out all details
 void Station::print()
 {
-	cout << "Station : " << name << " (";
+	cout << endl << "Station : " << name << " (";
 
 	for (int i = 0; i < code.getLength()-1; ++i)
 	{
 		cout << code.get(i) << "/";
 	}
 	cout << code.get(code.getLength() - 1) << ")" << endl;
+	cout << "Interchange: " << boolalpha << interchange << endl;
 
 	cout << "Connection(s) to other station(s): " << endl;
 	for (int i = 0; i < connections.getLength(); ++i)

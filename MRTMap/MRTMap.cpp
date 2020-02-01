@@ -289,14 +289,16 @@ void addToCSV()
 int main()
 {
 	int option, optionTwo;
+	string stnName;
 	List stnLineNames;
-	Line* stnLine;
+
+	// startup procedure to load csv files to respective data structures
 	startup2();
 	
 	while (true)
 	{
 		// MAIN MENU
-		cout << "\nMRT MAIN MENU\n---------------------------\n";
+		cout << "\nMRTMap MENU\n---------------------------\n";
 		cout << "[1] Display all stations in a given line\n[2] Display station information\n[3] Add a new station on a given line\n";
 		cout << "[4] Display a route and its price, given the source and destination\n[5] Remove a station\n[6] Create a line\n";
 		cout << "[0] Exit program\n";
@@ -323,9 +325,15 @@ int main()
 				cout << "Invalid number!" << endl;
 				break;
 			}
-
-			stnLine = stnLineToLineDict.get(toLowercase(stnLineNames.get(optionTwo - 1)));
-			stnLine->print();
+			// print out the station line and its stations
+			stnLineToLineDict.get(toLowercase(stnLineNames.get(optionTwo - 1)))->print();
+			break;
+		case 2:
+			cout << "Enter a station name : ";
+			getline(cin, stnName);
+			// print out the station details
+			stnNameToStationDict.get(toLowercase(stnName))->print();
+			break;
 		}
 	}
 

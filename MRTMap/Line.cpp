@@ -38,8 +38,8 @@ List_Station Line::Stations()
 // print function
 void Line::print()
 {
-	cout << endl << "Station Line : " << name << endl;
-	cout << "Stations : " << endl;
+	cout << endl << "Station Line : " << name << endl << endl;
+	cout << "Stations on the line" << endl;
 	cout << "------------------------" << endl;
 	stations.print();
 }
