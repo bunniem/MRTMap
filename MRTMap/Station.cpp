@@ -30,9 +30,9 @@ bool Station::addCode(string c)
 }
 
 // add connection
-bool Station::addConnection(Connection* c)
+bool Station::addConnection(Connection* conn)
 {
-	connection.add(c);
+	connections.add(conn);
 	return true;
 }
 

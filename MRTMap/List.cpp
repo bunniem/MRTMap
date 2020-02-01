@@ -7,7 +7,7 @@ List::List() { size = 0; }
 // add an item to the back of the list (append)
 bool List::add(string item)
 {
-	bool success = size < MAX_SIZE100;
+	bool success = size < MAX_SIZE50;
 	if (success)
 	{
 		items[size] = item;    // add to the end of the list
@@ -19,7 +19,7 @@ bool List::add(string item)
 // add an item at a specified position in the list (insert)
 bool List::add(int index, string item)
 {
-	bool success = (index >= 0) && (index <= size) && (size < MAX_SIZE100);
+	bool success = (index >= 0) && (index <= size) && (size < MAX_SIZE50);
 	if (success)
 	{  // make room for the item by shifting all items at
 	   // positions >= index toward the end of the

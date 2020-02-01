@@ -1,6 +1,6 @@
 // MRTMap.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-#include <algorithm>    // ONLY used for std::transform (to convert upper/lower case)
+#include <algorithm>    // ONLY used for converting upper/lowercase string
 #include <sstream>
 #include <fstream>
 #include <iostream>
@@ -13,9 +13,9 @@
 #include "Graph.h"
 #include "Station.h"
 #include "Line.h"
+#include "Connection.h"
 #include "Dictionary_Station.h"
 #include "Dictionary_Line.h"
-#include "Connection.h"
 
 using namespace std;
 
@@ -30,6 +30,15 @@ Dictionary codeNameDict;
 DictionaryStnToCode nameCodeDict;
 DictionaryList lineDict;
 List stationIndexList;
+
+// converts a given string to lowercase
+string toLowercase(string s)
+{
+	for_each(s.begin(), s.end(), [](char& c) {
+		c = tolower(c);
+		});
+	return s;
+}
 
 // new startup structure
 void startup2()
@@ -59,8 +68,7 @@ void startup2()
 		stnCodeToStnNameDict.add(stnCode, stnName);
 
 		// add stnNameLowercase (as key) and Station (as item) to dictionary
-		transform(stnName.begin(), stnName.end(), stnNameLowercase.begin(), ::tolower);	// convert to lowercase
-
+		stnNameLowercase = toLowercase(stnName); // convert to lowercase
 		// check if station in dictionary
 		if (stnNameToStationDict.get(stnNameLowercase) == nullptr) // not found
 		{
@@ -73,7 +81,6 @@ void startup2()
 			Station* existingStn = stnNameToStationDict.get(stnNameLowercase); // get existing station
 			existingStn->addCode(stnCode); // add in new station code
 		}
-
 	}
 
 	f.close();
@@ -93,7 +100,7 @@ void startup2()
 			getline(s, stnLineName, ',');
 
 			// check if station line in directory
-			transform(stnLineName.begin(), stnLineName.end(), stnLineNameLowercase.begin(), ::tolower);	// convert to lowercase
+			stnLineNameLowercase = toLowercase(stnLineName); // convert to lowercase
 			if (stnLineToLineDict.get(stnLineNameLowercase) == nullptr) // not found
 			{
 				Line newStnLine(stnLineName); // create new station line
@@ -105,7 +112,7 @@ void startup2()
 			while (getline(s, stnCode, ','))
 			{
 				stnName = stnCodeToStnNameDict.get(stnCode); // get station name using station code
-				transform(stnName.begin(), stnName.end(), stnNameLowercase.begin(), ::tolower);	// convert to lowercase
+				stnNameLowercase = toLowercase(stnName); // convert to lowercase
 				Station* stn = stnNameToStationDict.get(stnNameLowercase);
 				stnLineList.add(stn);
 				stnLine->add(stn); // add station to station line
@@ -113,17 +120,19 @@ void startup2()
 		}
 		else // distance between stations line
 		{
-			// split into different distances
-			istringstream s(line);
+			//// split into different distances
+			//istringstream s(line);
 
-			// add dist to distList for manipulation later
-			while (getline(s, dist, ','))
-			{
-				distList.add(dist);
-			}
+			//// first station
+			//getline(s, dist, ',');
+			//Connection* test = new Connection(stnLineList.get(0), dist);
+			//stnLineList.get(0)->addConnection(test);
 
-			// add distances to connection and add connection to line
-			stnLineList.get(0);
+			//// add dist
+			//while (getline(s, dist, ','))
+			//{
+			//	
+			//}
 		}
 		lineNum++;
 	}
@@ -264,12 +273,10 @@ void addToCSV()
 
 int main()
 {
-	Station newStn("wow", "WOW1");
-	Station newStn2("wow", "WOW3");
-	newStn.addCode("WOW2");
-	Line newLine("wowLine");
-	cout << newLine.add(&newStn) << endl;
-	cout << newLine.Name() << endl;
+	startup2();
+	cout << stnList.get(0)->Name() << endl;
+
+
 
 
 	//startup();

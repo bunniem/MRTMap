@@ -1,9 +1,9 @@
 // List_Connection.h - - Specification of List ADT for Station objects
 #pragma once
-#include "Station.h"
 #include "Connection.h"
 #include <iostream>
 using namespace std;
+class Connection;
 
 const int MAX_SIZE10 = 10;
 

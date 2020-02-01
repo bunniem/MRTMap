@@ -3,12 +3,12 @@
 #include <iostream>
 using namespace std;
 
-const int MAX_SIZE100 = 100;
+const int MAX_SIZE50 = 50;
 
 class List
 {
 private:
-	string items[MAX_SIZE100];
+	string items[MAX_SIZE50];
 	int     size;
 
 public:
@@ -57,4 +57,6 @@ public:
 	int getLength();
 
 	void print();
+
+	void replace(int index, string item);
 };

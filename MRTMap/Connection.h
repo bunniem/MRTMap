@@ -1,8 +1,10 @@
 #pragma once
-#include "Station.h"
+class Station;
+
 class Connection
 {
-	Station* station;
+private:
+	Station* station = nullptr;
 	int distance;
 
 public:

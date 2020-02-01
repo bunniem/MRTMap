@@ -7,7 +7,7 @@ class Station
 private:
 	string name;
 	List code;
-	List_Connection connection;
+	List_Connection connections;
 	bool interchange = false;
 
 public:
@@ -22,7 +22,7 @@ public:
 	bool addCode(string c);
 
 	// add connection
-	bool addConnection(Connection* c);
+	bool addConnection(Connection* conn);
 
 	// check if is interchange
 	bool isInterchange();
