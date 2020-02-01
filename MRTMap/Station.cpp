@@ -51,37 +51,44 @@ bool Station::isInterchange()
 // print out all details
 void Station::print()
 {
-	cout << endl << "Station : " << name << " (";
+	cout << endl << "Station : " << name;
+	if (interchange) { cout << "*"; }
+	cout << " (";
 
 	for (int i = 0; i < code.getLength()-1; ++i)
 	{
 		cout << code.get(i) << "/";
 	}
-	cout << code.get(code.getLength() - 1) << ")" << endl;
-	cout << "Interchange: " << boolalpha << interchange << endl << endl;
+	cout << code.get(code.getLength() - 1) << ")" << endl << endl;
 
 	cout << "Connection(s) to other station(s) :" << endl;
 	cout << "----------------------------------" << endl;
 	for (int i = 0; i < connections.getLength(); ++i)
 	{
 		Station* otherStn = connections.get(i)->StationObj();
-		cout << connections.get(i)->Distance() << " Metres	-----	" << otherStn->Name() << " (";
+		cout << connections.get(i)->Distance() << " Metres\t<----->\t" << otherStn->Name();
+		if (otherStn->isInterchange()) { cout << "*"; }
+		cout  << " (";
 		for (int j = 0; j < otherStn->Code().getLength() - 1; ++j)
 		{
 			cout << otherStn->Code().get(j) << " / ";
 		}
 		cout << otherStn->Code().get(otherStn->Code().getLength() - 1) << ")" << endl;
 	}
+	cout << "----------------------------------" << endl;
+	cout << endl << "Note : Stations with * are interchanges" << endl;
 }
 
 // print out name and code only
 void Station::printMin()
 {
-	cout << name << " (";
-
+	cout << name;
+	if (interchange == true) { cout << "*"; }
+	cout << " (";
 	for (int i = 0; i < code.getLength() - 1; ++i)
 	{
 		cout << code.get(i) << "/";
 	}
-	cout << code.get(code.getLength() - 1) << ")" << endl;
+	cout << code.get(code.getLength() - 1) << ")";
+	cout << endl;
 }

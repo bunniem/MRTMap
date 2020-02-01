@@ -197,7 +197,7 @@ int main()
 	startup();
 
 	int option, optionTwo;
-	string stnName;
+	string stnName, stnCode, stnLineName;
 	Line* stnLine;
 	Station* stn;
 	List stnLineNames;
@@ -220,29 +220,36 @@ int main()
 		{
 		case 0:
 			return 0;
-		case 1:
+		case 1: // display all stations in a given line
 			stnLineNames = stnLineToLineDict.getLineNames();
-			cout << "Station Line(s) on the network" << endl;
+			// print list of lines on the network
+			cout << endl << "Station Line(s) on the network" << endl;
 			for (int i = 0; i < stnLineNames.getLength(); ++i)
 			{
 				cout << "[" << i + 1 << "] " << stnLineNames.get(i) << endl;
 			}
+			// user chooses a number from the list
+			cout << endl << "Please select the line to be displayed";
 			cout << endl << "Enter a number : ";
 			cin >> optionTwo;
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			// check if option valid
 			if (optionTwo > stnLineNames.getLength() || optionTwo < 1)
 			{
 				cout << endl << "Invalid number" << endl;
 				system("pause");
 				break;
 			}
+			system("cls"); // clear console
 			// print out the station line and its stations
-			stnLineToLineDict.get(toLowercase(stnLineNames.get(optionTwo - 1)))->print();
+			stnLine = stnLineToLineDict.get(toLowercase(stnLineNames.get(optionTwo - 1)));
+			stnLine->print();
 			system("pause");
 			break;
-		case 2:
-			cout << "Enter a station name : ";
+		case 2: // display station information
+			cout << "Enter the station name : ";
 			getline(cin, stnName);
+			system("cls"); // clear console
 			// print out the station details
 			stn = stnNameToStationDict.get(toLowercase(stnName));
 			if (stn == nullptr)
@@ -254,8 +261,38 @@ int main()
 			stn->print();
 			system("pause");
 			break;
-		case 3:
+		case 3: // add a new station on a given line
+			stnLineNames = stnLineToLineDict.getLineNames();
+			// print list of lines on the network
+			cout << endl << "Station Line(s) on the network" << endl;
+			for (int i = 0; i < stnLineNames.getLength(); ++i)
+			{
+				cout << "[" << i + 1 << "] " << stnLineNames.get(i) << endl;
+			}
+			// user chooses a number from the list
+			cout << endl << "Please select the line for the new station to be in";
+			cout << endl << "Enter a number : ";
+			cin >> optionTwo;
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			// check if option valid
+			if (optionTwo > stnLineNames.getLength() || optionTwo < 1)
+			{
+				cout << endl << "Invalid number" << endl;
+				system("pause");
+				break;
+			}
+			stnLine = stnLineToLineDict.get(toLowercase(stnLineNames.get(optionTwo - 1)));
+			system("cls"); // clear console
 
+			cout << "Station Line : " << stnLine->Name() << endl;
+			cout << "Enter the new station name : ";
+			getline(cin, stnName);
+			cout << stnName << endl;
+			cout << "Enter the new station code : ";
+			getline(cin, stnCode);
+			cout << stnCode << endl;
+			system("pause");
+			break;
 		default:
 			cout << endl << "Invalid option" << endl;
 			system("pause");

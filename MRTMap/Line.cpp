@@ -42,4 +42,6 @@ void Line::print()
 	cout << "Stations on the line" << endl;
 	cout << "--------------------" << endl;
 	stations.print();
+	cout << "--------------------" << endl;
+	cout << endl << "Note : Stations with * are interchanges" << endl;
 }
