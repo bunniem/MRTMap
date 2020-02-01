@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include "Line.h"
+#include "List.h"
 using namespace std;
 
 const int MAX_SIZE20 = 20;
@@ -46,4 +47,11 @@ public:
 
 	// check the size of the Dictionary
 	int getLength();
+
+	// get station line names
+	List getLineNames();
+
+	//------------------- Other useful functions -----------------
+	// display the keys in the Dictionary
+	void print();
 };

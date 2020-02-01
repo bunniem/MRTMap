@@ -19,5 +19,8 @@ public:
 
 	// line stations
 	List_Station Stations();
+
+	// print function
+	void print();
 };
 

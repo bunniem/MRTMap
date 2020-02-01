@@ -68,6 +68,6 @@ void List_Station::print()
 {
 	for (int i = 0; i < size; ++i)
 	{
-		cout << items[i]->Name() << endl;
+		items[i]->printMin();
 	}
 }

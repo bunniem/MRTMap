@@ -34,3 +34,12 @@ List_Station Line::Stations()
 {
 	return stations;
 }
+
+// print function
+void Line::print()
+{
+	cout << endl << "Station Line : " << name << endl;
+	cout << "Stations : " << endl;
+	cout << "------------------------" << endl;
+	stations.print();
+}

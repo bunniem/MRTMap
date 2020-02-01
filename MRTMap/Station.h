@@ -30,7 +30,10 @@ public:
 	// check if is interchange
 	bool isInterchange();
 
-	// print out details
+	// print out all details
 	void print();
+
+	// print out name and code only
+	void printMin();
 };
 

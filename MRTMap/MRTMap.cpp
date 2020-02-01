@@ -288,8 +288,46 @@ void addToCSV()
 
 int main()
 {
+	int option, optionTwo;
+	List stnLineNames;
+	Line* stnLine;
 	startup2();
-	stnList.get(0)->print();
+	
+	while (true)
+	{
+		// MAIN MENU
+		cout << "\nMRT MAIN MENU\n---------------------------\n";
+		cout << "[1] Display all stations in a given line\n[2] Display station information\n[3] Add a new station on a given line\n";
+		cout << "[4] Display a route and its price, given the source and destination\n[5] Remove a station\n[6] Create a line\n";
+		cout << "[0] Exit program\n";
+		cout << "---------------------------\nSelect an option: ";
+		cin >> option;
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+		// functions
+		switch (option)
+		{
+		case 0:
+			return 0;
+		case 1:
+			stnLineNames = stnLineToLineDict.getLineNames();
+			cout << "Station Line(s) on the network" << endl;
+			for (int i = 0; i < stnLineNames.getLength(); ++i)
+			{
+				cout << "[" << i + 1 << "] " << stnLineNames.get(i) << endl;
+			}
+			cout << endl << "Enter a number : ";
+			cin >> optionTwo;
+			if (optionTwo > stnLineNames.getLength() || optionTwo < 1)
+			{
+				cout << "Invalid number!" << endl;
+				break;
+			}
+
+			stnLine = stnLineToLineDict.get(toLowercase(stnLineNames.get(optionTwo - 1)));
+			stnLine->print();
+		}
+	}
 
 
 

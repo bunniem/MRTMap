@@ -48,7 +48,7 @@ bool Station::isInterchange()
 	return interchange;
 }
 
-// print out details
+// print out all details
 void Station::print()
 {
 	cout << "Station : " << name << " (";
@@ -66,8 +66,20 @@ void Station::print()
 		cout << connections.get(i)->Distance() << " Metres	-----	" << otherStn->Name() << " (";
 		for (int j = 0; j < otherStn->Code().getLength() - 1; ++j)
 		{
-			cout << otherStn->Code().get(j) << "/";
+			cout << otherStn->Code().get(j) << " / ";
 		}
 		cout << otherStn->Code().get(otherStn->Code().getLength() - 1) << ")" << endl;
 	}
+}
+
+// print out name and code only
+void Station::printMin()
+{
+	cout << name << " (";
+
+	for (int i = 0; i < code.getLength() - 1; ++i)
+	{
+		cout << code.get(i) << "/";
+	}
+	cout << code.get(code.getLength() - 1) << ")" << endl;
 }

@@ -135,6 +135,53 @@ Line* Dictionary_Line::get(string key)
 	return nullptr;
 }
 
+// get station line names
+List Dictionary_Line::getLineNames()
+{
+	List lineNames;
+	Node* current;
+	for (int i = 0; i < MAX_SIZE20; ++i)
+	{
+		if (items[i] != NULL)
+		{
+			current = items[i];
+			while (current != NULL)
+			{
+				lineNames.add(current->item->Name());
+				current = current->next;
+			}
+		}
+	}
+	return lineNames;
+}
+
+// display the station line names in the Dictionary
+void Dictionary_Line::print()
+{
+	int iterator = 1;
+	if (isEmpty())
+	{
+		cout << "\nList is empty!\n" << endl;
+	}
+	else
+	{
+		Node* current;
+		for (int i = 0; i < MAX_SIZE20; ++i)
+		{
+			if (items[i] != NULL)
+			{
+				current = items[i];
+				while (current != NULL)
+				{
+					cout << "[" << iterator << "] " << current->item->Name() << endl;
+					iterator++;
+					current = current->next;
+				}
+			}
+		}
+	}
+}
+
 // check if the Dictionary is empty
 bool Dictionary_Line::isEmpty() { return size == 0; }
 
