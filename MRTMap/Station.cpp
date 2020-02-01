@@ -89,6 +89,5 @@ void Station::printMin()
 	{
 		cout << code.get(i) << "/";
 	}
-	cout << code.get(code.getLength() - 1) << ")";
-	cout << endl;
+	cout << code.get(code.getLength() - 1) << ")" << endl;
 }

@@ -20,6 +20,9 @@ public:
 	// line stations
 	List_Station Stations();
 
+	// check if station exist on line
+	bool existingStn(Station* s);
+
 	// print function
 	void print();
 };

@@ -24,7 +24,7 @@ Dictionary_Station stnNameToStationDict;
 Dictionary_Line stnLineToLineDict;
 Dictionary stnCodeToStnNameDict;
 
-// global variables
+// old global variables
 Dictionary codeNameDict;
 DictionaryStnToCode nameCodeDict;
 DictionaryList lineDict;
@@ -62,10 +62,10 @@ void startup()
 		getline(s, stnCode, ',');
 		getline(s, stnName, ',');
 
-		// add stnCode (as key) and stnName (as item) to dictionary
+		// add stnCode (key) and stnName (item) to dictionary
 		stnCodeToStnNameDict.add(stnCode, stnName);
 
-		// add stnNameLowercase (as key) and Station (as item) to dictionary
+		// add stnNameLowercase (key) and Station (item) to dictionary
 
 		// check if station in dictionary
 		if (stnNameToStationDict.get(toLowercase(stnName)) == nullptr) // not found
@@ -236,7 +236,7 @@ int main()
 			// check if option valid
 			if (optionTwo > stnLineNames.getLength() || optionTwo < 1)
 			{
-				cout << endl << "Invalid number" << endl;
+				cout << endl << "ERROR : Invalid number" << endl;
 				system("pause");
 				break;
 			}
@@ -254,7 +254,7 @@ int main()
 			stn = stnNameToStationDict.get(toLowercase(stnName));
 			if (stn == nullptr)
 			{
-				cout << endl << "Station not found" << endl;
+				cout << endl << "ERROR : station not found" << endl;
 				system("pause");
 				break;
 			}
@@ -262,6 +262,7 @@ int main()
 			system("pause");
 			break;
 		case 3: // add a new station on a given line
+			// TO COMPLETE: add distances and edit the csv also
 			stnLineNames = stnLineToLineDict.getLineNames();
 			// print list of lines on the network
 			cout << endl << "Station Line(s) on the network" << endl;
@@ -285,16 +286,74 @@ int main()
 			system("cls"); // clear console
 
 			cout << "Station Line : " << stnLine->Name() << endl;
-			cout << "Enter the new station name : ";
+			cout << "Note : Entering an existing station will add it to the new line" << endl;
+			cout << "Enter the station name : ";
 			getline(cin, stnName);
-			cout << stnName << endl;
+
+			// check if station exists on the same line
+			if (stnNameToStationDict.get(toLowercase(stnName)) != nullptr) // station exists
+			{
+				stn = stnNameToStationDict.get(toLowercase(stnName));
+				if (stnLine->existingStn(stn)) // station exists on same line
+				{
+					cout << "ERROR : Station already exist on line" << endl;
+					system("pause");
+					break;
+				}
+				system("cls"); // clear console
+				cout << "Station Line : " << stnLine->Name() << endl;
+				cout << "Station : ";
+				stn->printMin();
+			}
+			else
+			{
+				system("cls"); // clear console
+				cout << "Station Line : " << stnLine->Name() << endl;
+				cout << "Station : " << stnName << endl;
+
+			}
 			cout << "Enter the new station code : ";
 			getline(cin, stnCode);
-			cout << stnCode << endl;
+
+			// check if station code in use
+			if (stnCodeToStnNameDict.get(stnCode) != "")
+			{
+				cout << "ERROR : Station code already in use" << endl;
+				system("pause");
+				break;
+			}
+
+			// add station code (key) and station name (value) into dictionary
+			stnCodeToStnNameDict.add(stnCode, stnName);
+
+			system("cls"); // clear console
+			cout << "Station Line : " << stnLine->Name() << endl;
+
+			// check whether station already exists
+			if (stnNameToStationDict.get(toLowercase(stnName)) != nullptr) // exists
+			{
+				stn = stnNameToStationDict.get(toLowercase(stnName));
+				stn->addCode(stnCode);
+			}
+			else // new station
+			{
+				stn = new Station(stnName, stnCode); 
+				// add station name (key) and station object (value) to dictionary
+				stnNameToStationDict.add(toLowercase(stnName), stn);
+				stnList.add(stn);	// add station to station list
+			}
+			stnLine->add(stn);	// add station to given line
+
+			cout << "Station : ";
+			stn->printMin();
+
+			// add station to line
+			// TO COMPLETE: distances!
+
 			system("pause");
 			break;
 		default:
-			cout << endl << "Invalid option" << endl;
+			cout << endl << "ERROR : Invalid option" << endl;
 			system("pause");
 		}
 	}
