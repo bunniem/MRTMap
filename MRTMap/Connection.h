@@ -4,7 +4,7 @@ class Station;
 class Connection
 {
 private:
-	Station* station = nullptr;
+	Station* station;
 	int distance;
 
 public:

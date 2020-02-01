@@ -43,10 +43,9 @@ string toLowercase(string s)
 // new startup structure
 void startup2()
 {
-	ifstream f;
-	string stnCode, stnName, stnNameLowercase, stnLineName, stnLineNameLowercase, dist, line;
+	string stnCode, stnName, stnLineName, dist, line;
 	List_Station stnLineList;
-	List distList;
+	ifstream f;
 	int lineNum = 1;
 
 	/* We use the data in stations.csv to convert station codes to names,
@@ -68,17 +67,17 @@ void startup2()
 		stnCodeToStnNameDict.add(stnCode, stnName);
 
 		// add stnNameLowercase (as key) and Station (as item) to dictionary
-		stnNameLowercase = toLowercase(stnName); // convert to lowercase
+
 		// check if station in dictionary
-		if (stnNameToStationDict.get(stnNameLowercase) == nullptr) // not found
+		if (stnNameToStationDict.get(toLowercase(stnName)) == nullptr) // not found
 		{
-			Station newStn(stnName, stnCode);	// create new station
-			stnNameToStationDict.add(stnNameLowercase, &newStn);	// add station to dictionary
-			stnList.add(&newStn);	// add station to station list
+			Station* newStn = new Station(stnName, stnCode);	// create new station
+			stnNameToStationDict.add(toLowercase(stnName), newStn);	// add station to dictionary
+			stnList.add(newStn);	// add station to station list
 		}
 		else // found
 		{
-			Station* existingStn = stnNameToStationDict.get(stnNameLowercase); // get existing station
+			Station* existingStn = stnNameToStationDict.get(toLowercase(stnName)); // get existing station
 			existingStn->addCode(stnCode); // add in new station code
 		}
 	}
@@ -100,39 +99,49 @@ void startup2()
 			getline(s, stnLineName, ',');
 
 			// check if station line in directory
-			stnLineNameLowercase = toLowercase(stnLineName); // convert to lowercase
-			if (stnLineToLineDict.get(stnLineNameLowercase) == nullptr) // not found
+
+			if (stnLineToLineDict.get(toLowercase(stnLineName)) == nullptr) // not found
 			{
-				Line newStnLine(stnLineName); // create new station line
-				stnLineToLineDict.add(stnLineNameLowercase, &newStnLine); // add station line to dictionary
+				Line* newStnLine = new Line(stnLineName); // create new station line
+				stnLineToLineDict.add(toLowercase(stnLineName), newStnLine); // add station line to dictionary
 			}
-			Line* stnLine = stnLineToLineDict.get(stnLineNameLowercase); // get existing station line
+			Line* stnLine = stnLineToLineDict.get(toLowercase(stnLineName)); // get existing station line
 
 			// add stations to a line
 			while (getline(s, stnCode, ','))
 			{
 				stnName = stnCodeToStnNameDict.get(stnCode); // get station name using station code
-				stnNameLowercase = toLowercase(stnName); // convert to lowercase
-				Station* stn = stnNameToStationDict.get(stnNameLowercase);
-				stnLineList.add(stn);
+				Station* stn = stnNameToStationDict.get(toLowercase(stnName));
 				stnLine->add(stn); // add station to station line
+				stnLineList.add(stn); // add line of stations to a list for adding distance later
 			}
 		}
 		else // distance between stations line
 		{
-			//// split into different distances
-			//istringstream s(line);
+			// split into different distances
+			istringstream s(line);
 
-			//// first station
-			//getline(s, dist, ',');
-			//Connection* test = new Connection(stnLineList.get(0), dist);
-			//stnLineList.get(0)->addConnection(test);
+			// connection of first station
+			Station* firstStn = stnLineList.get(0); // get first station
+			getline(s, dist, ',');
+			Connection* firstConn = new Connection(stnLineList.get(1), stoi(dist)); // create new connection with front station
+			firstStn->addConnection(firstConn); // add connection to first station
 
-			//// add dist
-			//while (getline(s, dist, ','))
-			//{
-			//	
-			//}
+			// connections of stations in between
+			for (int i = 1; i < stnLineList.getLength()-1; ++i)
+			{
+				Station* bwStn = stnLineList.get(i); // stations in between
+				Connection* frontConn = new Connection(stnLineList.get(i - 1), stoi(dist)); // create new connection with prev station
+				bwStn->addConnection(frontConn); // add connection
+				getline(s, dist, ','); // get distance to next station
+				Connection* backConn = new Connection(stnLineList.get(i + 1), stoi(dist)); // create new conneciton with nxt station
+				bwStn->addConnection(backConn); // add connection
+			}
+			
+			// connection of last station
+			Station* lastStn = stnLineList.get(stnLineList.getLength() - 1); // get last stations
+			Connection* lastConn = new Connection(stnLineList.get(stnLineList.getLength()-2), stoi(dist));
+			lastStn->addConnection(lastConn);
 		}
 		lineNum++;
 	}
