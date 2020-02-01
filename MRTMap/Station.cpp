@@ -71,7 +71,7 @@ void Station::print()
 		cout  << " (";
 		for (int j = 0; j < otherStn->Code().getLength() - 1; ++j)
 		{
-			cout << otherStn->Code().get(j) << " / ";
+			cout << otherStn->Code().get(j) << "/";
 		}
 		cout << otherStn->Code().get(otherStn->Code().getLength() - 1) << ")" << endl;
 	}
