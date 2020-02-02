@@ -43,6 +43,7 @@ string toLowercase(string s)
 void startup()
 {
 	string stnCode, stnName, stnLineName, dist, line;
+	List stnCodeList;
 	List_Station stnLineList;
 	ifstream f;
 	int lineNum = 1;
@@ -113,6 +114,7 @@ void startup()
 				Station* stn = stnNameToStationDict.get(toLowercase(stnName));
 				stnLine->add(stn); // add station to station line
 				stnLineList.add(stn); // add line of stations to a list for adding distance later
+				stnCodeList.add(stnCode.substr(0, 2));
 			}
 		}
 		else // distance between stations line
@@ -123,29 +125,30 @@ void startup()
 			// connection of first station
 			Station* firstStn = stnLineList.get(0); // get first station
 			getline(s, dist, ',');
-			Connection* firstConn = new Connection(stnLineList.get(1), stoi(dist)); // create new connection with front station
+			Connection* firstConn = new Connection(stnLineList.get(1), stoi(dist), stnCodeList.get(1)); // create new connection with front station
 			firstStn->addConnection(firstConn); // add connection to first station
 
 			// connections of stations in between
 			for (int i = 1; i < stnLineList.getLength()-1; ++i)
 			{
 				Station* bwStn = stnLineList.get(i); // stations in between
-				Connection* frontConn = new Connection(stnLineList.get(i - 1), stoi(dist)); // create new connection with prev station
+				Connection* frontConn = new Connection(stnLineList.get(i - 1), stoi(dist), stnCodeList.get(i - 1)); // create new connection with prev station
 				bwStn->addConnection(frontConn); // add connection
 				getline(s, dist, ','); // get distance to next station
-				Connection* backConn = new Connection(stnLineList.get(i + 1), stoi(dist)); // create new conneciton with nxt station
+				Connection* backConn = new Connection(stnLineList.get(i + 1), stoi(dist), stnCodeList.get(i + 1)); // create new conneciton with nxt station
 				bwStn->addConnection(backConn); // add connection
 			}
 			
 			// connection of last station
 			Station* lastStn = stnLineList.get(stnLineList.getLength() - 1); // get last stations
-			Connection* lastConn = new Connection(stnLineList.get(stnLineList.getLength()-2), stoi(dist));
+			Connection* lastConn = new Connection(stnLineList.get(stnLineList.getLength()-2), stoi(dist), stnCodeList.get(stnCodeList.getLength() - 2));
 			lastStn->addConnection(lastConn);
 
-			// clear stnLineList for next station
+			// clear stnLineList & stnCodeList for next line
 			for (int i = stnLineList.getLength(); i > 0; --i)
 			{
-				stnLineList.remove(i-1);
+				stnLineList.remove(i - 1);
+				stnCodeList.remove(i - 1);
 			}
 		}
 		lineNum++;
@@ -322,12 +325,12 @@ int main()
 				system("pause");
 				break;
 			}
+			
+			// display current line stations
+			/*stnLine->print();*/
 
 			// add station code (key) and station name (value) into dictionary
 			stnCodeToStnNameDict.add(stnCode, stnName);
-
-			system("cls"); // clear console
-			cout << "Station Line : " << stnLine->Name() << endl;
 
 			// check whether station already exists
 			if (stnNameToStationDict.get(toLowercase(stnName)) != nullptr) // exists
@@ -342,15 +345,22 @@ int main()
 				stnNameToStationDict.add(toLowercase(stnName), stn);
 				stnList.add(stn);	// add station to station list
 			}
-			stnLine->add(stn);	// add station to given line
 
+			system("cls"); // clear console
+			cout << "Station Line : " << stnLine->Name() << endl;
 			cout << "Station : ";
 			stn->printMin();
+			
 
-			// add station to line
-			// TO COMPLETE: distances!
+			stnLine->add(stn);	// add station to given line
 
 			system("pause");
+			break;
+		case 4: // display shortest route
+			break;
+		case 5: // remove a station
+			break;
+		case 6: // add a new line
 			break;
 		default:
 			cout << endl << "ERROR : Invalid option" << endl;

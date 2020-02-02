@@ -1,10 +1,11 @@
 #include "Connection.h"
 
 // constructor
-Connection::Connection(Station* s, int d)
+Connection::Connection(Station* s, int d, std::string l)
 {
 	station = s;
 	distance = d;
+	lineCode = l;
 }
 
 // station name
@@ -17,4 +18,10 @@ Station* Connection::StationObj()
 int Connection::Distance()
 {
 	return distance;
+}
+
+// line code
+std::string Connection::LineCode()
+{
+	return lineCode;
 }
