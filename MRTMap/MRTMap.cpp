@@ -16,13 +16,12 @@
 #include "Dictionary_Station.h"
 #include "Dictionary_Line.h"
 
-using namespace std;
-
 // global variables
 List_Station stnList;
 Dictionary_Station stnNameToStationDict;
 Dictionary_Line stnLineToLineDict;
 Dictionary stnCodeToStnNameDict;
+Dictionary stnCodeInitialToLineNameDict;
 
 // old global variables
 Dictionary codeNameDict;
@@ -85,7 +84,8 @@ void startup()
 	f.close();
 
 	/* We will use Routes.csv to associate stations to specific lines,
-	and to add the connections (distances) to the stations */
+	and to add the connections (distances) to the stations,
+	and associating initials of a station (e.g. CC) to a certian line */
 
 	// open Routes.csv
 	f.open("Routes.csv");
@@ -115,6 +115,7 @@ void startup()
 				stnLine->add(stn); // add station to station line
 				stnLineList.add(stn); // add line of stations to a list for adding distance later
 				stnCodeList.add(stnCode.substr(0, 2));
+				stnCodeInitialToLineNameDict.add(stnCode.substr(0, 2), stnLineName); // associate initial (e.g CC) to station line names
 			}
 		}
 		else // distance between stations line
@@ -200,11 +201,13 @@ int main()
 	startup();
 
 	int option, optionTwo;
-	string stnName, stnCode, stnLineName;
+	string stnName, stnCode, stnLineName, stnConnectCode;
 	Line* stnLine;
 	Station* stn;
+	Station* stnConnect;
+	Connection* newConn;
 	List stnLineNames;
-	
+
 	// main program
 	while (true)
 	{
@@ -246,7 +249,7 @@ int main()
 			system("cls"); // clear console
 			// print out the station line and its stations
 			stnLine = stnLineToLineDict.get(toLowercase(stnLineNames.get(optionTwo - 1)));
-			stnLine->print();
+			stnLine->print(2);
 			system("pause");
 			break;
 		case 2: // display station information
@@ -281,7 +284,7 @@ int main()
 			// check if option valid
 			if (optionTwo > stnLineNames.getLength() || optionTwo < 1)
 			{
-				cout << endl << "Invalid number" << endl;
+				cout << endl << "ERROR : Invalid number" << endl;
 				system("pause");
 				break;
 			}
@@ -320,14 +323,62 @@ int main()
 
 			// check if station code in use
 			if (stnCodeToStnNameDict.get(stnCode) != "")
-			{
+			{			
 				cout << "ERROR : Station code already in use" << endl;
 				system("pause");
 				break;
 			}
+
+			// check if initials of station code used by other lines
+			if (stnCodeInitialToLineNameDict.get(stnCode.substr(0, 2)) != "")
+			{
+				if (stnCodeInitialToLineNameDict.get(stnCode.substr(0, 2)) != stnLine->Name())
+				{
+					cout << "ERROR : Station code initials used by another Line" << endl;
+					system("pause");
+					break;
+				}
+			}
+			else // not used by other lines, add it to dictionary
+			{
+				stnCodeInitialToLineNameDict.add(stnCode.substr(0, 2), stnLine->Name());
+			}
 			
-			// display current line stations
-			/*stnLine->print();*/
+			// display current stations on the line
+			stnLine->print(3);
+
+			cout << "Enter a number for the new station to be connected to : ";
+			cin >> optionTwo;
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+			// check if number valid
+			if (optionTwo > stnLine->Stations().getLength() || optionTwo < 1)
+			{
+				cout << endl << "ERROR : Invalid number" << endl;
+				system("pause");
+				break;
+			}
+			
+			stnConnect = stnLine->Stations().get(optionTwo - 1);
+			// get the correct station code for the selected station to connect
+			for (int i = 0; i < stnConnect->Code().getLength(); ++i)
+			{
+				if (stnCodeInitialToLineNameDict.get(stnConnect->Code().get(i).substr(0, 2)) == stnLine->Name())
+				{
+					stnConnectCode = stnConnect->Code().get(i);
+					break;
+				}
+			}
+
+			cout << "Enter distance to the new station in metres : ";
+			cin >> optionTwo;
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+			// TO DO: ask user for connection to second station and distance
+			// if have two connections, delete old connections and add in second connection both directions
+
+			// create new connection from new station to existing station
+			newConn = new Connection(stnConnect, optionTwo, stnConnectCode.substr(0,2));
 
 			// add station code (key) and station name (value) into dictionary
 			stnCodeToStnNameDict.add(stnCode, stnName);
@@ -345,6 +396,9 @@ int main()
 				stnNameToStationDict.add(toLowercase(stnName), stn);
 				stnList.add(stn);	// add station to station list
 			}
+			stn->addConnection(newConn);
+			newConn = new Connection(stn, optionTwo, stnCode.substr(0, 2));
+			stnConnect->addConnection(newConn);
 
 			system("cls"); // clear console
 			cout << "Station Line : " << stnLine->Name() << endl;

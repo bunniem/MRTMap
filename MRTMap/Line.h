@@ -24,6 +24,6 @@ public:
 	bool existingStn(Station* s);
 
 	// print function
-	void print();
+	void print(int i);
 };
 
