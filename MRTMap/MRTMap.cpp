@@ -375,6 +375,7 @@ int main()
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 			// TO DO: ask user for connection to second station and distance
+			// if existing station only has ONE connection (start and end lines), do not ask anymore
 			// if have two connections, delete old connections and add in second connection both directions
 
 			// create new connection from new station to existing station
