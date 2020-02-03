@@ -21,11 +21,17 @@ public:
 	// station code list
 	List Code();
 
+	// list of connections
+	List_Connection Connections();
+
 	// add station code
 	bool addCode(string c);
 
 	// add connection
 	bool addConnection(Connection* conn);
+
+	// remove connection
+	bool removeConnection(Connection* conn);
 
 	// check if is interchange
 	bool isInterchange();

@@ -62,12 +62,3 @@ bool List_Connection::isEmpty() { return size == 0; }
 
 // check the size of the list
 int List_Connection::getLength() { return size; }
-
-// display the items in the list
-void List_Connection::print()
-{
-	for (int i = 0; i < size; ++i)
-	{
-		cout << items[i] << endl;
-	}
-}

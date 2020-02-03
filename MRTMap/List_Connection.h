@@ -51,6 +51,4 @@ public:
 	// post: none
 	// return the number of items in the list
 	int getLength();
-
-	void print();
 };

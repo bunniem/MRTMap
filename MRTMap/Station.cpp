@@ -20,6 +20,12 @@ List Station::Code()
 	return code;
 }
 
+// list of connections
+List_Connection Station::Connections()
+{
+	return connections;
+}
+
 // add station code
 bool Station::addCode(string c)
 {
@@ -40,6 +46,20 @@ bool Station::addConnection(Connection* conn)
 {
 	connections.add(conn);
 	return true;
+}
+
+// remove connection
+bool Station::removeConnection(Connection* conn)
+{
+	for (int i = 0; i < connections.getLength(); ++i)
+	{
+		if (connections.get(i) == conn)
+		{
+			connections.remove(i);
+			return true;
+		}
+	}
+	return false;
 }
 
 // check if station is interchange
