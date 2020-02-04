@@ -21,9 +21,6 @@ public:
 	// constructor
 	graph(List_Station* l);
 
-	// reload graph
-	void reload();
-
 	// find path (using dijkstra's algorithm)
 	List_Station find_path(Station* src, Station* des, int* finalDist);
 };

@@ -149,8 +149,6 @@
   <ItemGroup>
     <ClCompile Include="Connection.cpp" />
     <ClCompile Include="Dictionary.cpp" />
-    <ClCompile Include="DictionaryList.cpp" />
-    <ClCompile Include="DictionaryStnToCode.cpp" />
     <ClCompile Include="Dictionary_Line.cpp" />
     <ClCompile Include="Dictionary_Station.cpp" />
     <ClCompile Include="Graph.cpp" />
@@ -170,8 +168,6 @@
   <ItemGroup>
     <ClInclude Include="Connection.h" />
     <ClInclude Include="Dictionary.h" />
-    <ClInclude Include="DictionaryList.h" />
-    <ClInclude Include="DictionaryStnToCode.h" />
     <ClInclude Include="Dictionary_Line.h" />
     <ClInclude Include="Dictionary_Station.h" />
     <ClInclude Include="Graph.h" />

@@ -49,55 +49,13 @@ graph::graph(List_Station* l)
 	}
 }
 
-// reload graph
-void graph::reload()
-{
-	for (int i = 0; i < stnList->getLength(); ++i)
-	{
-		List_Connection conn = stnList->get(i)->Connections();
-		for (int j = 0; j < conn.getLength(); ++j)
-		{
-			Node* newNode = new Node();
-			newNode->weight = conn.get(j)->Distance();
-			newNode->next = nullptr;
-
-			// get station object of connection of a station
-			Station* nextStn = conn.get(j)->StationObj();
-			for (int k = 0; k < stnList->getLength(); ++k)
-			{
-				if (stnList->get(k) == nextStn) // get vertex number of station
-				{
-					newNode->vertex = k;
-					break;
-				}
-			}
-
-			if (items[i] == nullptr)
-			{
-				items[i] = newNode;
-			}
-			else
-			{
-				Node* previous = items[i];
-				Node* current = previous;
-				while (current != nullptr)
-				{
-					previous = current;
-					current = current->next;
-				}
-				previous->next = newNode;
-			}
-		}
-	}
-}
-
 // find path (using dijkstra's algorithm)
 List_Station graph::find_path(Station* src, Station* des, int* finalDist)
 {
 	// arrays to use for the algorithm
 	bool visited[MAX_SIZE600];	// track which stations are visited
 	bool allVisited = false;
-	int dist, srcVertex{}, desVertex{};
+	int dist, temp{}, srcVertex{}, desVertex{};
 	int distance[MAX_SIZE600]; // distance from source vertex to other vertex
 	int prevVertex[MAX_SIZE600];	// intermediate vertex
 	List_Station path;
@@ -133,12 +91,20 @@ List_Station graph::find_path(Station* src, Station* des, int* finalDist)
 	while (!allVisited)
 	{
 		// get unvisited vertex with smallest known distance from start vertex
-		int temp = distance[0];
+		for (int i = 0; i < stnList->getLength(); ++i)
+		{
+			if (!visited[i])
+			{
+				temp = distance[i];
+				break;
+			}
+		}
 		int vertex{};
 		for (int i = 0; i < stnList->getLength(); ++i)
 		{
-			if (temp > distance[i] && !visited[i])
+			if (temp >= distance[i] && !visited[i])
 			{
+				temp = distance[i];
 				vertex = i;
 			}
 		}
