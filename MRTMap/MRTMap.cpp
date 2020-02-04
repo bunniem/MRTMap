@@ -5,16 +5,16 @@
 #include <fstream>		// file io
 #include <stdio.h>
 #include <string>
-#include "Dictionary.h"
-#include "DictionaryList.h"
-#include "DictionaryStnToCode.h"
-#include "List.h"
-#include "Graph.h"
 #include "Station.h"
 #include "Line.h"
 #include "Connection.h"
+#include "Dictionary.h"
 #include "Dictionary_Station.h"
 #include "Dictionary_Line.h"
+#include "List.h"
+#include "Graph.h"
+//#include "DictionaryList.h"
+//#include "DictionaryStnToCode.h"
 
 // global variables
 List_Station stnList;
@@ -23,11 +23,11 @@ Dictionary_Line stnLineToLineDict;
 Dictionary stnCodeToStnNameDict;
 Dictionary stnCodeInitialToLineNameDict;
 
-// old global variables
-Dictionary codeNameDict;
-DictionaryStnToCode nameCodeDict;
-DictionaryList lineDict;
-List stationIndexList;
+//// old global variables
+//Dictionary codeNameDict;
+//DictionaryStnToCode nameCodeDict;
+//DictionaryList lineDict;
+//List stationIndexList;
 
 // converts a given string to lowercase
 string toLowercase(string s)
@@ -36,6 +36,46 @@ string toLowercase(string s)
 		c = tolower(c);
 		});
 	return s;
+}
+
+// fare price
+string fare(int i)
+{
+	float dist;
+	dist = i / 1000;
+
+	if (dist < 3.3)
+	{
+		return "$1.70";
+	}
+	else if (dist < 6.3)
+	{
+		return "$1.90";
+	}
+	else if (dist < 9.3)
+	{
+		return "$2.10";
+	}
+	else if (dist < 11.3)
+	{
+		return "$2.30";
+	}
+	else if (dist < 15.3)
+	{
+		return "$2.50";
+	}
+	else if (dist < 19.3)
+	{
+		return "$2.60";
+	}
+	else if (dist < 23.3)
+	{
+		return "$2.70";
+	}
+	else
+	{
+		return "$2.80";
+	}
 }
 
 // startup procedure
@@ -157,41 +197,41 @@ void startup()
 
 }
 
-void addToCSV()
-{
-	string line, code, stnCode, name, stationLineName, line1, stationline, frontcode, backcode, frontdist, backdist, station, dist;
-	List row, row2, lineList;
-	int iterator = 1;
-
-	ifstream originalCSV;
-	ofstream replacementCSV;
-	originalCSV.open("Routes.csv");
-	replacementCSV.open("temp.csv", ios::in);
-
-	while (getline(originalCSV, line))
-	{
-		if (iterator % 2 == 1) // station codes
-		{
-			istringstream ss(line);
-			getline(ss, stationLineName, ',');
-			if (stationLineName == stationline) { //So that we know which line to add the station to
-				cout << stationLineName << endl;
-
-				//for (int i = 0; i < )
-			}
-		}
-		else // distances
-		{
-			istringstream ss(line);
-			while (getline(ss, dist, ','))
-			{
-				row2.add(dist);
-			}
-			// add line to dictionary
-		}
-
-	}
-}
+//void addToCSV()
+//{
+//	string line, code, stnCode, name, stationLineName, line1, stationline, frontcode, backcode, frontdist, backdist, station, dist;
+//	List row, row2, lineList;
+//	int iterator = 1;
+//
+//	ifstream originalCSV;
+//	ofstream replacementCSV;
+//	originalCSV.open("Routes.csv");
+//	replacementCSV.open("temp.csv", ios::in);
+//
+//	while (getline(originalCSV, line))
+//	{
+//		if (iterator % 2 == 1) // station codes
+//		{
+//			istringstream ss(line);
+//			getline(ss, stationLineName, ',');
+//			if (stationLineName == stationline) { //So that we know which line to add the station to
+//				cout << stationLineName << endl;
+//
+//				//for (int i = 0; i < )
+//			}
+//		}
+//		else // distances
+//		{
+//			istringstream ss(line);
+//			while (getline(ss, dist, ','))
+//			{
+//				row2.add(dist);
+//			}
+//			// add line to dictionary
+//		}
+//
+//	}
+//}
 
 
 
@@ -199,10 +239,13 @@ int main()
 {
 	// startup procedure to load csv files to respective data structures
 	startup();
+	// load network into graph (adjacency list)
+	graph map(&stnList);
 
 	int option, optionTwo, optionThree;
+	int* shortestDist = new int;
 	string optionStr;
-	string stnName, stnCode, stnLineName, stnConnectCode, stnConnectCode2;
+	string stnName, stnCode, stnLineName, stnConnectCode, stnConnectCode2, startStn, endStn;
 	Line* stnLine;
 	Station* stn;
 	Station* stnConnect;
@@ -211,6 +254,7 @@ int main()
 	Connection* oldConn;
 	List_Connection connList, connList2;
 	List stnLineNames;
+	List_Station shortestPath;
 
 	// main program
 	while (true)
@@ -219,7 +263,7 @@ int main()
 		// MAIN MENU
 		cout << "\nMRTMap MENU\n---------------------------\n";
 		cout << "[1] Display all stations in a given line\n[2] Display station information\n[3] Add a new station on a given line\n";
-		cout << "[4] Display a route and its price, given the source and destination\n[5] Remove a station\n[6] Create a line\n";
+		cout << "[4] Display a route and its price, given the source and destination\n[5] Create a line\n";
 		cout << "[0] Exit program\n";
 		cout << "---------------------------\nSelect an option: ";
 		cin >> option;
@@ -472,13 +516,49 @@ int main()
 
 			stnLine->add(stn);	// add station to given line
 
+			// reload graph
+			map = graph(&stnList);
+
 			system("pause");
 			break;
 		case 4: // display shortest route
+			cout << "Enter starting station name : ";
+			getline(cin, startStn);
+			cout << "Enter destination station name : ";
+			getline(cin, endStn);
+
+			if (stnNameToStationDict.get(startStn) == nullptr || stnNameToStationDict.get(endStn) == nullptr)
+			{
+				cout << "ERROR : Station not found" << endl;
+				system("pause");
+				break;
+			}
+
+			shortestPath = map.find_path(stnNameToStationDict.get(startStn), stnNameToStationDict.get(endStn), shortestDist);
+			system("cls");	// clear console
+			cout << "(Source) ";
+			shortestPath.get(shortestPath.getLength() - 1)->printMin();
+			for (int i = shortestPath.getLength()-1; i > 1; --i)
+			{
+				shortestPath.get(i - 1)->printMin();
+			}
+			cout << "(Destination) ";
+			shortestPath.get(0)->printMin();
+			cout << endl << "Distance : " << (float)*shortestDist/1000 << "KM" << endl;
+			cout << "Fare : " << fare(*shortestDist) << endl;
+			*shortestDist = 0;
+			system("pause");
 			break;
-		case 5: // remove a station
-			break;
-		case 6: // add a new line
+		case 5: // add a new line
+			cout << "Enter new line name : ";
+			getline(cin, optionStr);
+			if (stnLineToLineDict.get(toLowercase(optionStr)) != nullptr)
+			{
+				cout << "ERROR : Existing line name!" << endl;
+				system("pause");
+				break;
+			}
+			stnLineToLineDict.add(toLowercase(optionStr), new Line(optionStr));
 			break;
 		default:
 			cout << endl << "ERROR : Invalid option" << endl;

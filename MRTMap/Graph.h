@@ -1,57 +1,29 @@
 // Graph.h -- Specification of Graph ADT
 #pragma once
 #include <iostream>
-using namespace std;
+#include "List_Station.h"
 
-// Data structure to store edges
-struct Edge {
-	int src, dest, weight;
-};
-
-class Graph
+const int MAX_SIZE600 = 600;
+class graph
 {
 private:
-	// Data structure to store adjacency list nodes
-	struct Node {
-		int val, cost;
-		Node* next;
+	struct Node
+	{
+		int vertex;   // vertex
+		int weight;	// weight
+		Node* next;	// pointer pointing to next item
 	};
 
-	int N;  // number of nodes in the graph
+	Node* items[MAX_SIZE600];	// adjacency list
+	List_Station* stnList;	// list of all stations
 
-	// Function to allocate new node of Adjacency List
-	void getAdjListNode(int src, int dest, int weight)
-	{
-		Node* newNode = new Node;
-		newNode->val = dest;
-		newNode->cost = weight;
-		newNode->next = nullptr;
-
-		if (head[src] == nullptr)
-		{
-			head[src] = newNode;
-		}
-		else
-		{
-			Node* current = head[src];
-			Node* previous = head[src];
-			while (current != nullptr)
-			{
-				previous = current;
-				current = current->next;
-			}
-			// point new node to current head
-			previous->next = newNode;
-		}
-	}
 public:
-	// A pointer that points to an array of pointers to Node to represent
-	// adjacency list
-	Node** head;
+	// constructor
+	graph(List_Station* l);
 
-	// Constructor
-	Graph(Edge edges[], int n, int N);
+	// reload graph
+	void reload();
 
-	// prints the adjacency list
-	void printList();
+	// find path (using dijkstra's algorithm)
+	List_Station find_path(Station* src, Station* des, int* finalDist);
 };
