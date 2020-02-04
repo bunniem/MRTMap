@@ -36,38 +36,14 @@ string fare(int i)
 	float dist;
 	dist = i / 1000;
 
-	if (dist < 3.3)
-	{
-		return "$1.70";
-	}
-	else if (dist < 6.3)
-	{
-		return "$1.90";
-	}
-	else if (dist < 9.3)
-	{
-		return "$2.10";
-	}
-	else if (dist < 11.3)
-	{
-		return "$2.30";
-	}
-	else if (dist < 15.3)
-	{
-		return "$2.50";
-	}
-	else if (dist < 19.3)
-	{
-		return "$2.60";
-	}
-	else if (dist < 23.3)
-	{
-		return "$2.70";
-	}
-	else
-	{
-		return "$2.80";
-	}
+	if (dist < 3.3){ return "$1.70"; }
+	else if (dist < 6.3){ return "$1.90"; }
+	else if (dist < 9.3){ return "$2.10"; }
+	else if (dist < 11.3){ return "$2.30"; }
+	else if (dist < 15.3){ return "$2.50"; }
+	else if (dist < 19.3){ return "$2.60"; }
+	else if (dist < 23.3){ return "$2.70"; }
+	else{ return "$2.80"; }
 }
 
 // startup procedure
