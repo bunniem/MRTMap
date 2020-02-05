@@ -119,10 +119,10 @@ void startup()
 			while (getline(s, stnCode, ','))
 			{
 				stnName = stnCodeToStnNameDict.get(stnCode); // get station name using station code
-				Station* stn = stnNameToStationDict.get(toLowercase(stnName));
+				Station* stn = stnNameToStationDict.get(toLowercase(stnName));	// get station object with station name
 				stnLine->add(stn); // add station to station line
-				stnLineList.add(stn); // add line of stations to a list for adding distance later
-				stnCodeList.add(stnCode.substr(0, 2));
+				stnLineList.add(stn); // add line of stations to a list for adding connection later
+				stnCodeList.add(stnCode.substr(0, 2));	// add initial (e.g CC) to the list for adding connection later
 				stnCodeInitialToLineNameDict.add(stnCode.substr(0, 2), stnLineName); // associate initial (e.g CC) to station line names
 			}
 		}
@@ -163,6 +163,7 @@ void startup()
 		lineNum++;
 	}
 
+	f.close();
 }
 
 //void addToCSV()
@@ -201,13 +202,19 @@ void startup()
 //	}
 //}
 
+// add stations to routes.csv file function
+void addStationCsv()
+{
+	 
+}
 
 
 int main()
 {
-	// startup procedure to load csv files to respective data structures
+	/* startup procedure to load csv files to respective data structures */
 	startup();
-	// load network into graph (adjacency list)
+
+	/* load train network into graph structure (adjacency list) */
 	graph map(&stnList);
 
 	int option, optionTwo, optionThree;
@@ -220,8 +227,8 @@ int main()
 	Station* stnConnect2;
 	Connection* newConn;
 	Connection* oldConn;
-	List_Connection connList, connList2;
 	List stnLineNames;
+	List_Connection connList, connList2;
 	List_Station shortestPath;
 
 	// main program
@@ -231,7 +238,7 @@ int main()
 		// MAIN MENU
 		cout << "\nMRTMap MENU\n---------------------------\n";
 		cout << "[1] Display all stations in a given line\n[2] Display station information\n[3] Add a new station on a given line\n";
-		cout << "[4] Display a route and its price, given the source and destination\n[5] Create a line\n";
+		cout << "[4] Display the shortest route and its price, given the source and destination\n[5] Create a line\n";
 		cout << "[0] Exit program\n";
 		cout << "---------------------------\nSelect an option: ";
 		cin >> option;
@@ -240,21 +247,26 @@ int main()
 		// functions
 		switch (option)
 		{
-		case 0:
+		case 0:	// exit program
 			return 0;
 		case 1: // display all stations in a given line
+
+			// get names of all existing lines on the network
 			stnLineNames = stnLineToLineDict.getLineNames();
+
 			// print list of lines on the network
 			cout << endl << "Station Line(s) on the network" << endl;
 			for (int i = 0; i < stnLineNames.getLength(); ++i)
 			{
 				cout << "[" << i + 1 << "] " << stnLineNames.get(i) << endl;
 			}
-			// user chooses a number from the list
+
+			// user chooses a line to display from the list
 			cout << endl << "Please select the line to be displayed";
 			cout << endl << "Enter a number : ";
 			cin >> optionTwo;
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
 			// check if option valid
 			if (optionTwo > stnLineNames.getLength() || optionTwo < 1)
 			{
@@ -262,17 +274,21 @@ int main()
 				system("pause");
 				break;
 			}
-			system("cls"); // clear console
+
 			// print out the station line and its stations
+			system("cls"); // clear console
 			stnLine = stnLineToLineDict.get(toLowercase(stnLineNames.get(optionTwo - 1)));
 			stnLine->print(2);
 			system("pause");
 			break;
 		case 2: // display station information
+
+			// ask user for station to display
 			cout << "Enter the station name : ";
 			getline(cin, stnName);
-			system("cls"); // clear console
+
 			// print out the station details
+			system("cls"); // clear console
 			stn = stnNameToStationDict.get(toLowercase(stnName));
 			if (stn == nullptr)
 			{
@@ -284,20 +300,25 @@ int main()
 			system("pause");
 			break;
 		case 3: // add a new station on a given line
+
 			// TO COMPLETE: edit the csv also
 
+			// get names of all existing lines on the network
 			stnLineNames = stnLineToLineDict.getLineNames();
+
 			// print list of lines on the network
 			cout << endl << "Station Line(s) on the network" << endl;
 			for (int i = 0; i < stnLineNames.getLength(); ++i)
 			{
 				cout << "[" << i + 1 << "] " << stnLineNames.get(i) << endl;
 			}
-			// user chooses a number from the list
+
+			// user chooses a line from the list
 			cout << endl << "Please select the line for the new station to be in";
 			cout << endl << "Enter a number : ";
 			cin >> optionTwo;
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
 			// check if option valid
 			if (optionTwo > stnLineNames.getLength() || optionTwo < 1)
 			{
@@ -305,17 +326,21 @@ int main()
 				system("pause");
 				break;
 			}
-			stnLine = stnLineToLineDict.get(toLowercase(stnLineNames.get(optionTwo - 1)));
-			system("cls"); // clear console
 
+			// print out line name
+			system("cls"); // clear console
+			stnLine = stnLineToLineDict.get(toLowercase(stnLineNames.get(optionTwo - 1)));
 			cout << "Station Line : " << stnLine->Name() << endl;
 			cout << "Note : Entering an existing station will add it to the new line" << endl;
+
+			// ask user for new station name (or existing)
 			cout << "Enter the station name : ";
 			getline(cin, stnName);
 
 			// check if station exists on the same line
 			if (stnNameToStationDict.get(toLowercase(stnName)) != nullptr) // station exists
 			{
+				// get station object
 				stn = stnNameToStationDict.get(toLowercase(stnName));
 				if (stnLine->existingStn(stn)) // station exists on same line
 				{
@@ -323,18 +348,23 @@ int main()
 					system("pause");
 					break;
 				}
+
+				// print line name and station name
 				system("cls"); // clear console
 				cout << "Station Line : " << stnLine->Name() << endl;
 				cout << "Station : ";
 				stn->printMin();
 			}
-			else
+			else // station does not exist
 			{
+
+				// print line name and station name
 				system("cls"); // clear console
 				cout << "Station Line : " << stnLine->Name() << endl;
 				cout << "Station : " << stnName << endl;
-
 			}
+
+			// ask user for new station code
 			cout << "Enter the new station code : ";
 			getline(cin, stnCode);
 
@@ -361,151 +391,187 @@ int main()
 				stnCodeInitialToLineNameDict.add(stnCode.substr(0, 2), stnLine->Name());
 			}
 			
+			// check if there are more than one station on the line
 			if (stnLine->Stations().getLength() > 0)
 			{
 
-			}
-			// display current stations on the line
-			stnLine->print(3);
+				// display current stations on the line
+				stnLine->print(3);
 
-			cout << "Enter a number for the new station to be connected to : ";
-			cin >> optionTwo;
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-			// check if number valid
-			if (optionTwo > stnLine->Stations().getLength() || optionTwo < 1)
-			{
-				cout << endl << "ERROR : Invalid number" << endl;
-				system("pause");
-				break;
-			}
-			
-			stnConnect = stnLine->Stations().get(optionTwo - 1);
-			// get the correct station code for the selected station to connect
-			for (int i = 0; i < stnConnect->Code().getLength(); ++i)
-			{
-				if (stnCodeInitialToLineNameDict.get(stnConnect->Code().get(i).substr(0, 2)) == stnLine->Name())
-				{
-					stnConnectCode = stnConnect->Code().get(i);
-					break;
-				}
-			}
-
-			cout << "Enter distance to the new station in metres : ";
-			cin >> optionTwo;
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-			// get list of connections of the selected station that are on the same line
-			connList = stnConnect->Connections();
-			for (int i = 0; i < connList.getLength(); ++i)
-			{
-				if (stnCodeInitialToLineNameDict.get(connList.get(i)->LineCode()) == stnLine->Name())
-				{
-					connList2.add(connList.get(i));
-				}
-			}
-			// if station selected has connections to other stations
-			if (connList2.getLength() != 0)
-			{
-				// ask user if second station required
-				cout << "Do you want to connect the new station to a second station? (y/n): ";
-				cin >> optionStr;
+				// ask user for which existing station for new station to be connected to
+				cout << "Enter a number for the new station to be connected to : ";
+				cin >> optionTwo;
 				cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-				// user wants second station
-				if (optionStr == "y")
+				// check if number valid
+				if (optionTwo > stnLine->Stations().getLength() || optionTwo < 1)
 				{
-					// ask user for second station to be connected to and distance	
-					for (int i = 0; i < connList2.getLength(); ++i)
-					{
-						cout << "[" << i + 1 << "] ";
-						connList2.get(i)->StationObj()->printMin();
-					}
-					cout << "Enter a number for the new station to be connected to : ";
-					cin >> optionThree;
-					cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-					oldConn = connList2.get(optionThree - 1);
-					stnConnect2 = oldConn->StationObj();
-					stnConnectCode2 = oldConn->LineCode();
-
-					cout << "Enter distance to the new station in metres : ";
-					cin >> optionThree;
-					cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-					// if have two connections, delete old connections and add in second connection both directions
-					stnConnect->removeConnection(oldConn);
-					connList = stnConnect2->Connections();
-					for (int i = 0; i < connList.getLength(); ++i)
-					{
-						if (connList.get(i)->StationObj() == stnConnect && connList.get(i)->LineCode() == stnConnectCode.substr(0, 2))
-						{
-							stnConnect2->removeConnection(connList.get(i));
-						}
-					}
-
-					// create new station from new station to second existing station
-					newConn = new Connection(stnConnect2, optionThree, stnConnectCode2.substr(0,2));
-
-					// check whether station already exists
-					if (stnNameToStationDict.get(toLowercase(stnName)) != nullptr) // exists
-					{
-						stn = stnNameToStationDict.get(toLowercase(stnName));
-					}
-					else // new station
-					{
-						stn = new Station(stnName, stnCode);
-						// add station name (key) and station object (value) to dictionary
-						stnNameToStationDict.add(toLowercase(stnName), stn);
-						stnList.add(stn);	// add station to station list
-					}
-					stn->addConnection(newConn); // add connection
-					newConn = new Connection(stn, optionThree, stnCode.substr(0, 2));
-					stnConnect2->addConnection(newConn);
+					cout << endl << "ERROR : Invalid number" << endl;
+					system("pause");
+					break;
 				}
-			}
 
-			// create new connection from new station to existing station
-			newConn = new Connection(stnConnect, optionTwo, stnConnectCode.substr(0,2));
+				// get existing station for new station to be connected to
+				stnConnect = stnLine->Stations().get(optionTwo - 1);
 
-			// add station code (key) and station name (value) into dictionary
-			stnCodeToStnNameDict.add(stnCode, stnName);
+				// get the correct station code for the selected station to connect
+				for (int i = 0; i < stnConnect->Code().getLength(); ++i)
+				{
+					if (stnCodeInitialToLineNameDict.get(stnConnect->Code().get(i).substr(0, 2)) == stnLine->Name())
+					{
+						stnConnectCode = stnConnect->Code().get(i);
+						break;
+					}
+				}
+
+				// ask user for distance from new station to existing station
+				cout << "Enter distance to the new station in metres : ";
+				cin >> optionTwo;
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+				// get list of connections of the selected station that are on the same line
+				connList = stnConnect->Connections();
+				for (int i = 0; i < connList.getLength(); ++i)
+				{
+					if (stnCodeInitialToLineNameDict.get(connList.get(i)->LineCode()) == stnLine->Name())
+					{
+						connList2.add(connList.get(i));
+					}
+				}
+
+				// if station selected has connections to other stations
+				if (connList2.getLength() != 0)
+				{
+					// ask user if second station required
+					cout << "Do you want to connect the new station to a second station? (y/n): ";
+					cin >> optionStr;
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+					// user wants second station
+					if (optionStr == "y")
+					{
+						// print out stations that are connected to the existing station
+						for (int i = 0; i < connList2.getLength(); ++i)
+						{
+							cout << "[" << i + 1 << "] ";
+							connList2.get(i)->StationObj()->printMin();
+						}
+
+						// ask user for second existing station to be connected
+						cout << "Enter a number for the new station to be connected to : ";
+						cin >> optionThree;
+						cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+						// get second existing station for new station to be connected to
+						oldConn = connList2.get(optionThree - 1);
+						stnConnect2 = oldConn->StationObj();
+						stnConnectCode2 = oldConn->LineCode();
+
+						// ask user for distance from new station to second existing station
+						cout << "Enter distance to the new station in metres : ";
+						cin >> optionThree;
+						cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+						// delete old connections between the 2 existing stations
+						stnConnect->removeConnection(oldConn);
+						connList = stnConnect2->Connections();
+						for (int i = 0; i < connList.getLength(); ++i)
+						{
+							if (connList.get(i)->StationObj() == stnConnect && connList.get(i)->LineCode() == stnConnectCode.substr(0, 2))
+							{
+								stnConnect2->removeConnection(connList.get(i));
+								break;
+							}
+						}
+
+						// check whether station already exists
+						if (stnNameToStationDict.get(toLowercase(stnName)) != nullptr) // exists
+						{
+							// get station object
+							stn = stnNameToStationDict.get(toLowercase(stnName));
+						}
+						else // new station
+						{
+							// create new station object
+							stn = new Station(stnName, stnCode);
+							// add station name (key) and station object (value) to dictionary
+							stnNameToStationDict.add(toLowercase(stnName), stn);
+							stnList.add(stn);	// add station to station list
+						}
+
+						// add new connection from new station to second existing station
+						newConn = new Connection(stnConnect2, optionThree, stnConnectCode2.substr(0,2));
+						stn->addConnection(newConn);
+
+						// add new connection from second existing station to new station
+						newConn = new Connection(stn, optionThree, stnCode.substr(0, 2));
+						stnConnect2->addConnection(newConn);
+					}
+				}
+
+				// add station code (key) and station name (value) into dictionary
+				stnCodeToStnNameDict.add(stnCode, stnName);
+
+				// check whether station already exists
+				if (stnNameToStationDict.get(toLowercase(stnName)) != nullptr) // exists
+				{
+					// get station object
+					stn = stnNameToStationDict.get(toLowercase(stnName));
+					stn->addCode(stnCode); // add new station code
+				}
+				else // new station
+				{
+					// create new station object
+					stn = new Station(stnName, stnCode); 
+					// add station name (key) and station object (value) to dictionary
+					stnNameToStationDict.add(toLowercase(stnName), stn);
+					stnList.add(stn);	// add station to station list
+				}
+
+				// add new connection from new station to existing station
+				newConn = new Connection(stnConnect, optionTwo, stnConnectCode.substr(0,2));
+				stn->addConnection(newConn);
+
+				// add new connection from existing station to new station
+				newConn = new Connection(stn, optionTwo, stnCode.substr(0, 2));
+				stnConnect->addConnection(newConn);
+			}		
 
 			// check whether station already exists
 			if (stnNameToStationDict.get(toLowercase(stnName)) != nullptr) // exists
 			{
+				// get station object
 				stn = stnNameToStationDict.get(toLowercase(stnName));
-				stn->addCode(stnCode);
+				stn->addCode(stnCode); // add new station code
 			}
 			else // new station
 			{
-				stn = new Station(stnName, stnCode); 
+				// create new station object
+				stn = new Station(stnName, stnCode);
 				// add station name (key) and station object (value) to dictionary
 				stnNameToStationDict.add(toLowercase(stnName), stn);
 				stnList.add(stn);	// add station to station list
 			}
-			stn->addConnection(newConn);
-			newConn = new Connection(stn, optionTwo, stnCode.substr(0, 2));
-			stnConnect->addConnection(newConn);
-
-			system("cls"); // clear console
-			cout << "Station Line : " << stnLine->Name() << endl;
-			cout << "Station : ";
-			stn->printMin();		
-
 			stnLine->add(stn);	// add station to given line
-
 			// reload graph
 			map = graph(&stnList);
 
+			// print line name and station information
+			system("cls"); // clear console
+			cout << "Station Line : " << stnLine->Name() << endl;
+			cout << "Station : ";
+			stn->printMin();
 			system("pause");
 			break;
 		case 4: // display shortest route
+
+			// ask user for starting and destination stations
 			cout << "Enter starting station name : ";
 			getline(cin, startStn);
 			cout << "Enter destination station name : ";
 			getline(cin, endStn);
 
+			// check if station names are valid
 			if (stnNameToStationDict.get(startStn) == nullptr || stnNameToStationDict.get(endStn) == nullptr)
 			{
 				cout << "ERROR : Station not found" << endl;
@@ -513,7 +579,10 @@ int main()
 				break;
 			}
 
+			// dijkstra's algorithm to find shortest path
 			shortestPath = map.find_path(stnNameToStationDict.get(startStn), stnNameToStationDict.get(endStn), shortestDist);
+			
+			// print results
 			system("cls");	// clear console
 			cout << "(Source) ";
 			shortestPath.get(shortestPath.getLength() - 1)->printMin();
@@ -523,20 +592,28 @@ int main()
 			}
 			cout << "(Destination) ";
 			shortestPath.get(0)->printMin();
+			cout << endl << "Note : Stations with * are interchanges" << endl;
 			cout << endl << "Distance : " << (float)*shortestDist/1000 << "KM" << endl;
 			cout << "Fare : " << fare(*shortestDist) << endl;
-			*shortestDist = 0;
+			*shortestDist = 0; // reset shortest distance
+
 			system("pause");
 			break;
 		case 5: // add a new line
+
+			// ask user for new line name
 			cout << "Enter new line name : ";
 			getline(cin, optionStr);
+
+			// check if line name already exists
 			if (stnLineToLineDict.get(toLowercase(optionStr)) != nullptr)
 			{
 				cout << "ERROR : Existing line name!" << endl;
 				system("pause");
 				break;
 			}
+
+			// add station line to dictionary
 			stnLineToLineDict.add(toLowercase(optionStr), new Line(optionStr));
 			break;
 		default:
