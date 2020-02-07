@@ -1,5 +1,6 @@
 /* Team Members: Tan Yu Quan, Justin Chan Wee Hsien
 				  S10186868J, S10187417K
+	Highlight Feature: Shortest path with 2 given stations using Dijkstra's algorithm
 */
 // MRTMap.cpp
 #include <stdio.h>
