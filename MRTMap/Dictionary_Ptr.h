@@ -1,16 +1,18 @@
-// Dictionary.h - - Specification of Dictionary ADT
+// Dictionary_Ptr.h - - Specification of Dictionary ADT
 #include <string>
 #include <iostream>
+#include "Line.h"
+#include "List.h"
 using namespace std;
 
-template <typename ItemType>
-class Dictionary
+template<typename ItemType>
+class Dictionary_Ptr
 {
 private:
 	struct Node
 	{
 		string key;   // search key
-		string item;	// data item
+		ItemType* item;	// data item
 		Node* next;	// pointer pointing to next item
 	};
 
@@ -19,7 +21,7 @@ private:
 
 public:
 	// constructor
-	Dictionary() { size = 0; }
+	Dictionary_Ptr() { size = 0; }
 
 	/* convert char to integers */
 	int charvalue(char c)
@@ -51,7 +53,7 @@ public:
 	// pre : key does not exist in the dictionary
 	// post: entry created in dictionary with specified key and item
 	// returns true if entry is added; otherwise return false (key already exists)
-	bool add(string newKey, string newItem)
+	bool add(string newKey, ItemType* newItem)
 	{
 		// determine hash value for index
 		int index;
@@ -122,6 +124,7 @@ public:
 							items[index] = current->next;
 						}
 					}
+					delete current->item;
 					delete current;
 					size--;
 					return true;
@@ -138,7 +141,7 @@ public:
 	// pre : key exists in the dictionary
 	// post: none
 	// returns the item with the specified key
-	ItemType get(string key)
+	ItemType* get(string key)
 	{
 		// determine hash value for index
 		int index;
@@ -159,38 +162,36 @@ public:
 			}
 		}
 		// if reached this point, means that no matched keys
-		return {};
+		return nullptr;
 	}
 
-	/* check if the Dictionary is empty */
-	bool isEmpty() { return size == 0; }
-
-	/* check the size of the Dictionary */
-	int getLength() { return size; }
-
-	/* display the items in the Dictionary */
-	void print()
+	// get station / line names
+	// pre : none
+	// post: none
+	// returns station / line names that exist in the dictionary
+	List<string> getNames()
 	{
-		if (isEmpty())
+		List<string> keyList;
+		Node* current;
+		for (int i = 0; i <	100; ++i)
 		{
-			cout << "\nList is empty!\n" << endl;
-		}
-		else
-		{
-			Node* current;
-			for (int i = 0; i < 100; ++i)
+			if (items[i] != NULL)
 			{
-				if (items[i] != NULL)
+				current = items[i];
+				while (current != NULL)
 				{
-					current = items[i];
-					while (current != NULL)
-					{
-						cout << current->key << "\t" << current->item << endl;
-						current = current->next;
-					}
+					keyList.add(current->item->Name());
+					current = current->next;
 				}
 			}
 		}
+		return keyList;
 	}
+
+	// check if the Dictionary is empty
+	bool isEmpty() { return size == 0; }
+
+	// check the size of the Dictionary
+	int getLength() { return size; }
 
 };
