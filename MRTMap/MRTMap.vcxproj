@@ -148,11 +148,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Connection.cpp" />
-    <ClCompile Include="Dictionary.cpp" />
-    <ClCompile Include="Dictionary_Ptr.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="Line.cpp" />
-    <ClCompile Include="List.cpp" />
     <ClCompile Include="MRTMap.cpp" />
     <ClCompile Include="Station.cpp" />
   </ItemGroup>

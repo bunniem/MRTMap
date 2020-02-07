@@ -13,13 +13,14 @@ public:
 	// constructor
 	Connection(Station* s, int d, std::string l);
 
-	// station name
+	/* returns pointer to Station object */
 	Station* StationObj();
 
-	// distance
+	/* returns distance (integer) */
 	int Distance();
 
-	// line code
+	/* returns the Line Code (string) 
+	EW (LineCode)*/
 	std::string LineCode();
 };
 

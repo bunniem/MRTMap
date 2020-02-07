@@ -15,7 +15,7 @@ string Station::Name()
 }
 
 // station code list
-List Station::Code()
+List<string> Station::Code()
 {
 	return code;
 }

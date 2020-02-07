@@ -7,7 +7,7 @@ class Station
 {
 private:
 	string name;
-	List code;
+	List<string> code;
 	List_Ptr<Connection, 30> connections;
 	bool interchange = false;
 
@@ -20,7 +20,7 @@ public:
 	string Name();
 
 	// station code list
-	List Code();
+	List<string> Code();
 
 	// list of connections
 	List_Ptr<Connection, 30> Connections();

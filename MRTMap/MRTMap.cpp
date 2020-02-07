@@ -1,27 +1,29 @@
+/* Team Members: Tan Yu Quan, Justin Chan Wee Hsien
+				  S10186868J, S10187417K
+*/
 // MRTMap.cpp
-//
-#include <algorithm>    // ONLY used for converting upper/lowercase string
-#include <sstream>		// string stream
-#include <fstream>		// file io
 #include <stdio.h>
-#include <string>
-#include "Connection.h"
-#include "Station.h"
-#include "Line.h"
-#include "List.h"
-#include "Dictionary.h"
-#include "Dictionary_Ptr.h"
-#include "List_Ptr.h"
-#include "Graph.h"
+#include <algorithm>		// ONLY used for converting upper/lowercase string
+#include <sstream>			// string stream
+#include <fstream>			// file io
+#include <string>			// for strings
+#include "Connection.h"		// connection class to store connections between stations
+#include "Station.h"		// station class to store station info
+#include "Line.h"			// line class to store station objects of a line
+#include "List.h"			// List ADT
+#include "List_Ptr.h"		// List ADT for storing pointers
+#include "Dictionary.h"		// Dictionary ADT
+#include "Dictionary_Ptr.h"	// Dictionary ADT for storing pointers (as items)
+#include "Graph.h"			// Graph ADT for path finding with Dijkstra's algorithm
 
 // global variables
-List_Ptr<Station, 1000> stnList;
-Dictionary_Ptr<Station> stnNameToStationDict;
-Dictionary_Ptr<Line> stnLineToLineDict;
-Dictionary<string> stnCodeToStnNameDict;
-Dictionary<string> stnCodeInitialToLineNameDict;
+List_Ptr<Station, 1000> stnList;					// stores all stations objects
+Dictionary_Ptr<Station> stnNameToStationDict;		// Dictionary (station name->station)
+Dictionary_Ptr<Line> stnLineToLineDict;				// Dictionary (line name->Line)
+Dictionary<string> stnCodeToStnNameDict;			// Dictionary (station code->station name)
+Dictionary<string> stnCodeInitialToLineNameDict;	// Dictionary (code initial->line name)
 
-// converts a given string to lowercase
+/* converts a given string to lowercase */
 string toLowercase(string s)
 {
 	for_each(s.begin(), s.end(), [](char& c) {
@@ -46,11 +48,11 @@ string fare(int i)
 	else{ return "$2.80"; }
 }
 
-// startup procedure
-void startup()
+/* Load CSV files into respective classes and ADT */
+void loadCsv()
 {
 	string stnCode, stnName, stnLineName, dist, line;
-	List stnCodeList;
+	List<string> stnCodeList;
 	List_Ptr<Station, 100> stnLineList;
 	ifstream f;
 	int lineNum = 1;
@@ -166,69 +168,26 @@ void startup()
 	f.close();
 }
 
-//void addToCSV()
-//{
-//	string line, code, stnCode, name, stationLineName, line1, stationline, frontcode, backcode, frontdist, backdist, station, dist;
-//	List row, row2, lineList;
-//	int iterator = 1;
-//
-//	ifstream originalCSV;
-//	ofstream replacementCSV;
-//	originalCSV.open("Routes.csv");
-//	replacementCSV.open("temp.csv", ios::in);
-//
-//	while (getline(originalCSV, line))
-//	{
-//		if (iterator % 2 == 1) // station codes
-//		{
-//			istringstream ss(line);
-//			getline(ss, stationLineName, ',');
-//			if (stationLineName == stationline) { //So that we know which line to add the station to
-//				cout << stationLineName << endl;
-//
-//				//for (int i = 0; i < )
-//			}
-//		}
-//		else // distances
-//		{
-//			istringstream ss(line);
-//			while (getline(ss, dist, ','))
-//			{
-//				row2.add(dist);
-//			}
-//			// add line to dictionary
-//		}
-//
-//	}
-//}
-
-// add stations to routes.csv file function
-void addStationCsv()
-{
-	 
-}
-
-
+/* Main program. This is where the user interface runs and interacts with backend */
 int main()
 {
 	/* startup procedure to load csv files to respective data structures */
-	startup();
+	loadCsv();
 
 	/* load train network into graph structure (adjacency list) */
 	graph map(&stnList);
 
 	/* used for the various options */
-	int option, optionTwo, optionThree;
+	int option, lineNum, stnNum, distToStn, distToStn2;
 	int* shortestDist = new int;
-	string optionStr;
-	string stnName, stnCode, stnLineName, stnConnectCode, stnConnectCode2, startStn, endStn;
+	string optionStr, stnName, stnCode, stnLineName, stnConnectCode, stnConnectCode2, startStn, endStn;
 	Station* stn;
 	Station* stnConnect;
 	Station* stnConnect2;
 	Connection* newConn;
 	Connection* oldConn;
 	Line* stnLine;
-	List stnLineNames;
+	List<string> stnLineNames;
 	List_Ptr<Connection, 30> connList, connList2;
 	List_Ptr<Station, 100> shortestPath;
 
@@ -265,11 +224,11 @@ int main()
 			// user chooses a line to display from the list
 			cout << endl << "Please select the line to be displayed";
 			cout << endl << "Enter a number : ";
-			cin >> optionTwo;
+			cin >> lineNum;
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 			// check if option valid
-			if (optionTwo > stnLineNames.getLength() || optionTwo < 1)
+			if (lineNum > stnLineNames.getLength() || lineNum < 1)
 			{
 				cout << endl << "ERROR : Invalid number" << endl;
 				system("pause");
@@ -278,7 +237,7 @@ int main()
 
 			// print out the station line and its stations
 			system("cls"); // clear console
-			stnLine = stnLineToLineDict.get(toLowercase(stnLineNames.get(optionTwo - 1)));
+			stnLine = stnLineToLineDict.get(toLowercase(stnLineNames.get(lineNum - 1)));
 			stnLine->print(2);
 			system("pause");
 			break;
@@ -315,11 +274,11 @@ int main()
 			// user chooses a line from the list
 			cout << endl << "Please select the line for the new station to be in";
 			cout << endl << "Enter a number : ";
-			cin >> optionTwo;
+			cin >> lineNum;
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 			// check if option valid
-			if (optionTwo > stnLineNames.getLength() || optionTwo < 1)
+			if (lineNum > stnLineNames.getLength() || lineNum < 1)
 			{
 				cout << endl << "ERROR : Invalid number" << endl;
 				system("pause");
@@ -328,7 +287,7 @@ int main()
 
 			// print out line name
 			system("cls"); // clear console
-			stnLine = stnLineToLineDict.get(toLowercase(stnLineNames.get(optionTwo - 1)));
+			stnLine = stnLineToLineDict.get(toLowercase(stnLineNames.get(lineNum - 1)));
 			cout << "Station Line : " << stnLine->Name() << endl;
 			cout << "Note : Entering an existing station will add it to the new line" << endl;
 
@@ -399,11 +358,11 @@ int main()
 
 				// ask user for which existing station for new station to be connected to
 				cout << "Enter a number for the new station to be connected to : ";
-				cin >> optionTwo;
+				cin >> stnNum;
 				cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 				// check if number valid
-				if (optionTwo > stnLine->Stations().getLength() || optionTwo < 1)
+				if (stnNum > stnLine->Stations().getLength() || stnNum < 1)
 				{
 					cout << endl << "ERROR : Invalid number" << endl;
 					system("pause");
@@ -411,8 +370,8 @@ int main()
 				}
 
 				// get existing station for new station to be connected to
-				stnConnect = stnLine->Stations().get(optionTwo - 1);
-
+				stnConnect = stnLine->Stations().get(stnNum - 1);
+				
 				// get the correct station code for the selected station to connect
 				for (int i = 0; i < stnConnect->Code().getLength(); ++i)
 				{
@@ -425,7 +384,7 @@ int main()
 
 				// ask user for distance from new station to existing station
 				cout << "Enter distance to the new station in metres : ";
-				cin >> optionTwo;
+				cin >> distToStn;
 				cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 				// get list of connections of the selected station that are on the same line
@@ -458,17 +417,17 @@ int main()
 
 						// ask user for second existing station to be connected
 						cout << "Enter a number for the new station to be connected to : ";
-						cin >> optionThree;
+						cin >> distToStn2;
 						cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 						// get second existing station for new station to be connected to
-						oldConn = connList2.get(optionThree - 1);
+						oldConn = connList2.get(distToStn2 - 1);
 						stnConnect2 = oldConn->StationObj();
 						stnConnectCode2 = oldConn->LineCode();
 
 						// ask user for distance from new station to second existing station
 						cout << "Enter distance to the new station in metres : ";
-						cin >> optionThree;
+						cin >> distToStn2;
 						cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 						// delete old connections between the 2 existing stations
@@ -499,11 +458,11 @@ int main()
 						}
 
 						// add new connection from new station to second existing station
-						newConn = new Connection(stnConnect2, optionThree, stnConnectCode2.substr(0,2));
+						newConn = new Connection(stnConnect2, distToStn2, stnConnectCode2.substr(0,2));
 						stn->addConnection(newConn);
 
 						// add new connection from second existing station to new station
-						newConn = new Connection(stn, optionThree, stnCode.substr(0, 2));
+						newConn = new Connection(stn, distToStn2, stnCode.substr(0, 2));
 						stnConnect2->addConnection(newConn);
 					}
 				}
@@ -528,11 +487,11 @@ int main()
 				}
 
 				// add new connection from new station to existing station
-				newConn = new Connection(stnConnect, optionTwo, stnConnectCode.substr(0,2));
+				newConn = new Connection(stnConnect, distToStn, stnConnectCode.substr(0,2));
 				stn->addConnection(newConn);
 
 				// add new connection from existing station to new station
-				newConn = new Connection(stn, optionTwo, stnCode.substr(0, 2));
+				newConn = new Connection(stn, distToStn, stnCode.substr(0, 2));
 				stnConnect->addConnection(newConn);
 			}		
 
@@ -601,8 +560,8 @@ int main()
 			cout << endl << "Note : Stations with * are interchanges" << endl;
 			cout << endl << "Distance : " << (float)*shortestDist/1000 << "KM" << endl;
 			cout << "Fare : " << fare(*shortestDist) << endl;
-			*shortestDist = 0; // reset shortest distance
 
+			*shortestDist = 0; // reset shortest distance
 			system("pause");
 			break;
 		case 5: // add a new line

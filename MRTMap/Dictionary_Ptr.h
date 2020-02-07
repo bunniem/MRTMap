@@ -156,9 +156,9 @@ public:
 	}
 
 	// get station / line names
-	List getNames()
+	List<string> getNames()
 	{
-		List keyList;
+		List<string> keyList;
 		Node* current;
 		for (int i = 0; i <	100; ++i)
 		{

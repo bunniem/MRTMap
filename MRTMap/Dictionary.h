@@ -21,6 +21,7 @@ public:
 	// constructor
 	Dictionary() { size = 0; }
 
+	/* convert char to integers */
 	int charvalue(char c)
 	{
 		if (isalpha(c))
@@ -34,7 +35,7 @@ public:
 			return -1;
 	}
 
-	// hash function
+	/* hash function to convert key into index of array */
 	int hash(string key)
 	{
 		int hashVal = 0;
@@ -46,7 +47,7 @@ public:
 		return hashVal;
 	}
 
-	// add a new item with the specified key to the Dictionary
+	/* add a new item with the specified key to the Dictionary */
 	bool add(string newKey, string newItem)
 	{
 		// determine hash value for index
@@ -86,7 +87,7 @@ public:
 		return true;
 	}
 
-	// remove an item with the specified key in the Dictionary
+	/* remove an item with the specified key in the Dictionary */
 	bool remove(string key)
 	{
 		// determine hash value for index
@@ -127,7 +128,7 @@ public:
 		return false;
 	}
 
-	// get an item with the specified key in the Dictionary (retrieve)
+	/* get an item with the specified key in the Dictionary (retrieve) */
 	string get(string key)
 	{
 		// determine hash value for index
@@ -152,13 +153,13 @@ public:
 		return "";
 	}
 
-	// check if the Dictionary is empty
+	/* check if the Dictionary is empty */
 	bool isEmpty() { return size == 0; }
 
-	// check the size of the Dictionary
+	/* check the size of the Dictionary */
 	int getLength() { return size; }
 
-	// display the items in the Dictionary
+	/* display the items in the Dictionary */
 	void print()
 	{
 		if (isEmpty())
