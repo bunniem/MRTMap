@@ -1,7 +1,7 @@
 #include "Graph.h"
 
 // constructor
-graph::graph(List_Station* l)
+graph::graph(List_New<Station>* l)
 {
 	// initialise memory
 	for (int i = 0; i < MAX_SIZE600; ++i)
@@ -50,47 +50,42 @@ graph::graph(List_Station* l)
 }
 
 // find path (using dijkstra's algorithm)
-List_Station graph::find_path(Station* src, Station* des, int* finalDist)
+List_New<Station> graph::find_path(Station* src, Station* des, int* finalDist)
 {
 	// arrays to use for the algorithm
 	bool visited[MAX_SIZE600];	// track which stations are visited
-	bool allVisited = false;
-	int dist, temp{}, srcVertex{}, desVertex{};
+	int visitCount = 0;
+	int temp{}, srcVertex{}, desVertex{}, vertex{};
 	int distance[MAX_SIZE600]; // distance from source vertex to other vertex
 	int prevVertex[MAX_SIZE600];	// intermediate vertex
-	List_Station path;
+	List_New<Station> path;
+	Node* current;
 
+	// for all stations
 	for (int i = 0; i < stnList->getLength(); ++i)
 	{
-		visited[i] = false;	// set visited of all vertex to false
+		visited[i] = false;	// set visited status to false
 		distance[i] = 999999999;	// set distance to infinity 
-		prevVertex[i] = -1;
+		prevVertex[i] = -1;	// set previous vertex to none
 	}
-
-	// set distance of source vertex to zero
+	
 	for (int i = 0; i < stnList->getLength(); ++i)
 	{
 		if (stnList->get(i) == src)
 		{
-			distance[i] = 0;
+			distance[i] = 0; // set distance of source vertex to zero
 			srcVertex = i;	// get source vertex
-			break;
-		}
-	}
-
-	// get destination vertex
-	for (int i = 0; i < stnList->getLength(); ++i)
-	{
+		}	
 		if (stnList->get(i) == des)
 		{
-			desVertex = i;
-			break;
+			desVertex = i;	// get destination vertex
 		}
 	}
 
-	while (!allVisited)
+	// visit all vertices
+	while (visitCount!=stnList->getLength())
 	{
-		// get unvisited vertex with smallest known distance from start vertex
+		// set temp to unvisited vertex distance
 		for (int i = 0; i < stnList->getLength(); ++i)
 		{
 			if (!visited[i])
@@ -99,7 +94,8 @@ List_Station graph::find_path(Station* src, Station* des, int* finalDist)
 				break;
 			}
 		}
-		int vertex{};
+
+		// get unvisited vertex with smallest known distance from start vertex
 		for (int i = 0; i < stnList->getLength(); ++i)
 		{
 			if (temp >= distance[i] && !visited[i])
@@ -109,35 +105,27 @@ List_Station graph::find_path(Station* src, Station* des, int* finalDist)
 			}
 		}
 
-		// for current vertex, examine unvisited neighbours
-		Node* current = items[vertex];
+		// for current vertex, examine unvisited adjacent vertices
+		current = items[vertex];
 		while (current != nullptr)
 		{
 			if (!visited[current->vertex])
 			{
-				// calculate distance of neighbour from start vertex
-				dist = distance[vertex] + current->weight;
-				if (dist < distance[current->vertex])
+				// calculate distance of neighbour from start vertex and compare with known distance
+				if (distance[vertex] + current->weight < distance[current->vertex])
 				{
-					distance[current->vertex] = dist;
-					prevVertex[current->vertex] = vertex;
+					distance[current->vertex] = distance[vertex] + current->weight;	// update known distance to lower distance
+					prevVertex[current->vertex] = vertex;	// update previous vertex
 				}
 			}
 			current = current->next;
 		}
+
 		// set current vertex to visited
 		visited[vertex] = true;
 
-		// see if all vertex have been visited
-		allVisited = true;
-		for (int i = 0; i < stnList->getLength(); ++i)
-		{
-			if (visited[i] == false)
-			{
-				allVisited = false;
-				break;
-			}
-		}
+		// counter for visited vertex
+		visitCount++;
 	}
 
 	// find path from source to destination
@@ -145,7 +133,7 @@ List_Station graph::find_path(Station* src, Station* des, int* finalDist)
 	*finalDist = distance[desVertex];
 	while (prevVertex[desVertex] != -1)	// loop till reach source vertex
 	{
-		path.add(stnList->get(prevVertex[desVertex]));	// add vertex from destination to previous to list
+		path.add(stnList->get(prevVertex[desVertex]));	// add vertices from previous vertex
 		desVertex = prevVertex[desVertex];	// go to previous vertex
 	}
 	return path;

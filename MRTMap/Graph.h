@@ -2,6 +2,7 @@
 #pragma once
 #include <iostream>
 #include "List_Station.h"
+#include "List_New.h"
 
 const int MAX_SIZE600 = 600;
 class graph
@@ -15,12 +16,12 @@ private:
 	};
 
 	Node* items[MAX_SIZE600];	// adjacency list
-	List_Station* stnList;	// list of all stations
+	List_New<Station>* stnList;	// list of all stations
 
 public:
 	// constructor
-	graph(List_Station* l);
+	graph(List_New<Station>* l);
 
 	// find path (using dijkstra's algorithm)
-	List_Station find_path(Station* src, Station* des, int* finalDist);
+	List_New<Station> find_path(Station* src, Station* des, int* finalDist);
 };
