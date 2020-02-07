@@ -23,6 +23,7 @@ public:
 	// constructor
 	Dictionary_Ptr() { size = 0; }
 
+	/* convert char to integers */
 	int charvalue(char c)
 	{
 		if (isalpha(c))
@@ -36,7 +37,7 @@ public:
 			return -1;
 	}
 
-	// hash function
+	/* hash function to convert key into index of array */
 	int hash(string key)
 	{
 		int hashVal = 0;
@@ -48,7 +49,10 @@ public:
 		return hashVal;
 	}
 
-	// add a new item with the specified key to the Dictionary
+	/* add a new item with the specified key to the Dictionary */
+	// pre : key does not exist in the dictionary
+	// post: entry created in dictionary with specified key and item
+	// returns true if entry is added; otherwise return false (key already exists)
 	bool add(string newKey, ItemType* newItem)
 	{
 		// determine hash value for index
@@ -88,7 +92,10 @@ public:
 		return true;
 	}
 
-	// remove an item with the specified key in the Dictionary
+	/* remove an item with the specified key in the Dictionary */
+	// pre : key exists in the dictionary
+	// post: entry removed with specified key
+	// returns true if entry is removed; otherwise returns false (key does not exist)
 	bool remove(string key)
 	{
 		// determine hash value for index
@@ -130,7 +137,10 @@ public:
 		return false;
 	}
 
-	// get an item with the specified key in the Dictionary (retrieve)
+	/* get an item with the specified key in the Dictionary (retrieve) */
+	// pre : key exists in the dictionary
+	// post: none
+	// returns the item with the specified key
 	ItemType* get(string key)
 	{
 		// determine hash value for index
@@ -156,6 +166,9 @@ public:
 	}
 
 	// get station / line names
+	// pre : none
+	// post: none
+	// returns station / line names that exist in the dictionary
 	List<string> getNames()
 	{
 		List<string> keyList;

@@ -16,6 +16,9 @@ public:
 	List_Ptr() { size = 0; }
 
 	// add an item to the back of the list (append)
+	// pre : size < MAX_SIZE
+	// post: item is added to the back of the list
+	//       size of list is increased by 1
 	bool add(ItemType* item)
 	{
 		bool success = size < T;
@@ -28,6 +31,9 @@ public:
 	}
 
 	// add an item at a specified position in the list (insert)
+	// pre : 0 <= index <= size && size < MAX_SIZE
+	// post: item is added to the specified position in the list
+	//       size of list is increased by 1
 	bool add(int index, ItemType* item)
 	{
 		bool success = (index >= 0) && (index <= size) && (size < T);
@@ -45,6 +51,9 @@ public:
 	}
 
 	// remove an item at a specified position in the list
+	// pre : 0 <= index < size
+	// post: item is removed the specified position in the list
+	//       size of list is decreased by 1
 	void remove(int index)
 	{
 		bool success = (index >= 0) && (index < size);
@@ -59,6 +68,8 @@ public:
 	}
 
 	// get an item at a specified position of the list (retrieve)
+	// pre : 0 <= index < size
+	// post: none
 	ItemType* get(int index)
 	{
 		bool success = (index >= 0) && (index < size);
@@ -69,6 +80,8 @@ public:
 	}
 
 	// finds out if an item already exists in the list
+	// pre : none
+	// post : return true if item exists; otherwise returns false
 	bool exist(ItemType* item)
 	{
 		for (int i = 0; i < size; i++)
@@ -84,12 +97,21 @@ public:
 	}
 
 	// check if the list is empty
+	// pre : none
+	// post: none
+	// return true if the list is empty; otherwise returns false
 	bool isEmpty() { return size == 0; }
 
 	// check the size of the list
+	// pre : none
+	// post: none
+	// return the number of items in the list
 	int getLength() { return size; }
 
 	// display the items in the list
+	// pre : none
+	// post: none
+	// print out items in the list to console
 	void print()
 	{
 		for (int i = 0; i < size; ++i)

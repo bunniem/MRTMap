@@ -48,6 +48,9 @@ public:
 	}
 
 	/* add a new item with the specified key to the Dictionary */
+	// pre : key does not exist in the dictionary
+	// post: entry created in dictionary with specified key and item
+	// returns true if entry is added; otherwise return false (key already exists)
 	bool add(string newKey, string newItem)
 	{
 		// determine hash value for index
@@ -88,6 +91,9 @@ public:
 	}
 
 	/* remove an item with the specified key in the Dictionary */
+	// pre : key exists in the dictionary
+	// post: entry removed with specified key
+	// returns true if entry is removed; otherwise returns false (key does not exist)
 	bool remove(string key)
 	{
 		// determine hash value for index
@@ -129,7 +135,10 @@ public:
 	}
 
 	/* get an item with the specified key in the Dictionary (retrieve) */
-	string get(string key)
+	// pre : key exists in the dictionary
+	// post: none
+	// returns the item with the specified key
+	ItemType get(string key)
 	{
 		// determine hash value for index
 		int index;
@@ -150,7 +159,7 @@ public:
 			}
 		}
 		// if reached this point, means that no matched keys
-		return "";
+		return {};
 	}
 
 	/* check if the Dictionary is empty */

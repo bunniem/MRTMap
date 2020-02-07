@@ -8,19 +8,19 @@ Connection::Connection(Station* s, int d, std::string l)
 	lineCode = l;
 }
 
-// station name
+/* returns pointer to Station object */
 Station* Connection::StationObj()
 {
 	return station;
 }
 
-// distance
+/* returns distance (integer) */
 int Connection::Distance()
 {
 	return distance;
 }
 
-// line code
+/* returns the Line Code (string) */
 std::string Connection::LineCode()
 {
 	return lineCode;

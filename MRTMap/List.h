@@ -111,6 +111,9 @@ public:
 	int getLength() { return size; }
 
 	// display the items in the list
+	// pre : none
+	// post: none
+	// print out items in the list to console
 	void print()
 	{
 		for (int i = 0; i < size; ++i)
