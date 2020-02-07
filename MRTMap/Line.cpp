@@ -30,7 +30,7 @@ string Line::Name()
 }
 
 // line stations
-List_Station Line::Stations()
+List_Ptr<Station, 100> Line::Stations()
 {
 	return stations;
 }
@@ -51,26 +51,24 @@ bool Line::existingStn(Station* s)
 // print function
 void Line::print(int i)
 {
+	cout << endl << "Station Line : " << name << endl << endl;
+	cout << "Stations on the line" << endl;
+	cout << "--------------------" << endl;
 	if (i == 2)
 	{
-		cout << endl << "Station Line : " << name << endl << endl;
-		cout << "Stations on the line" << endl;
-		cout << "--------------------" << endl;
-		stations.print();
-		cout << "--------------------" << endl;
-		cout << endl << "Note : Stations with * are interchanges" << endl;
+		for (int i = 0; i < stations.getLength(); ++i)
+		{
+			stations.get(i)->printMin();
+		}
 	}
 	else if (i == 3)
 	{
-		cout << endl << "Station Line : " << name << endl << endl;
-		cout << "Stations on the line" << endl;
-		cout << "--------------------" << endl;
 		for (int i = 0; i < stations.getLength(); ++i)
 		{
 			cout << "[" << i + 1 << "] ";
 			stations.get(i)->printMin();
 		}
-		cout << "--------------------" << endl;
-		cout << endl << "Note : Stations with * are interchanges" << endl;
 	}
+	cout << "--------------------" << endl;
+	cout << endl << "Note : Stations with * are interchanges" << endl;
 }

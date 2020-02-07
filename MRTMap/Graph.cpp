@@ -1,10 +1,10 @@
 #include "Graph.h"
 
 // constructor
-graph::graph(List_New<Station>* l)
+graph::graph(List_Ptr<Station, 1000>* l)
 {
 	// initialise memory
-	for (int i = 0; i < MAX_SIZE600; ++i)
+	for (int i = 0; i < MAX_SIZE1000; ++i)
 	{
 		items[i] = nullptr;
 	}
@@ -12,7 +12,7 @@ graph::graph(List_New<Station>* l)
 	stnList = l;
 	for (int i = 0; i < stnList->getLength(); ++i)
 	{
-		List_Connection conn = stnList->get(i)->Connections();
+		List_Ptr<Connection, 30> conn = stnList->get(i)->Connections();
 		for (int j = 0; j < conn.getLength(); ++j)
 		{
 			Node* newNode = new Node();
@@ -50,15 +50,15 @@ graph::graph(List_New<Station>* l)
 }
 
 // find path (using dijkstra's algorithm)
-List_New<Station> graph::find_path(Station* src, Station* des, int* finalDist)
+List_Ptr<Station, 100> graph::find_path(Station* src, Station* des, int* finalDist)
 {
 	// arrays to use for the algorithm
-	bool visited[MAX_SIZE600];	// track which stations are visited
+	bool visited[MAX_SIZE1000];	// track which stations are visited
 	int visitCount = 0;
 	int temp{}, srcVertex{}, desVertex{}, vertex{};
-	int distance[MAX_SIZE600]; // distance from source vertex to other vertex
-	int prevVertex[MAX_SIZE600];	// intermediate vertex
-	List_New<Station> path;
+	int distance[MAX_SIZE1000]; // distance from source vertex to other vertex
+	int prevVertex[MAX_SIZE1000];	// intermediate vertex
+	List_Ptr<Station, 100> path;
 	Node* current;
 
 	// for all stations

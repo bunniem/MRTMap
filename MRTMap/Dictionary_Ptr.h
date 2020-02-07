@@ -1,16 +1,18 @@
-// Dictionary.h - - Specification of Dictionary ADT
+// Dictionary_Ptr.h - - Specification of Dictionary ADT
 #include <string>
 #include <iostream>
+#include "Line.h"
+#include "List.h"
 using namespace std;
 
-template <typename ItemType>
-class Dictionary
+template<typename ItemType>
+class Dictionary_Ptr
 {
 private:
 	struct Node
 	{
 		string key;   // search key
-		string item;	// data item
+		ItemType* item;	// data item
 		Node* next;	// pointer pointing to next item
 	};
 
@@ -19,7 +21,7 @@ private:
 
 public:
 	// constructor
-	Dictionary() { size = 0; }
+	Dictionary_Ptr() { size = 0; }
 
 	int charvalue(char c)
 	{
@@ -47,7 +49,7 @@ public:
 	}
 
 	// add a new item with the specified key to the Dictionary
-	bool add(string newKey, string newItem)
+	bool add(string newKey, ItemType* newItem)
 	{
 		// determine hash value for index
 		int index;
@@ -115,6 +117,7 @@ public:
 							items[index] = current->next;
 						}
 					}
+					delete current->item;
 					delete current;
 					size--;
 					return true;
@@ -128,7 +131,7 @@ public:
 	}
 
 	// get an item with the specified key in the Dictionary (retrieve)
-	string get(string key)
+	ItemType* get(string key)
 	{
 		// determine hash value for index
 		int index;
@@ -149,7 +152,27 @@ public:
 			}
 		}
 		// if reached this point, means that no matched keys
-		return "";
+		return nullptr;
+	}
+
+	// get station / line names
+	List getNames()
+	{
+		List keyList;
+		Node* current;
+		for (int i = 0; i <	100; ++i)
+		{
+			if (items[i] != NULL)
+			{
+				current = items[i];
+				while (current != NULL)
+				{
+					keyList.add(current->item->Name());
+					current = current->next;
+				}
+			}
+		}
+		return keyList;
 	}
 
 	// check if the Dictionary is empty
@@ -157,30 +180,5 @@ public:
 
 	// check the size of the Dictionary
 	int getLength() { return size; }
-
-	// display the items in the Dictionary
-	void print()
-	{
-		if (isEmpty())
-		{
-			cout << "\nList is empty!\n" << endl;
-		}
-		else
-		{
-			Node* current;
-			for (int i = 0; i < 100; ++i)
-			{
-				if (items[i] != NULL)
-				{
-					current = items[i];
-					while (current != NULL)
-					{
-						cout << current->key << "\t" << current->item << endl;
-						current = current->next;
-					}
-				}
-			}
-		}
-	}
 
 };

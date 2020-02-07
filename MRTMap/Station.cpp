@@ -21,7 +21,7 @@ List Station::Code()
 }
 
 // list of connections
-List_Connection Station::Connections()
+List_Ptr<Connection, 30> Station::Connections()
 {
 	return connections;
 }

@@ -10,17 +10,16 @@
 #include "Line.h"
 #include "List.h"
 #include "Dictionary.h"
-#include "Dictionary_Station.h"
-#include "Dictionary_Line.h"
-#include "List_New.h"
+#include "Dictionary_Ptr.h"
+#include "List_Ptr.h"
 #include "Graph.h"
 
 // global variables
-List_New<Station> stnList;
-Dictionary_Station stnNameToStationDict;
-Dictionary_Line stnLineToLineDict;
-Dictionary stnCodeToStnNameDict;
-Dictionary stnCodeInitialToLineNameDict;
+List_Ptr<Station, 1000> stnList;
+Dictionary_Ptr<Station> stnNameToStationDict;
+Dictionary_Ptr<Line> stnLineToLineDict;
+Dictionary<string> stnCodeToStnNameDict;
+Dictionary<string> stnCodeInitialToLineNameDict;
 
 // converts a given string to lowercase
 string toLowercase(string s)
@@ -52,7 +51,7 @@ void startup()
 {
 	string stnCode, stnName, stnLineName, dist, line;
 	List stnCodeList;
-	List_Station stnLineList;
+	List_Ptr<Station, 100> stnLineList;
 	ifstream f;
 	int lineNum = 1;
 
@@ -230,8 +229,8 @@ int main()
 	Connection* oldConn;
 	Line* stnLine;
 	List stnLineNames;
-	List_Connection connList, connList2;
-	List_New<Station> shortestPath;
+	List_Ptr<Connection, 30> connList, connList2;
+	List_Ptr<Station, 100> shortestPath;
 
 	// main program
 	while (true)
@@ -254,7 +253,7 @@ int main()
 		case 1: // display all stations in a given line
 
 			// get names of all existing lines on the network
-			stnLineNames = stnLineToLineDict.getLineNames();
+			stnLineNames = stnLineToLineDict.getNames();
 
 			// print list of lines on the network
 			cout << endl << "Station Line(s) on the network" << endl;
@@ -304,7 +303,7 @@ int main()
 		case 3: // add a new station on a given line
 
 			// get names of all existing lines on the network
-			stnLineNames = stnLineToLineDict.getLineNames();
+			stnLineNames = stnLineToLineDict.getNames();
 
 			// print list of lines on the network
 			cout << endl << "Station Line(s) on the network" << endl;

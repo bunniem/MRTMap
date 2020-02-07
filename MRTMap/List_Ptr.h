@@ -1,27 +1,24 @@
-// List_New.h - - Specification of List ADT
+// List_Ptr.h - - Specification of List ADT
 #pragma once
 #include <iostream>
-#include "Station.h"
 using namespace std;
 
-const int MAX_SIZE1000 = 1000;
-
-template<class ItemType>
-class List_New
+template<typename ItemType, int T>
+class List_Ptr
 {
 private:
-	ItemType* items[MAX_SIZE1000];
+	ItemType* items[T];
 	int     size;
 
 public:
 
 	// constructor
-	List_New() { size = 0; }
+	List_Ptr() { size = 0; }
 
 	// add an item to the back of the list (append)
 	bool add(ItemType* item)
 	{
-		bool success = size < MAX_SIZE1000;
+		bool success = size < T;
 		if (success)
 		{
 			items[size] = item;    // add to the end of the list
@@ -33,7 +30,7 @@ public:
 	// add an item at a specified position in the list (insert)
 	bool add(int index, ItemType* item)
 	{
-		bool success = (index >= 0) && (index <= size) && (size < MAX_SIZE1000);
+		bool success = (index >= 0) && (index <= size) && (size < T);
 		if (success)
 		{  // make room for the item by shifting all items at
 		   // positions >= index toward the end of the

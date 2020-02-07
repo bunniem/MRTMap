@@ -1,10 +1,12 @@
 #pragma once
-#include "List_Station.h"
+#include "List_Ptr.h"
+#include "Station.h"
+
 class Line
 {
 private:
 	string name;
-	List_Station stations;
+	List_Ptr<Station, 100> stations;
 	 
 public:
 	// constructors
@@ -18,7 +20,7 @@ public:
 	string Name();
 
 	// line stations
-	List_Station Stations();
+	List_Ptr<Station, 100> Stations();
 
 	// check if station exist on line
 	bool existingStn(Station* s);

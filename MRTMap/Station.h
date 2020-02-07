@@ -1,13 +1,14 @@
 #pragma once
+#include "List_Ptr.h"
 #include "List.h"
-#include "List_Connection.h"
+#include "Connection.h"
 
 class Station
 {
 private:
 	string name;
 	List code;
-	List_Connection connections;
+	List_Ptr<Connection, 30> connections;
 	bool interchange = false;
 
 public:
@@ -22,7 +23,7 @@ public:
 	List Code();
 
 	// list of connections
-	List_Connection Connections();
+	List_Ptr<Connection, 30> Connections();
 
 	// add station code
 	bool addCode(string c);
