@@ -1,6 +1,7 @@
 // Dictionary.h - - Specification of Dictionary ADT
 #include <string>
 #include <iostream>
+#include <math.h>
 using namespace std;
 
 template <typename ItemType>
@@ -39,9 +40,12 @@ public:
 	int hash(string key)
 	{
 		int hashVal = 0;
+		int j = 0;
 		for (size_t i = 0; i < key.length(); ++i)
 		{
-			hashVal += charvalue(key[i]) * 52;
+			j++;
+			hashVal += pow(charvalue(key[i]),i);
+			if (j == 3) { j = 0; }
 		}
 		hashVal %= 100; // modulo to wrap and prevent overflow
 		return hashVal;
