@@ -1,8 +1,6 @@
 // Dictionary_Ptr.h - - Specification of Dictionary ADT
 #include <string>
 #include <iostream>
-#include "Line.h"
-#include "List.h"
 using namespace std;
 
 template<typename ItemType>

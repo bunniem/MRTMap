@@ -53,12 +53,12 @@ graph::graph(List_Ptr<Station, 1000>* l)
 List_Ptr<Station, 100> graph::find_path(Station* src, Station* des, int* finalDist)
 {
 	// arrays to use for the algorithm
-	bool visited[MAX_SIZE1000];	// track which stations are visited
-	int visitCount = 0;
-	int temp{}, srcVertex{}, desVertex{}, vertex{};
-	int distance[MAX_SIZE1000]; // distance from source vertex to other vertex
-	int prevVertex[MAX_SIZE1000];	// intermediate vertex
-	List_Ptr<Station, 100> path;
+	bool visited[MAX_SIZE1000];				// track which stations are visited
+	int distance[MAX_SIZE1000];				// distance from source vertex to other vertex
+	int prevVertex[MAX_SIZE1000];			// intermediate vertex
+	int temp{};								// used for getting shortest distance
+	int srcVertex{}, desVertex{}, vertex{};	// vertex number
+	List_Ptr<Station, 100> path;			// list of stations on shortest path
 	Node* current;
 
 	// for all stations
@@ -69,6 +69,7 @@ List_Ptr<Station, 100> graph::find_path(Station* src, Station* des, int* finalDi
 		prevVertex[i] = -1;	// set previous vertex to none
 	}
 	
+	// get source and destination vertex
 	for (int i = 0; i < stnList->getLength(); ++i)
 	{
 		if (stnList->get(i) == src)
@@ -82,8 +83,8 @@ List_Ptr<Station, 100> graph::find_path(Station* src, Station* des, int* finalDi
 		}
 	}
 
-	// visit all vertices
-	while (visitCount!=stnList->getLength())
+	// visit vertices until destination vertex visited
+	while (!visited[desVertex])
 	{
 		// set temp to unvisited vertex distance
 		for (int i = 0; i < stnList->getLength(); ++i)
@@ -123,9 +124,6 @@ List_Ptr<Station, 100> graph::find_path(Station* src, Station* des, int* finalDi
 
 		// set current vertex to visited
 		visited[vertex] = true;
-
-		// counter for visited vertex
-		visitCount++;
 	}
 
 	// find path from source to destination

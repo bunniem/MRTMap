@@ -42,14 +42,14 @@ bool Station::addCode(string c)
 }
 
 // add connection
-bool Station::addConnection(Connection* conn)
+bool Station::addConn(Connection* conn)
 {
 	connections.add(conn);
 	return true;
 }
 
 // remove connection
-bool Station::removeConnection(Connection* conn)
+bool Station::removeConn(Connection* conn)
 {
 	for (int i = 0; i < connections.getLength(); ++i)
 	{

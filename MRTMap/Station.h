@@ -42,13 +42,13 @@ public:
 	// add connection
 	// pre : none
 	// post: connection object is added to the list
-	bool addConnection(Connection* conn);
+	bool addConn(Connection* conn);
 
 	// remove connection
 	// pre : none
 	// post: connection is removed from the list
 	// returns true if connection is removed; otherwise return false
-	bool removeConnection(Connection* conn);
+	bool removeConn(Connection* conn);
 
 	// check if station is an interchange
 	// pre : none

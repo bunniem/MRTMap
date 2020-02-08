@@ -138,23 +138,23 @@ void loadCsv()
 			Station* firstStn = stnLineList.get(0); // get first station
 			getline(s, dist, ',');
 			Connection* firstConn = new Connection(stnLineList.get(1), stoi(dist), stnCodeList.get(1)); // create new connection with front station
-			firstStn->addConnection(firstConn); // add connection to first station
+			firstStn->addConn(firstConn); // add connection to first station
 
 			// connections of stations in between
 			for (int i = 1; i < stnLineList.getLength()-1; ++i)
 			{
 				Station* bwStn = stnLineList.get(i); // stations in between
 				Connection* frontConn = new Connection(stnLineList.get(i - 1), stoi(dist), stnCodeList.get(i - 1)); // create new connection with prev station
-				bwStn->addConnection(frontConn); // add connection
+				bwStn->addConn(frontConn); // add connection
 				getline(s, dist, ','); // get distance to next station
 				Connection* backConn = new Connection(stnLineList.get(i + 1), stoi(dist), stnCodeList.get(i + 1)); // create new conneciton with nxt station
-				bwStn->addConnection(backConn); // add connection
+				bwStn->addConn(backConn); // add connection
 			}
 			
 			// connection of last station
 			Station* lastStn = stnLineList.get(stnLineList.getLength() - 1); // get last stations
 			Connection* lastConn = new Connection(stnLineList.get(stnLineList.getLength()-2), stoi(dist), stnCodeList.get(stnCodeList.getLength() - 2));
-			lastStn->addConnection(lastConn);
+			lastStn->addConn(lastConn);
 
 			// clear stnLineList & stnCodeList for next line
 			for (int i = stnLineList.getLength(); i > 0; --i)
@@ -432,13 +432,13 @@ int main()
 						cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 						// delete old connections between the 2 existing stations
-						stnConnect->removeConnection(oldConn);
+						stnConnect->removeConn(oldConn);
 						connList = stnConnect2->Connections();
 						for (int i = 0; i < connList.getLength(); ++i)
 						{
 							if (connList.get(i)->StationObj() == stnConnect && connList.get(i)->LineCode() == stnConnectCode.substr(0, 2))
 							{
-								stnConnect2->removeConnection(connList.get(i));
+								stnConnect2->removeConn(connList.get(i));
 								break;
 							}
 						}
@@ -460,11 +460,11 @@ int main()
 
 						// add new connection from new station to second existing station
 						newConn = new Connection(stnConnect2, distToStn2, stnConnectCode2.substr(0,2));
-						stn->addConnection(newConn);
+						stn->addConn(newConn);
 
 						// add new connection from second existing station to new station
 						newConn = new Connection(stn, distToStn2, stnCode.substr(0, 2));
-						stnConnect2->addConnection(newConn);
+						stnConnect2->addConn(newConn);
 					}
 				}
 
@@ -489,11 +489,11 @@ int main()
 
 				// add new connection from new station to existing station
 				newConn = new Connection(stnConnect, distToStn, stnConnectCode.substr(0,2));
-				stn->addConnection(newConn);
+				stn->addConn(newConn);
 
 				// add new connection from existing station to new station
 				newConn = new Connection(stn, distToStn, stnCode.substr(0, 2));
-				stnConnect->addConnection(newConn);
+				stnConnect->addConn(newConn);
 			}		
 
 			// check whether station already exists
