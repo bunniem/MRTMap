@@ -8,6 +8,7 @@
 #include <sstream>			// string stream
 #include <fstream>			// file io
 #include <string>			// for strings
+#include <iomanip>			// used for decimal precision
 #include "Connection.h"		// connection class to store connections between stations
 #include "Station.h"		// station class to store station info
 #include "Line.h"			// line class to store station objects of a line
@@ -19,6 +20,7 @@
 
 // global variables
 List_Ptr<Station, 1000> stnList;					// stores all stations objects
+List<string> fareList;								// stores distances and fares separated by a comma
 Dictionary_Ptr<Station> stnNameToStationDict;		// Dictionary (station name->station)
 Dictionary_Ptr<Line> stnLineToLineDict;				// Dictionary (line name->Line)
 Dictionary<string> stnCodeToStnNameDict;			// Dictionary (station code->station name)
@@ -34,19 +36,30 @@ string toLowercase(string s)
 }
 
 // fare price
-string fare(int i)
+string fare(int finalDist)
 {
-	float dist;
-	dist = (float)i / 1000;
-
-	if (dist < 3.3){ return "$1.70"; }
-	else if (dist < 6.3){ return "$1.90"; }
-	else if (dist < 9.3){ return "$2.10"; }
-	else if (dist < 11.3){ return "$2.30"; }
-	else if (dist < 15.3){ return "$2.50"; }
-	else if (dist < 19.3){ return "$2.60"; }
-	else if (dist < 23.3){ return "$2.70"; }
-	else{ return "$2.80"; }
+	string dist, fare;
+	for (int i = 0; i < fareList.getLength(); ++i)
+	{
+		istringstream s(fareList.get(i));
+		getline(s, dist, ',');
+		getline(s, fare, ',');
+		if (stoi(dist) * 1000 < finalDist)
+		{
+			if (i == fareList.getLength() - 1)	// last line
+			{
+				return fare;
+			}
+			continue;
+		}
+		else
+		{
+			istringstream s(fareList.get(i-1));
+			getline(s, dist, ',');
+			getline(s, fare, ',');
+			return fare;
+		}
+	}
 }
 
 /* Load CSV files into respective classes and ADT */
@@ -167,6 +180,17 @@ void loadCsv()
 	}
 
 	f.close();
+
+	/* We will use Fares.csv to find out fare prices for certain distances */
+
+	// open Fares.csv
+	f.open("Fares.csv");
+
+	// load each line into fareList
+	while (getline(f, line))
+	{
+		fareList.add(line);
+	}
 }
 
 /* Main program. This is where the user interface runs and interacts with backend */
@@ -560,7 +584,7 @@ int main()
 			shortestPath.get(0)->printMin();
 			cout << endl << "Note : Stations with * are interchanges" << endl;
 			cout << endl << "Distance : " << (float)*shortestDist/1000 << "KM" << endl;
-			cout << "Fare : " << fare(*shortestDist) << endl;
+			cout << "Fare : $" << setprecision(2) << fixed << stof(fare(*shortestDist))/100 << endl;
 
 			*shortestDist = 0; // reset shortest distance
 			system("pause");
