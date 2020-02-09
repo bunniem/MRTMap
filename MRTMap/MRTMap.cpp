@@ -531,7 +531,7 @@ int main()
 			getline(cin, endStn);
 
 			// check if station names are valid
-			if (stnNameToStationDict.get(startStn) == nullptr || stnNameToStationDict.get(endStn) == nullptr)
+			if (stnNameToStationDict.get(toLowercase(startStn)) == nullptr || stnNameToStationDict.get(toLowercase(endStn)) == nullptr)
 			{
 				cout << "ERROR : Station not found" << endl;
 				system("pause");
@@ -539,7 +539,7 @@ int main()
 			}
 
 			// dijkstra's algorithm to find shortest path
-			shortestPath = map.find_path(stnNameToStationDict.get(startStn), stnNameToStationDict.get(endStn), shortestDist);
+			shortestPath = map.find_path(stnNameToStationDict.get(toLowercase(startStn)), stnNameToStationDict.get(toLowercase(endStn)), shortestDist);
 			
 			// print results
 			system("cls");	// clear console
