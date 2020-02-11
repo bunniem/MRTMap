@@ -226,7 +226,7 @@ int main()
 			cout << endl << "Please select the line to be displayed";
 			cout << endl << "Enter a number : ";
 			cin >> lineNum;
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cin.ignore(numeric_limits<streamsize>::max(), '\n'); //clear the cin
 
 			// check if option valid
 			if (lineNum > stnLineNames.getLength() || lineNum < 1)
