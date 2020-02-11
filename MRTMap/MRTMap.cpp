@@ -76,7 +76,7 @@ void loadCsv()
 	add station objects to a list with all stations of the network */
 
 	// open Stations.csv file
-	f.open("Stations2.csv");
+	f.open("Stations.csv");
 
 	// get each line of file
 	while (getline(f, line))
@@ -112,7 +112,7 @@ void loadCsv()
 	and associating initials of a station (e.g. CC) to a certian line */
 
 	// open Routes.csv
-	f.open("Routes2.csv");
+	f.open("Routes.csv");
 
 	while (getline(f, line))
 	{
@@ -184,7 +184,7 @@ void loadCsv()
 	/* We will use Fares.csv to find out fare prices for certain distances */
 
 	// open Fares.csv
-	f.open("Fares2.csv");
+	f.open("Fares.csv");
 
 	// load each line into fareList
 	while (getline(f, line))
