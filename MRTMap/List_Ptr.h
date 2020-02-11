@@ -1,30 +1,27 @@
-// List.h - - Specification of List ADT
+// List_Ptr.h - - Specification of List ADT
 #pragma once
 #include <iostream>
 using namespace std;
 
-const int MAX_SIZE100 = 100;
-
-template <typename ItemType>
-class List
+template<typename ItemType, int T>
+class List_Ptr
 {
 private:
-	ItemType items[MAX_SIZE100];
+	ItemType* items[T];
 	int     size;
 
 public:
 
 	// constructor
-	List() { size = 0; }
-
+	List_Ptr() { size = 0; }
 
 	// add an item to the back of the list (append)
 	// pre : size < MAX_SIZE
 	// post: item is added to the back of the list
 	//       size of list is increased by 1
-	bool add(ItemType item)
+	bool add(ItemType* item)
 	{
-		bool success = size < MAX_SIZE100;
+		bool success = size < T;
 		if (success)
 		{
 			items[size] = item;    // add to the end of the list
@@ -37,9 +34,9 @@ public:
 	// pre : 0 <= index <= size && size < MAX_SIZE
 	// post: item is added to the specified position in the list
 	//       size of list is increased by 1
-	bool add(int index, ItemType item)
+	bool add(int index, ItemType* item)
 	{
-		bool success = (index >= 0) && (index <= size) && (size < MAX_SIZE100);
+		bool success = (index >= 0) && (index <= size) && (size < T);
 		if (success)
 		{  // make room for the item by shifting all items at
 		   // positions >= index toward the end of the
@@ -73,19 +70,19 @@ public:
 	// get an item at a specified position of the list (retrieve)
 	// pre : 0 <= index < size
 	// post: none
-	ItemType get(int index)
+	ItemType* get(int index)
 	{
 		bool success = (index >= 0) && (index < size);
 		if (success)
 			return items[index];
 		else
-			return "";
+			return nullptr;
 	}
 
 	// finds out if an item already exists in the list
 	// pre : none
 	// post : return true if item exists; otherwise returns false
-	bool exist(ItemType item)
+	bool exist(ItemType* item)
 	{
 		for (int i = 0; i < size; i++)
 		{
