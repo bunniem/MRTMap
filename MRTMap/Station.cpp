@@ -86,14 +86,8 @@ void Station::print()
 	for (int i = 0; i < connections.getLength(); ++i)
 	{
 		Station* otherStn = connections.get(i)->StationObj();
-		cout << (float)connections.get(i)->Distance()/1000 << " KM\t<-----" << connections.get(i)->LineCode() << "----->\t" << otherStn->Name();
-		if (otherStn->isInterchange()) { cout << "*"; }
-		cout  << " (";
-		for (int j = 0; j < otherStn->Code().getLength() - 1; ++j)
-		{
-			cout << otherStn->Code().get(j) << "/";
-		}
-		cout << otherStn->Code().get(otherStn->Code().getLength() - 1) << ")" << endl;
+		cout << (float)connections.get(i)->Distance() / 1000 << " KM\t<-----" << connections.get(i)->LineCode() << "----->\t";
+		otherStn->printMin();
 	}
 	cout << "----------------------------------" << endl;
 	cout << endl << "Note : Stations with * are interchanges" << endl;
