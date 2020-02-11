@@ -86,7 +86,7 @@ void Station::print()
 	for (int i = 0; i < connections.getLength(); ++i)
 	{
 		Station* otherStn = connections.get(i)->StationObj();
-		cout << (float)connections.get(i)->Distance()/1000 << " KM\t<-----" << connections.get(i)->LineCode() << "----->\t";
+		cout << (float)connections.get(i)->Distance() / 1000 << " KM\t<-----" << connections.get(i)->LineCode() << "----->\t";
 		otherStn->printMin();
 	}
 	cout << "----------------------------------" << endl;
