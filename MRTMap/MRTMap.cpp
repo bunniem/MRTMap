@@ -44,7 +44,7 @@ string fare(int finalDist)
 		istringstream s(fareList.get(i));
 		getline(s, dist, ',');
 		getline(s, fare, ',');
-		if (stoi(dist) * 1000 < finalDist)
+		if (stof(dist) * 1000 < finalDist)
 		{
 			if (i == fareList.getLength() - 1)	// last line
 			{
